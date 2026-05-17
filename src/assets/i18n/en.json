@@ -134,6 +134,55 @@
       "2": { "title": "Terraform",     "desc": "GitOps-friendly" }
     }
   },
+  "register": {
+    "tag": "14-day free trial",
+    "title": "Create your workspace",
+    "haveOne": "Already have one?",
+    "signIn": "Sign in →",
+    "google": "Google",
+    "github": "GitHub",
+    "saml": "SAML SSO",
+    "orEmail": "or with email",
+    "emailLabel": "Work email",
+    "emailPlaceholder": "luc@acme.io",
+    "emailHint": "We'll send a verification link.",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "At least 12 characters",
+    "choosePlan": "Choose a plan",
+    "strengthWeak": "Weak",
+    "strengthFair": "Fair",
+    "strengthGood": "Good",
+    "strengthStrong": "Strong",
+    "terms": {
+      "agree": "I agree to the",
+      "termsLink": "Terms",
+      "and": "and",
+      "privacyLink": "Privacy Policy",
+      "note": "PodIQ never reads container internals."
+    },
+    "cta": "Create workspace",
+    "creating": "Creating…",
+    "footerCopy": "© 2026 PodIQ Labs",
+    "footerLinks": "Privacy · Terms · Status",
+    "plans": {
+      "free": { "name": "Free",       "sub": "1 cluster · 50 pods" },
+      "pro":  { "name": "Pro",        "sub": "10 clusters · unlimited", "tag": "Popular" },
+      "ent":  { "name": "Enterprise", "sub": "SSO · audit · SLA" }
+    },
+    "visual": {
+      "tag": "What ships with every workspace",
+      "headline1": "Connect a cluster.",
+      "headline2": "Stop firefighting the same outage.",
+      "socialBold": "1,247 teams",
+      "socialRest": "shipped to prod with PodIQ this week.",
+      "features": {
+        "0": { "title": "Memory engine",            "desc": "Every incident is fingerprinted and indexed." },
+        "1": { "title": "Cross-service correlation", "desc": "See blast radius before your dashboard refreshes." },
+        "2": { "title": "Pre-deploy scanner",        "desc": "Block manifests that match prior outages." },
+        "3": { "title": "SOC2 type II · SSO",        "desc": "Read-only agent. No exec, no port-forward." }
+      }
+    }
+  },
   "common": {
     "mttr": "MTTR",
     "pages": "Pages",
