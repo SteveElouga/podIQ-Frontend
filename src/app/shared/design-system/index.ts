@@ -26,3 +26,9 @@ export type { DsSparklineConfig } from './ds-sparkline/ds-sparkline.config';
 export { DS_SPARKLINE_DEFAULTS } from './ds-sparkline/ds-sparkline.config';
 
 export { DsLangSwitcherComponent } from './ds-lang-switcher/ds-lang-switcher.component';
+
+export { DsSpinnerComponent }      from './ds-spinner/ds-spinner.component';
+
+export { DsToastContainerComponent } from './ds-toast/ds-toast-container.component';
+export { ToastService }              from '../../core/services/toast.service';
+export type { Toast, ToastTone }     from '../../core/services/toast.service';
