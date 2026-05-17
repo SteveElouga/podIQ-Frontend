@@ -1,0 +1,142 @@
+{
+  "nav": {
+    "product": "Produit",
+    "useCases": "Cas d'usage",
+    "pricing": "Tarifs",
+    "docs": "Docs",
+    "changelog": "Changelog",
+    "signIn": "Connexion",
+    "getStarted": "Commencer"
+  },
+  "landing": {
+    "hero": {
+      "badgeNew": "Nouveau",
+      "badgeText": "Moteur de mémoire — apprend de chaque incident →",
+      "headline1": "Votre cluster",
+      "headline2": "n'a pas besoin",
+      "headline3": "de planter deux fois.",
+      "lead": "PodIQ surveille vos pods Kubernetes, mémorise chaque incident et vous dit exactement ce qui va casser — avant que ça arrive. Conçu pour les équipes platform fatiguées de réveiller la même personne à 3h du matin.",
+      "cta1": "Connecter un cluster",
+      "cta2": "Voir la démo (90s)",
+      "trust": {
+        "0": "Compatible kubectl",
+        "1": "Option auto-hébergée",
+        "2": "SOC2 type II"
+      }
+    },
+    "terminal": {
+      "restarts": "3 redémarrages · il y a 2m",
+      "rootCause": "Cause racine · 96% de confiance",
+      "envVar": "absent des variables d'environnement.",
+      "memory1": "J'ai déjà vu ça 3 fois ce mois-ci.",
+      "memory2": "28 avr · 02 mai · aujourd'hui. À chaque fois, un redéploiement de",
+      "applyFix": "Appliquer le fix",
+      "openPr": "Ouvrir la PR #143",
+      "dismiss": "Ignorer",
+      "mttrSub": "↓ 78%",
+      "pagesSub": "30 derniers j.",
+      "memorySub": "patterns connus",
+      "pill": "96% de correspondance · 3 incidents précédents"
+    },
+    "logos": {
+      "label": "Adopté par des équipes platform en production"
+    },
+    "features": {
+      "why": "Pourquoi PodIQ",
+      "title": "La mémoire surpasse le monitoring.",
+      "sub": "Les dashboards montrent ce qui est cassé. PodIQ se souvient pourquoi ça a cassé la dernière fois — et vous empêche de recommencer.",
+      "learnMore": "En savoir plus",
+      "0": {
+        "tag": "Reconnaître",
+        "title": "Moteur de mémoire",
+        "desc": "Chaque incident est empreinte digitale et indexé. PodIQ reconnaît les patterns récurrents entre pods, services et déploiements — et remonte ce qui a fonctionné la dernière fois."
+      },
+      "1": {
+        "tag": "Connecter",
+        "title": "Corrélation inter-services",
+        "desc": "Quand auth-api tombe, payments et checkout ne sont pas loin. Nous cartographions le blast radius avant que votre dashboard ne se rafraîchisse."
+      },
+      "2": {
+        "tag": "Prévenir",
+        "title": "Scanner pré-déploiement",
+        "desc": "Bloquez les mauvais manifests avant qu'ils ne soient déployés. PodIQ signale les configs qui correspondent à des pannes passées et suggère le diff exact pour les corriger."
+      }
+    },
+    "cta": {
+      "title": "Arrêtez de déboguer la même panne deux fois.",
+      "sub": "Essai gratuit 14 jours · sans carte bancaire · livré avec un chart Helm.",
+      "connect": "Connecter un cluster",
+      "demo": "Réserver une démo"
+    },
+    "footer": {
+      "copy": "© 2026 PodIQ Labs · Fait à Paris",
+      "privacy": "Confidentialité",
+      "terms": "CGU",
+      "security": "Sécurité",
+      "status": "Statut"
+    }
+  },
+  "login": {
+    "tag": "Content de vous revoir",
+    "title": "Connectez-vous à votre espace",
+    "newHere": "Nouveau ici ?",
+    "createWorkspace": "Créer un espace →",
+    "google": "Continuer avec Google",
+    "github": "Continuer avec GitHub",
+    "saml": "Continuer avec SAML SSO",
+    "orEmail": "ou avec un email",
+    "emailLabel": "Email professionnel",
+    "emailPlaceholder": "luc@acme.io",
+    "passwordLabel": "Mot de passe",
+    "remember": "Mémoriser cet appareil",
+    "forgot": "Mot de passe oublié ?",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion en cours…",
+    "samlNote": "SAML / OIDC disponible sur le plan Team. Les admins peuvent imposer le SSO dans les",
+    "samlNoteLink": "Paramètres de sécurité",
+    "footerCopy": "© 2026 PodIQ Labs",
+    "footerLinks": "Confidentialité · CGU · Statut",
+    "visual": {
+      "live": "En direct · prod-eu-west-1",
+      "headlinePart1": "Deux pods viennent de se stabiliser",
+      "headlinePart2": "après que PodIQ ait détecté une régression dans",
+      "recovered": "rétabli",
+      "mttrSub": "30 derniers j.",
+      "pagesSub": "−42%",
+      "memSub": "patterns"
+    }
+  },
+  "onboarding": {
+    "getStarted": "Démarrer",
+    "stepIndicator": "Étape 2 sur 4",
+    "title": "Connectez votre premier cluster",
+    "lead": "PodIQ fonctionne comme un agent léger dans votre cluster. Il lit les événements et logs des pods — pas d'exec dans les conteneurs, pas de port-forward, pas de surprises. Choisissez comment l'installer :",
+    "installLabel": "install.sh — copiez et exécutez dans votre terminal",
+    "copy": "Copier",
+    "copied": "Copié",
+    "waiting": "En attente du premier ping…",
+    "waitingHint": "Généralement 30 à 60 secondes après l'installation.",
+    "back": "← Retour",
+    "continue": "Continuer",
+    "avgSetup": "Installation moy. : 6 min",
+    "readOnly": "Lecture seule par défaut",
+    "skip": "Passer pour l'instant",
+    "inProgress": "en cours",
+    "steps": {
+      "0": "Espace de travail",
+      "1": "Connecter un cluster",
+      "2": "Inviter l'équipe",
+      "3": "Configurer les alertes"
+    },
+    "methods": {
+      "0": { "title": "Chart Helm",    "desc": "Recommandé" },
+      "1": { "title": "kubectl apply", "desc": "YAML one-shot" },
+      "2": { "title": "Terraform",     "desc": "Compatible GitOps" }
+    }
+  },
+  "common": {
+    "mttr": "MTTR",
+    "pages": "Alertes",
+    "memory": "Mémoire"
+  }
+}

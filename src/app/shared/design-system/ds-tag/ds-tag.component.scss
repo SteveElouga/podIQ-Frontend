@@ -1,0 +1,23 @@
+.ds-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: var(--fw-medium);
+  border-radius: var(--r-sm);
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  white-space: nowrap;
+
+  &--neutral { background: var(--surface-2);   color: var(--ink-2);      border-color: var(--border); }
+  &--accent  { background: var(--accent-soft);  color: var(--accent-ink); border-color: var(--accent); }
+  &--ok      { background: var(--ok-soft);      color: var(--ok); }
+  &--warn    { background: var(--warn-soft);    color: var(--warn); }
+  &--crit    { background: var(--crit-soft);    color: var(--crit); }
+  &--info    { background: var(--info-soft);    color: var(--info); }
+  &--outline { background: transparent;         color: var(--ink-2);      border-color: var(--border-strong); }
+  &--ink     { background: var(--ink);          color: var(--surface);    border-color: var(--ink); }
+}

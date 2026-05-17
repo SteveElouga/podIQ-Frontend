@@ -1,0 +1,159 @@
+.dashboard {
+  max-width: 1200px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+  color: var(--text-color);
+}
+
+.page-subtitle {
+  color: var(--text-color-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+// ─── Stats ────────────────────────────────────────────────────────────────────
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-left: 4px solid var(--accent, #6366f1);
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: box-shadow 0.15s;
+
+  &:hover { box-shadow: 0 2px 16px rgba(0,0,0,0.15); }
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent, #6366f1) 15%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  i { color: var(--accent, #6366f1); font-size: 1.2rem; }
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--text-color-secondary);
+  margin-top: 0.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// ─── Quick Actions ────────────────────────────────────────────────────────────
+
+.section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-color-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.action-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--surface-card);
+  border: 1px solid var(--surface-border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 1px var(--primary-color);
+  }
+
+  .action-icon { font-size: 1.25rem; color: var(--primary-color); flex-shrink: 0; }
+  .action-label { font-weight: 600; font-size: 0.9rem; color: var(--text-color); }
+  .action-desc { font-size: 0.78rem; color: var(--text-color-secondary); margin-top: 0.1rem; }
+  .action-arrow { margin-left: auto; color: var(--text-color-secondary); font-size: 0.8rem; flex-shrink: 0; }
+}
+
+// ─── Features ─────────────────────────────────────────────────────────────────
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+:host ::ng-deep .feature-card {
+  height: 100%;
+
+  .p-card-body { padding: 1.25rem; }
+}
+
+.feature-content { height: 100%; }
+
+.feature-badge {
+  display: inline-block;
+  background: color-mix(in srgb, var(--primary-color) 15%, transparent);
+  color: var(--primary-color);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.feature-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--text-color);
+}
+
+.feature-desc {
+  font-size: 0.82rem;
+  color: var(--text-color-secondary);
+  margin: 0;
+  line-height: 1.5;
+}

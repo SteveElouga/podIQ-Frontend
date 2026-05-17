@@ -1,0 +1,173 @@
+<div class="login">
+
+  <!-- ── Left: form ─────────────────────────────────────────── -->
+  <div class="login__form-panel">
+    <div class="login__form-header">
+      <a class="brand" routerLink="/">
+        <span class="brand-mark">P</span>
+        <span class="brand-name display">PodIQ</span>
+      </a>
+      <ds-lang-switcher />
+    </div>
+
+    <div class="login__form-body">
+      <ds-tag tone="accent" style="align-self:flex-start;margin-bottom:16px">{{ 'login.tag' | translate }}</ds-tag>
+
+      <h1 class="login__title display">{{ 'login.title' | translate }}</h1>
+      <p class="login__sub">
+        {{ 'login.newHere' | translate }}
+        <a routerLink="/auth/register" class="link">{{ 'login.createWorkspace' | translate }}</a>
+      </p>
+
+      <!-- SSO buttons -->
+      <div class="sso-buttons">
+        <button class="sso-btn" type="button">
+          <ds-icon name="cube" [size]="16" />
+          {{ 'login.google' | translate }}
+        </button>
+        <button class="sso-btn" type="button">
+          <ds-icon name="git" [size]="16" />
+          {{ 'login.github' | translate }}
+        </button>
+        <button class="sso-btn" type="button">
+          <ds-icon name="key" [size]="16" />
+          {{ 'login.saml' | translate }}
+        </button>
+      </div>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span class="divider__line"></span>
+        <span class="divider__label mono">{{ 'login.orEmail' | translate }}</span>
+        <span class="divider__line"></span>
+      </div>
+
+      <!-- Email/password form -->
+      <form [formGroup]="form" (ngSubmit)="submit()" class="email-form">
+        <label class="field">
+          <span class="field__label">{{ 'login.emailLabel' | translate }}</span>
+          <span class="field__input">
+            <ds-icon name="user" [size]="14" class="field__icon" />
+            <input
+              type="email"
+              formControlName="email"
+              [placeholder]="'login.emailPlaceholder' | translate"
+              autocomplete="email"
+            />
+          </span>
+        </label>
+
+        <label class="field">
+          <span class="field__label">{{ 'login.passwordLabel' | translate }}</span>
+          <span class="field__input">
+            <ds-icon name="key" [size]="14" class="field__icon" />
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              placeholder="••••••••••••"
+              autocomplete="current-password"
+            />
+            <button type="button" class="field__toggle" (click)="showPassword.set(!showPassword())">
+              <ds-icon [name]="showPassword() ? 'eye' : 'key'" [size]="13" />
+            </button>
+          </span>
+        </label>
+
+        <div class="form-row">
+          <label class="checkbox-label">
+            <span class="checkbox" [class.checked]="form.value.remember">
+              @if (form.value.remember) {
+                <ds-icon name="check" [size]="10" [stroke]="2.5" />
+              }
+            </span>
+            <input type="checkbox" formControlName="remember" hidden />
+            {{ 'login.remember' | translate }}
+          </label>
+          <a class="link small">{{ 'login.forgot' | translate }}</a>
+        </div>
+
+        @if (error()) {
+          <div class="error-msg">
+            <ds-icon name="alert" [size]="14" />
+            {{ error() }}
+          </div>
+        }
+
+        <ds-button
+          variant="primary"
+          size="lg"
+          iconRight="arrow"
+          [full]="true"
+          type="submit"
+          [disabled]="form.invalid || loading()"
+        >
+          {{ (loading() ? 'login.signingIn' : 'login.signIn') | translate }}
+        </ds-button>
+      </form>
+
+      <!-- SSO note -->
+      <div class="sso-note">
+        <ds-icon name="shield" [size]="16" class="note-icon" />
+        <div class="sso-note__text">
+          {{ 'login.samlNote' | translate }}
+          <a class="link">{{ 'login.samlNoteLink' | translate }}</a>.
+        </div>
+      </div>
+    </div>
+
+    <div class="login__footer">
+      <span>{{ 'login.footerCopy' | translate }}</span>
+      <span>{{ 'login.footerLinks' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- ── Right: visual panel ────────────────────────────────── -->
+  <div class="login__visual">
+    <div class="dot-grid"></div>
+    <div class="visual-content">
+      <ds-tag tone="ink">{{ 'login.visual.live' | translate }}</ds-tag>
+      <h2 class="visual-headline display">
+        {{ 'login.visual.headlinePart1' | translate }}<br>
+        {{ 'login.visual.headlinePart2' | translate }}
+        <span class="highlight mono">auth-api</span>.
+      </h2>
+
+      <div class="recovery-card">
+        <div class="recovery-card__header">
+          <ds-dot tone="ok" [pulse]="true" />
+          <span class="mono pod-name">auth-api-7f4d92b</span>
+          <ds-tag tone="ok" style="margin-left:auto">{{ 'login.visual.recovered' | translate }}</ds-tag>
+        </div>
+        <ds-sparkline
+          [points]="sparkPoints"
+          [width]="400"
+          [height]="56"
+          color="var(--ok)"
+        />
+        <div class="time-labels mono">
+          <span>−14m</span>
+          <span>now</span>
+        </div>
+      </div>
+
+      <div class="visual-kpis">
+        <div class="kpi">
+          <span class="kpi__label">{{ 'common.mttr' | translate }}</span>
+          <span class="kpi__value display num ok-text">4m</span>
+          <span class="kpi__sub">{{ 'login.visual.mttrSub' | translate }}</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi__label">{{ 'common.pages' | translate }}</span>
+          <span class="kpi__value display num accent-text">12</span>
+          <span class="kpi__sub">{{ 'login.visual.pagesSub' | translate }}</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi__label">{{ 'common.memory' | translate }}</span>
+          <span class="kpi__value display num">186</span>
+          <span class="kpi__sub">{{ 'login.visual.memSub' | translate }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,80 @@
+@use 'styles/variables';
+
+@import 'primeicons/primeicons.css';
+
+// ── Base ──────────────────────────────────────────────────────
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: var(--body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// ── Utilitaires typographiques Cobalt ─────────────────────────
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv11";
+}
+
+.display {
+  font-family: var(--font-display);
+  letter-spacing: var(--tracking-snug);
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+// ── Scrollbar ─────────────────────────────────────────────────
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: var(--r-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-mute); }
+
+// ── Focus ring — jamais le bleu navigateur ────────────────────
+:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+// ── Overrides PrimeNG → tokens Cobalt ────────────────────────
+.p-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.p-datatable {
+  .p-datatable-thead > tr > th {
+    background: var(--surface-2);
+    color: var(--ink-mute);
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-caps);
+    border-bottom: 1px solid var(--border);
+    padding: var(--s-3) var(--s-4);
+  }
+
+  .p-datatable-tbody > tr > td {
+    border-bottom: 1px solid var(--border);
+    padding: 0.65rem var(--s-4);
+    color: var(--ink);
+  }
+
+  .p-datatable-tbody > tr:hover > td {
+    background: var(--surface-2);
+  }
+}

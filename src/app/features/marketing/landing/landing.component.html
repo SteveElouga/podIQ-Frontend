@@ -1,0 +1,171 @@
+<div class="landing">
+
+  <!-- ── Nav ────────────────────────────────────────────────── -->
+  <header class="nav">
+    <a class="nav__brand" routerLink="/">
+      <span class="brand-mark">P</span>
+      <span class="brand-name display">PodIQ</span>
+    </a>
+    <nav class="nav__links">
+      <span>{{ 'nav.product'    | translate }}</span>
+      <span>{{ 'nav.useCases'  | translate }}</span>
+      <span>{{ 'nav.pricing'   | translate }}</span>
+      <span>{{ 'nav.docs'      | translate }}</span>
+      <span>{{ 'nav.changelog' | translate }}</span>
+    </nav>
+    <div class="nav__actions">
+      <ds-lang-switcher />
+      <ds-button variant="ghost"   size="sm"              routerLink="/auth/login">{{ 'nav.signIn'     | translate }}</ds-button>
+      <ds-button variant="primary" size="sm" iconRight="arrow" routerLink="/auth/register">{{ 'nav.getStarted' | translate }}</ds-button>
+    </div>
+  </header>
+
+  <!-- ── Hero ───────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero__copy">
+      <div class="hero__badge">
+        <ds-tag tone="accent">{{ 'landing.hero.badgeNew' | translate }}</ds-tag>
+        <span>{{ 'landing.hero.badgeText' | translate }}</span>
+      </div>
+      <h1 class="hero__h1 display">
+        {{ 'landing.hero.headline1' | translate }}<br>
+        <span class="muted">{{ 'landing.hero.headline2' | translate }}</span><br>
+        {{ 'landing.hero.headline3' | translate }}
+      </h1>
+      <p class="hero__lead">{{ 'landing.hero.lead' | translate }}</p>
+      <div class="hero__cta">
+        <ds-button variant="primary"   size="lg" iconRight="arrow" routerLink="/auth/register">{{ 'landing.hero.cta1' | translate }}</ds-button>
+        <ds-button variant="secondary" size="lg" icon="play">{{ 'landing.hero.cta2' | translate }}</ds-button>
+      </div>
+      <div class="hero__trust">
+        @for (b of trustBadges; track b.labelKey) {
+          <span class="trust-item">
+            <ds-icon name="check" [size]="14" [stroke]="2.2" class="ok-icon" />
+            {{ b.labelKey | translate }}
+          </span>
+        }
+      </div>
+    </div>
+
+    <!-- Terminal mock card -->
+    <div class="hero__visual">
+      <div class="terminal-card">
+        <div class="terminal-card__bar">
+          <span class="traffic red"></span>
+          <span class="traffic yellow"></span>
+          <span class="traffic green"></span>
+          <span class="mono terminal-label">auth-api · prod-eu-west-1</span>
+        </div>
+        <div class="terminal-card__body">
+          <div class="tc-row">
+            <ds-tag tone="crit" icon="alert">CRASHLOOPBACKOFF</ds-tag>
+            <span class="mono muted-sm">{{ 'landing.terminal.restarts' | translate }}</span>
+          </div>
+          <div>
+            <div class="eyebrow">{{ 'landing.terminal.rootCause' | translate }}</div>
+            <div class="root-cause display">
+              <span class="highlight">DATABASE_URL</span> {{ 'landing.terminal.envVar' | translate }}
+            </div>
+          </div>
+          <div class="memory-recall">
+            <ds-icon name="clock" [size]="16" class="accent-icon" />
+            <div>
+              <div class="memory-recall__primary">{{ 'landing.terminal.memory1' | translate }}</div>
+              <div class="memory-recall__sub muted-sm mono">
+                {{ 'landing.terminal.memory2' | translate }}
+                <span class="mono">apps/auth-api&#64;2.4.x</span>.
+              </div>
+            </div>
+          </div>
+          <div class="tc-actions">
+            <ds-button variant="accent"    size="sm" icon="bolt">{{ 'landing.terminal.applyFix' | translate }}</ds-button>
+            <ds-button variant="secondary" size="sm" icon="git">{{ 'landing.terminal.openPr' | translate }}</ds-button>
+            <ds-button variant="ghost"     size="sm">{{ 'landing.terminal.dismiss' | translate }}</ds-button>
+          </div>
+          <div class="tc-kpis">
+            <div class="kpi">
+              <span class="kpi__label">{{ 'common.mttr' | translate }}</span>
+              <span class="kpi__value display num ok-text">4m</span>
+              <span class="kpi__sub muted-sm">{{ 'landing.terminal.mttrSub' | translate }}</span>
+            </div>
+            <div class="kpi">
+              <span class="kpi__label">{{ 'common.pages' | translate }}</span>
+              <span class="kpi__value display num ok-text">−42%</span>
+              <span class="kpi__sub muted-sm">{{ 'landing.terminal.pagesSub' | translate }}</span>
+            </div>
+            <div class="kpi">
+              <span class="kpi__label">{{ 'common.memory' | translate }}</span>
+              <span class="kpi__value display num accent-text">186</span>
+              <span class="kpi__sub muted-sm">{{ 'landing.terminal.memorySub' | translate }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Floating annotation -->
+      <div class="floating-pill">
+        <ds-dot tone="accent" />
+        {{ 'landing.terminal.pill' | translate }}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Logo strip ─────────────────────────────────────────── -->
+  <section class="logo-strip">
+    <div class="logo-strip__label">{{ 'landing.logos.label' | translate }}</div>
+    <div class="logo-strip__logos">
+      @for (name of logoNames; track name; let i = $index) {
+        <span class="logo-name display" [class.tight]="i % 2 === 0">{{ name }}</span>
+      }
+    </div>
+  </section>
+
+  <!-- ── Features ───────────────────────────────────────────── -->
+  <section class="features">
+    <div class="features__header">
+      <ds-tag tone="accent">{{ 'landing.features.why' | translate }}</ds-tag>
+      <h2 class="features__h2 display">{{ 'landing.features.title' | translate }}</h2>
+      <p class="features__sub">{{ 'landing.features.sub' | translate }}</p>
+    </div>
+    <div class="features__grid">
+      @for (f of features; track f.titleKey) {
+        <div class="feature-card">
+          <div class="feature-card__icon">
+            <ds-icon [name]="f.icon" [size]="20" />
+          </div>
+          <ds-tag tone="outline">{{ f.tagKey | translate }}</ds-tag>
+          <h3 class="feature-card__title display">{{ f.titleKey | translate }}</h3>
+          <p class="feature-card__desc">{{ f.descKey | translate }}</p>
+          <a class="feature-card__link">
+            {{ 'landing.features.learnMore' | translate }} <ds-icon name="arrow" [size]="13" />
+          </a>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ── CTA banner ─────────────────────────────────────────── -->
+  <section class="cta-section">
+    <div class="cta-banner">
+      <div>
+        <h2 class="cta-banner__title display">{{ 'landing.cta.title' | translate }}</h2>
+        <p class="cta-banner__sub">{{ 'landing.cta.sub' | translate }}</p>
+      </div>
+      <div class="cta-banner__actions">
+        <ds-button variant="primary" size="lg" iconRight="arrow" routerLink="/auth/register">{{ 'landing.cta.connect' | translate }}</ds-button>
+        <button class="btn-outline-white">{{ 'landing.cta.demo' | translate }}</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────── -->
+  <footer class="footer">
+    <span>{{ 'landing.footer.copy' | translate }}</span>
+    <div class="footer__links">
+      <span>{{ 'landing.footer.privacy'  | translate }}</span>
+      <span>{{ 'landing.footer.terms'    | translate }}</span>
+      <span>{{ 'landing.footer.security' | translate }}</span>
+      <span>{{ 'landing.footer.status'   | translate }}</span>
+    </div>
+  </footer>
+
+</div>

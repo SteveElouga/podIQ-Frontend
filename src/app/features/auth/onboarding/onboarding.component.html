@@ -1,0 +1,111 @@
+<div class="onboarding">
+
+  <!-- ── Left: stepper sidebar ──────────────────────────────── -->
+  <aside class="stepper">
+    <div class="stepper__top">
+      <a class="brand" routerLink="/">
+        <span class="brand-mark">P</span>
+        <span class="brand-name display">PodIQ</span>
+      </a>
+      <ds-lang-switcher />
+    </div>
+
+    <div class="stepper__label mono">{{ 'onboarding.getStarted' | translate }}</div>
+
+    <div class="stepper__steps">
+      <!-- Vertical connector line -->
+      <div class="stepper__connector"></div>
+
+      @for (s of steps; track s.n) {
+        <div class="step" [class]="'step--' + s.state">
+          <div class="step__dot">
+            @if (s.state === 'done') {
+              <ds-icon name="check" [size]="13" [stroke]="2.5" />
+            } @else {
+              {{ s.n }}
+            }
+          </div>
+          <div class="step__info">
+            <div class="step__label">{{ s.labelKey | translate }}</div>
+            @if (s.state === 'current') {
+              <div class="step__sub">{{ 'onboarding.inProgress' | translate }}</div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <hr class="divider" />
+
+    <div class="stepper__meta">
+      <div class="meta-item">
+        <ds-icon name="bolt" [size]="13" class="accent-icon" />
+        {{ 'onboarding.avgSetup' | translate }}
+      </div>
+      <div class="meta-item">
+        <ds-icon name="shield" [size]="13" class="ok-icon" />
+        {{ 'onboarding.readOnly' | translate }}
+      </div>
+    </div>
+
+    <ds-button variant="ghost" size="sm" style="margin-top:auto" routerLink="/dashboard">
+      {{ 'onboarding.skip' | translate }}
+    </ds-button>
+  </aside>
+
+  <!-- ── Main: connect cluster ──────────────────────────────── -->
+  <main class="connect">
+    <div class="connect__inner">
+      <div class="step-indicator mono">{{ 'onboarding.stepIndicator' | translate }}</div>
+      <h1 class="connect__title display">{{ 'onboarding.title' | translate }}</h1>
+      <p class="connect__lead">{{ 'onboarding.lead' | translate }}</p>
+
+      <!-- Install method cards -->
+      <div class="method-grid">
+        @for (opt of installOptions; track opt.id) {
+          <button
+            class="method-card"
+            [class.method-card--selected]="selectedMethod() === opt.id"
+            type="button"
+            (click)="selectedMethod.set(opt.id)"
+          >
+            <ds-icon [name]="opt.icon" [size]="20" />
+            <div class="method-card__title display">{{ opt.titleKey | translate }}</div>
+            <div class="method-card__desc">{{ opt.descKey | translate }}</div>
+            @if (selectedMethod() === opt.id) {
+              <span class="method-card__check">
+                <ds-icon name="check" [size]="12" [stroke]="2.5" />
+              </span>
+            }
+          </button>
+        }
+      </div>
+
+      <!-- Code block -->
+      <div class="code-block">
+        <div class="code-block__bar">
+          <span class="mono code-label">{{ 'onboarding.installLabel' | translate }}</span>
+          <button class="copy-btn" type="button" (click)="copyCommand()">
+            <ds-icon [name]="copied() ? 'check' : 'copy'" [size]="13" />
+            {{ (copied() ? 'onboarding.copied' : 'onboarding.copy') | translate }}
+          </button>
+        </div>
+        <pre class="code-block__pre mono">{{ installCommand }}</pre>
+      </div>
+
+      <!-- Status + navigation -->
+      <div class="connect__footer">
+        <div class="waiting-status">
+          <span class="waiting-dot"></span>
+          <span>{{ 'onboarding.waiting' | translate }}</span>
+          <span class="waiting-hint">{{ 'onboarding.waitingHint' | translate }}</span>
+        </div>
+        <div class="connect__nav">
+          <ds-button variant="ghost" size="md" routerLink="/auth/login">{{ 'onboarding.back' | translate }}</ds-button>
+          <ds-button variant="primary" size="md" iconRight="arrow" routerLink="/dashboard">{{ 'onboarding.continue' | translate }}</ds-button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>

@@ -1,0 +1,338 @@
+.display { font-family: var(--font-display); }
+.mono    { font-family: var(--font-mono); font-feature-settings: "ss01","cv11"; }
+.accent-icon { color: var(--accent); }
+.ok-icon     { color: var(--ok); }
+
+// ── Layout ────────────────────────────────────────────────────
+.onboarding {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+}
+
+// ── Stepper sidebar ───────────────────────────────────────────
+.stepper__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stepper {
+  padding: 28px;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+
+  &__label {
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 12px;
+  }
+
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+  }
+
+  &__connector {
+    position: absolute;
+    left: 13px;
+    top: 14px;
+    bottom: 14px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    font-size: 12px;
+    color: var(--ink-mute);
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: var(--fw-bold);
+  font-family: var(--font-display);
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: var(--fw-bold);
+}
+
+// ── Steps ─────────────────────────────────────────────────────
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: var(--r-sm);
+  position: relative;
+
+  &--current { background: var(--accent-soft); }
+
+  &__dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: var(--fw-semibold);
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  &--done &__dot {
+    background: var(--ok);
+    border: 1.5px solid var(--ok);
+    color: white;
+  }
+
+  &--current &__dot {
+    background: var(--accent);
+    border: 1.5px solid var(--accent);
+    color: white;
+  }
+
+  &--pending &__dot {
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    color: var(--ink-mute);
+  }
+
+  &__label {
+    font-size: 13px;
+    font-weight: var(--fw-medium);
+    color: var(--ink);
+  }
+
+  &--pending &__label { color: var(--ink-mute); font-weight: var(--fw-regular); }
+  &--current &__label { font-weight: var(--fw-semibold); }
+
+  &__sub {
+    font-size: 11px;
+    color: var(--ink-mute);
+  }
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.divider {
+  border: none;
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+// ── Main content ──────────────────────────────────────────────
+.connect {
+  padding: 48px 56px;
+  overflow-y: auto;
+
+  &__inner {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__title {
+    font-size: 36px;
+    font-weight: var(--fw-semibold);
+    margin: 8px 0 10px;
+    letter-spacing: -0.025em;
+  }
+
+  &__lead {
+    font-size: 14.5px;
+    color: var(--ink-mute);
+    margin: 0 0 28px;
+    line-height: var(--lh-base);
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  &__nav {
+    display: flex;
+    gap: var(--s-2);
+  }
+}
+
+.step-indicator {
+  font-size: 11.5px;
+  color: var(--accent-ink);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: var(--fw-semibold);
+}
+
+// ── Install method cards ──────────────────────────────────────
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.method-card {
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  transition: border-color 150ms, background 150ms;
+  color: var(--ink);
+  font-family: var(--font-sans);
+
+  &:hover { border-color: var(--border-strong); }
+
+  &--selected {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+
+  &__title {
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+    margin-top: 10px;
+    display: block;
+  }
+
+  &__desc {
+    font-size: 11.5px;
+    color: var(--ink-mute);
+    margin-top: 2px;
+  }
+
+  &__check {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// ── Code block ────────────────────────────────────────────────
+.code-block {
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+
+  &__bar {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__pre {
+    margin: 0;
+    padding: 18px;
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    background: var(--surface);
+    overflow-x: auto;
+    white-space: pre;
+  }
+}
+
+.code-label {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: background 150ms;
+
+  &:hover { background: var(--surface); border-color: var(--border); }
+}
+
+// ── Waiting status ────────────────────────────────────────────
+.waiting-status {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  font-size: 13px;
+  color: var(--ink-mute);
+}
+
+.waiting-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--warn);
+  box-shadow: 0 0 0 3px var(--warn-soft);
+  flex-shrink: 0;
+}
+
+.waiting-hint {
+  font-size: 12px;
+}
