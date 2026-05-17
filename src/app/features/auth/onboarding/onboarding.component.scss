@@ -319,9 +319,21 @@
 .waiting-status {
   display: flex;
   align-items: center;
-  gap: var(--s-2);
+  gap: 10px;
   font-size: 13px;
   color: var(--ink-mute);
+}
+
+.waiting-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-2);
+  white-space: nowrap;
 }
 
 .waiting-dot {
@@ -335,4 +347,10 @@
 
 .waiting-hint {
   font-size: 12px;
+}
+
+// ── Code token highlight ──────────────────────────────────────
+.code-token {
+  color: var(--accent-ink);
+  font-weight: var(--fw-semibold);
 }

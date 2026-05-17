@@ -69,7 +69,11 @@
             type="button"
             (click)="selectedMethod.set(opt.id)"
           >
-            <ds-icon [name]="opt.icon" [size]="20" />
+            <ds-icon
+              [name]="opt.icon"
+              [size]="20"
+              [color]="selectedMethod() === opt.id ? 'var(--accent-ink)' : 'var(--ink-2)'"
+            />
             <div class="method-card__title display">{{ opt.titleKey | translate }}</div>
             <div class="method-card__desc">{{ opt.descKey | translate }}</div>
             @if (selectedMethod() === opt.id) {
@@ -90,14 +94,16 @@
             {{ (copied() ? 'onboarding.copied' : 'onboarding.copy') | translate }}
           </button>
         </div>
-        <pre class="code-block__pre mono">{{ installCommand }}</pre>
+        <pre class="code-block__pre mono">{{ codePre }}<span class="code-token">{{ codeToken }}</span>{{ codeSuf }}</pre>
       </div>
 
       <!-- Status + navigation -->
       <div class="connect__footer">
         <div class="waiting-status">
-          <span class="waiting-dot"></span>
-          <span>{{ 'onboarding.waiting' | translate }}</span>
+          <span class="waiting-pill">
+            <span class="waiting-dot"></span>
+            {{ 'onboarding.waiting' | translate }}
+          </span>
           <span class="waiting-hint">{{ 'onboarding.waitingHint' | translate }}</span>
         </div>
         <div class="connect__nav">

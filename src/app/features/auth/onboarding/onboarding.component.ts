@@ -27,24 +27,31 @@ export class OnboardingComponent {
   ];
 
   readonly installOptions: { id: InstallMethod; titleKey: string; descKey: string; icon: string }[] = [
-    { id: 'helm',      titleKey: 'onboarding.methods.0.title', descKey: 'onboarding.methods.0.desc', icon: 'cube' },
-    { id: 'kubectl',   titleKey: 'onboarding.methods.1.title', descKey: 'onboarding.methods.1.desc', icon: 'code' },
+    { id: 'helm', titleKey: 'onboarding.methods.0.title', descKey: 'onboarding.methods.0.desc', icon: 'cube' },
+    { id: 'kubectl', titleKey: 'onboarding.methods.1.title', descKey: 'onboarding.methods.1.desc', icon: 'code' },
     { id: 'terraform', titleKey: 'onboarding.methods.2.title', descKey: 'onboarding.methods.2.desc', icon: 'layers' },
   ];
 
   selectedMethod = signal<InstallMethod>('helm');
 
-  readonly installCommand = String.raw`# 1. Add the PodIQ helm repo
+  // Séparé en 3 parties pour permettre le highlight du token dans le template
+  readonly codePre = String.raw`# 1. Add the PodIQ helm repo
 helm repo add podiq https://charts.podiq.dev
 helm repo update
 
 # 2. Install the agent in the podiq-system namespace
 helm install podiq podiq/agent \
   --namespace podiq-system --create-namespace \
-  --set workspace.token=wsk_3f8a92c1e4d7b6
+  --set workspace.token=`;
+
+  readonly codeToken = 'wsk_3f8a92c1e4d7b6';
+
+  readonly codeSuf = String.raw`
 
 # 3. Verify the agent is running
 kubectl get pods -n podiq-system`;
+
+  readonly installCommand = this.codePre + this.codeToken + this.codeSuf;
 
   copied = signal(false);
 
