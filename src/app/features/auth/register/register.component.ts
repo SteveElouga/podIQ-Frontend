@@ -1,135 +1,98 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { startWith } from 'rxjs';
+import { TranslatePipe } from '@ngx-translate/core';
 import { AuthService } from '../../../core/services/auth.service';
-import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { ButtonModule } from 'primeng/button';
-import { MessageModule } from 'primeng/message';
-import { FloatLabelModule } from 'primeng/floatlabel';
+import {
+  DsIconComponent,
+  DsButtonComponent,
+  DsTagComponent,
+  DsLangSwitcherComponent,
+} from '@shared/design-system';
 
-function passwordsMatch(ctrl: AbstractControl): ValidationErrors | null {
-  const pw = ctrl.get('password')?.value;
-  const confirm = ctrl.get('confirm')?.value;
-  return pw && confirm && pw !== confirm ? { mismatch: true } : null;
+export type PlanId = 'free' | 'pro' | 'ent';
+
+interface Plan {
+  id: PlanId;
+  nameKey: string;
+  price: string;
+  subKey: string;
+  tagKey?: string;
+}
+
+interface Feature {
+  icon: string;
+  titleKey: string;
+  descKey: string;
 }
 
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [
-    CommonModule,
     ReactiveFormsModule,
     RouterLink,
-    CardModule,
-    InputTextModule,
-    PasswordModule,
-    ButtonModule,
-    MessageModule,
-    FloatLabelModule,
+    TranslatePipe,
+    DsIconComponent,
+    DsButtonComponent,
+    DsTagComponent,
+    DsLangSwitcherComponent,
   ],
-  template: `
-    <div class="auth-page">
-      <div class="auth-brand">
-        <span class="brand-icon">⎈</span>
-        <h1>PodIQ</h1>
-        <p>AI-Powered Kubernetes Incident Intelligence</p>
-      </div>
-
-      <p-card styleClass="auth-card">
-        <ng-template pTemplate="header">
-          <div class="card-header">
-            <h2>Create Account</h2>
-          </div>
-        </ng-template>
-
-        <form [formGroup]="form" (ngSubmit)="submit()">
-          <div class="field">
-            <p-floatlabel>
-              <input
-                pInputText
-                id="email"
-                formControlName="email"
-                type="email"
-                autocomplete="email"
-                style="width:100%"
-              />
-              <label for="email">Email address</label>
-            </p-floatlabel>
-          </div>
-
-          <div class="field">
-            <p-floatlabel>
-              <p-password
-                inputId="password"
-                formControlName="password"
-                [toggleMask]="true"
-                styleClass="w-full"
-                inputStyleClass="w-full"
-              ></p-password>
-              <label for="password">Password</label>
-            </p-floatlabel>
-          </div>
-
-          <div class="field">
-            <p-floatlabel>
-              <p-password
-                inputId="confirm"
-                formControlName="confirm"
-                [feedback]="false"
-                [toggleMask]="true"
-                styleClass="w-full"
-                inputStyleClass="w-full"
-              ></p-password>
-              <label for="confirm">Confirm password</label>
-            </p-floatlabel>
-            @if (form.hasError('mismatch') && form.get('confirm')?.touched) {
-              <small class="error-hint">Passwords do not match</small>
-            }
-          </div>
-
-          @if (error()) {
-            <p-message severity="error" [text]="error()!" styleClass="w-full mb-3"></p-message>
-          }
-
-          <p-button
-            type="submit"
-            label="Create Account"
-            icon="pi pi-user-plus"
-            [loading]="loading()"
-            [disabled]="form.invalid"
-            styleClass="w-full"
-          ></p-button>
-        </form>
-
-        <ng-template pTemplate="footer">
-          <p class="auth-link">
-            Already have an account? <a routerLink="/auth/login">Sign in</a>
-          </p>
-        </ng-template>
-      </p-card>
-    </div>
-  `,
-  styleUrls: ['../auth.scss'],
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  private auth = inject(AuthService);
-  private router = inject(Router);
-  private fb = inject(FormBuilder);
+  private readonly auth   = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly fb     = inject(FormBuilder);
 
-  loading = signal(false);
-  error = signal<string | null>(null);
+  loading      = signal(false);
+  error        = signal<string | null>(null);
+  showPassword = signal(false);
+  selectedPlan = signal<PlanId>('pro');
 
-  form = this.fb.group(
-    {
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirm: ['', Validators.required],
-    },
-    { validators: passwordsMatch }
+  form = this.fb.group({
+    email:    ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(12)]],
+    terms:    [true, Validators.requiredTrue],
+  });
+
+  private readonly passwordValue = toSignal(
+    this.form.get('password')!.valueChanges.pipe(startWith('')),
+    { initialValue: '' }
   );
+
+  readonly strength = computed(() => {
+    const len = (this.passwordValue() ?? '').length;
+    if (len === 0)  return { bars: 0, labelKey: '',                           color: '' };
+    if (len < 8)   return { bars: 1, labelKey: 'register.strengthWeak',  color: 'var(--crit)' };
+    if (len < 12)  return { bars: 2, labelKey: 'register.strengthFair',  color: 'var(--warn)' };
+    if (len < 16)  return { bars: 3, labelKey: 'register.strengthGood',  color: 'var(--ok)' };
+    return          { bars: 4, labelKey: 'register.strengthStrong', color: 'var(--ok)' };
+  });
+
+  readonly plans: Plan[] = [
+    { id: 'free', nameKey: 'register.plans.free.name', price: '$0',     subKey: 'register.plans.free.sub' },
+    { id: 'pro',  nameKey: 'register.plans.pro.name',  price: '$49',    subKey: 'register.plans.pro.sub',  tagKey: 'register.plans.pro.tag' },
+    { id: 'ent',  nameKey: 'register.plans.ent.name',  price: 'Custom', subKey: 'register.plans.ent.sub' },
+  ];
+
+  readonly features: Feature[] = [
+    { icon: 'clock',  titleKey: 'register.visual.features.0.title', descKey: 'register.visual.features.0.desc' },
+    { icon: 'git',    titleKey: 'register.visual.features.1.title', descKey: 'register.visual.features.1.desc' },
+    { icon: 'shield', titleKey: 'register.visual.features.2.title', descKey: 'register.visual.features.2.desc' },
+    { icon: 'key',    titleKey: 'register.visual.features.3.title', descKey: 'register.visual.features.3.desc' },
+  ];
+
+  readonly avatars = [
+    { initials: 'LM', bg: 'var(--accent-soft)' },
+    { initials: 'JR', bg: 'var(--info-soft)' },
+    { initials: 'SK', bg: 'var(--ok-soft)' },
+  ];
+
+  readonly barIndices = [0, 1, 2, 3];
 
   submit(): void {
     if (this.form.invalid) return;
@@ -137,7 +100,7 @@ export class RegisterComponent {
     this.error.set(null);
     const { email, password } = this.form.value;
     this.auth.register({ email: email!, password: password! }).subscribe({
-      next: () => this.router.navigate(['/dashboard']),
+      next: () => this.router.navigate(['/auth/onboarding']),
       error: (err: Error) => {
         this.error.set(err.message);
         this.loading.set(false);

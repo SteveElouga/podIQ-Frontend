@@ -1,0 +1,208 @@
+<div class="register">
+
+  <!-- ── Left: form ─────────────────────────────────────────── -->
+  <div class="register__form-panel">
+    <div class="register__form-header">
+      <a class="brand" routerLink="/">
+        <span class="brand-mark">P</span>
+        <span class="brand-name display">PodIQ</span>
+      </a>
+      <ds-lang-switcher />
+    </div>
+
+    <div class="register__form-body">
+      <ds-tag tone="accent" style="align-self:flex-start;margin-bottom:14px">{{ 'register.tag' | translate }}</ds-tag>
+
+      <h1 class="register__title display">{{ 'register.title' | translate }}</h1>
+      <p class="register__sub">
+        {{ 'register.haveOne' | translate }}
+        <a routerLink="/auth/login" class="link">{{ 'register.signIn' | translate }}</a>
+      </p>
+
+      <!-- SSO buttons -->
+      <div class="sso-grid">
+        <button class="sso-btn" type="button">
+          <ds-icon name="cube" [size]="16" />
+          {{ 'register.google' | translate }}
+        </button>
+        <button class="sso-btn" type="button">
+          <ds-icon name="git" [size]="16" />
+          {{ 'register.github' | translate }}
+        </button>
+      </div>
+      <button class="sso-btn sso-btn--full" type="button">
+        <ds-icon name="key" [size]="16" />
+        {{ 'register.saml' | translate }}
+      </button>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span class="divider__line"></span>
+        <span class="divider__label mono">{{ 'register.orEmail' | translate }}</span>
+        <span class="divider__line"></span>
+      </div>
+
+      <!-- Form -->
+      <form [formGroup]="form" (ngSubmit)="submit()" class="email-form">
+
+        <label class="field">
+          <span class="field__label">{{ 'register.emailLabel' | translate }}</span>
+          <span class="field__input">
+            <ds-icon name="user" [size]="14" class="field__icon" />
+            <input
+              type="email"
+              formControlName="email"
+              [placeholder]="'register.emailPlaceholder' | translate"
+              autocomplete="email"
+            />
+          </span>
+          <span class="field__hint">{{ 'register.emailHint' | translate }}</span>
+        </label>
+
+        <label class="field">
+          <span class="field__label">{{ 'register.passwordLabel' | translate }}</span>
+          <span class="field__input">
+            <ds-icon name="key" [size]="14" class="field__icon" />
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              [placeholder]="'register.passwordPlaceholder' | translate"
+              [attr.autocomplete]="showPassword() ? 'off' : 'new-password'"
+            />
+            <button type="button" class="field__toggle" (click)="showPassword.set(!showPassword())">
+              <ds-icon [name]="showPassword() ? 'eyeOff' : 'eye'" [size]="13" />
+            </button>
+          </span>
+        </label>
+
+        <!-- Password strength meter -->
+        @if ((form.get('password')?.value?.length ?? 0) > 0) {
+          <div class="strength-meter">
+            <div class="strength-bars">
+              @for (i of barIndices; track i) {
+                <span
+                  class="strength-bar"
+                  [style.background]="i < strength().bars ? strength().color : 'var(--border)'"
+                ></span>
+              }
+            </div>
+            @if (strength().labelKey) {
+              <span class="strength-label" [style.color]="strength().color">
+                {{ strength().labelKey | translate }}
+              </span>
+            }
+          </div>
+        }
+
+        <!-- Plan picker -->
+        <div class="plan-section">
+          <div class="plan-section__label">{{ 'register.choosePlan' | translate }}</div>
+          <div class="plan-grid">
+            @for (plan of plans; track plan.id) {
+              <button
+                type="button"
+                class="plan-card"
+                [class.plan-card--selected]="selectedPlan() === plan.id"
+                (click)="selectedPlan.set(plan.id)"
+              >
+                @if (plan.tagKey) {
+                  <ds-tag tone="accent" class="plan-card__badge">{{ plan.tagKey | translate }}</ds-tag>
+                }
+                <div class="plan-card__name display" [class.plan-card__name--selected]="selectedPlan() === plan.id">
+                  {{ plan.nameKey | translate }}
+                </div>
+                <div class="plan-card__price mono" [class.plan-card__price--selected]="selectedPlan() === plan.id">
+                  {{ plan.price }}<span class="plan-card__mo">{{ plan.id !== 'ent' ? '/mo' : '' }}</span>
+                </div>
+                <div class="plan-card__sub">{{ plan.subKey | translate }}</div>
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- Terms checkbox -->
+        <label class="terms-label">
+          <span class="checkbox checkbox--checked">
+            <ds-icon name="check" [size]="10" [stroke]="3" />
+          </span>
+          <input type="checkbox" formControlName="terms" hidden />
+          <span>
+            {{ 'register.terms.agree' | translate }}
+            <a class="link">{{ 'register.terms.termsLink' | translate }}</a>
+            {{ 'register.terms.and' | translate }}
+            <a class="link">{{ 'register.terms.privacyLink' | translate }}</a>.
+            {{ 'register.terms.note' | translate }}
+          </span>
+        </label>
+
+        @if (error()) {
+          <div class="error-msg">
+            <ds-icon name="alert" [size]="14" />
+            {{ error() }}
+          </div>
+        }
+
+        <ds-button
+          variant="primary"
+          size="lg"
+          iconRight="arrow"
+          [full]="true"
+          type="submit"
+          [disabled]="form.invalid || loading()"
+        >
+          {{ (loading() ? 'register.creating' : 'register.cta') | translate }}
+        </ds-button>
+      </form>
+    </div>
+
+    <div class="register__footer">
+      <span>{{ 'register.footerCopy' | translate }}</span>
+      <span>{{ 'register.footerLinks' | translate }}</span>
+    </div>
+  </div>
+
+  <!-- ── Right: value prop ──────────────────────────────────── -->
+  <div class="register__visual">
+    <div class="dot-grid"></div>
+    <div class="visual-content">
+      <ds-tag tone="ink">{{ 'register.visual.tag' | translate }}</ds-tag>
+      <h2 class="visual-headline display">
+        {{ 'register.visual.headline1' | translate }}<br>
+        {{ 'register.visual.headline2' | translate }}
+      </h2>
+
+      <!-- Feature rows -->
+      <div class="features">
+        @for (f of features; track f.icon; let last = $last) {
+          <div class="feature" [class.feature--last]="last">
+            <div class="feature__icon-box">
+              <ds-icon [name]="f.icon" [size]="16" />
+            </div>
+            <div>
+              <div class="feature__title display">{{ f.titleKey | translate }}</div>
+              <div class="feature__desc">{{ f.descKey | translate }}</div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Social proof -->
+      <div class="social-proof">
+        <div class="avatars">
+          @for (a of avatars; track a.initials; let k = $index) {
+            <div
+              class="avatar"
+              [style.background]="a.bg"
+              [style.margin-left]="k > 0 ? '-8px' : '0'"
+            >{{ a.initials }}</div>
+          }
+        </div>
+        <div class="social-proof__text">
+          <b>{{ 'register.visual.socialBold' | translate }}</b>
+          {{ 'register.visual.socialRest' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

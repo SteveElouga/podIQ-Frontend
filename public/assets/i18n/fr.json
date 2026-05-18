@@ -134,6 +134,55 @@
       "2": { "title": "Terraform",     "desc": "Compatible GitOps" }
     }
   },
+  "register": {
+    "tag": "Essai gratuit 14 jours",
+    "title": "Créez votre espace de travail",
+    "haveOne": "Vous en avez déjà un ?",
+    "signIn": "Se connecter →",
+    "google": "Google",
+    "github": "GitHub",
+    "saml": "SAML SSO",
+    "orEmail": "ou avec un email",
+    "emailLabel": "Email professionnel",
+    "emailPlaceholder": "luc@acme.io",
+    "emailHint": "Nous vous enverrons un lien de vérification.",
+    "passwordLabel": "Mot de passe",
+    "passwordPlaceholder": "Au moins 12 caractères",
+    "choosePlan": "Choisir un plan",
+    "strengthWeak": "Faible",
+    "strengthFair": "Moyen",
+    "strengthGood": "Bon",
+    "strengthStrong": "Solide",
+    "terms": {
+      "agree": "J'accepte les",
+      "termsLink": "CGU",
+      "and": "et la",
+      "privacyLink": "Politique de confidentialité",
+      "note": "PodIQ ne lit jamais l'intérieur des conteneurs."
+    },
+    "cta": "Créer l'espace de travail",
+    "creating": "Création en cours…",
+    "footerCopy": "© 2026 PodIQ Labs",
+    "footerLinks": "Confidentialité · CGU · Statut",
+    "plans": {
+      "free": { "name": "Gratuit",      "sub": "1 cluster · 50 pods" },
+      "pro":  { "name": "Pro",          "sub": "10 clusters · illimité", "tag": "Populaire" },
+      "ent":  { "name": "Entreprise",   "sub": "SSO · audit · SLA" }
+    },
+    "visual": {
+      "tag": "Ce qui est inclus dans chaque espace",
+      "headline1": "Connectez un cluster.",
+      "headline2": "Arrêtez de gérer les mêmes incidents en boucle.",
+      "socialBold": "1 247 équipes",
+      "socialRest": "ont déployé en prod avec PodIQ cette semaine.",
+      "features": {
+        "0": { "title": "Moteur de mémoire",          "desc": "Chaque incident est empreinte digitale et indexé." },
+        "1": { "title": "Corrélation inter-services",  "desc": "Visualisez le blast radius avant que votre dashboard se rafraîchisse." },
+        "2": { "title": "Scanner pré-déploiement",     "desc": "Bloquez les manifests qui correspondent à des pannes passées." },
+        "3": { "title": "SOC2 type II · SSO",          "desc": "Agent en lecture seule. Pas d'exec, pas de port-forward." }
+      }
+    }
+  },
   "common": {
     "mttr": "MTTR",
     "pages": "Alertes",

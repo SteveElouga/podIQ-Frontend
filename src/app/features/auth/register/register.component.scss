@@ -1,0 +1,473 @@
+.display { font-family: var(--font-display); }
+.mono    { font-family: var(--font-mono); font-feature-settings: "ss01","cv11"; }
+
+// ── Layout ────────────────────────────────────────────────────
+.register {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+// ── Left panel ────────────────────────────────────────────────
+.register__form-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 56px;
+  background: var(--surface);
+  overflow-y: auto;
+}
+
+.register__form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.brand-mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: var(--fw-bold);
+  font-family: var(--font-display);
+}
+
+.brand-name {
+  font-size: 16px;
+  font-weight: var(--fw-bold);
+}
+
+.register__form-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 440px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 24px 0;
+}
+
+.register__title {
+  font-size: 34px;
+  font-weight: var(--fw-semibold);
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+
+.register__sub {
+  font-size: var(--fs-md);
+  color: var(--ink-mute);
+  margin: 8px 0 22px;
+}
+
+.link {
+  color: var(--accent-ink);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+// ── SSO buttons ───────────────────────────────────────────────
+.sso-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.sso-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  height: 36px;
+  padding: 0 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-medium);
+  color: var(--ink);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 150ms ease-out;
+
+  &:hover { background: var(--surface-2); }
+
+  &--full {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// ── Divider ───────────────────────────────────────────────────
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 12px;
+
+  &__line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  &__label {
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
+// ── Form fields ───────────────────────────────────────────────
+.email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+
+  &__label {
+    font-size: 12px;
+    font-weight: var(--fw-medium);
+    color: var(--ink-2);
+  }
+
+  &__input {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    height: 36px;
+    padding: 0 12px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-sm);
+    transition: border-color 150ms;
+
+    &:focus-within {
+      border-color: var(--accent);
+      outline: 3px solid var(--accent-soft);
+      outline-offset: 0;
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: var(--fs-md);
+      color: var(--ink);
+      min-width: 0;
+
+      &::placeholder { color: var(--ink-mute); }
+    }
+  }
+
+  &__icon { color: var(--ink-mute); flex-shrink: 0; }
+
+  &__toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-mute);
+    padding: 0;
+    display: flex;
+    align-items: center;
+    &:hover { color: var(--ink-2); }
+  }
+
+  &__hint {
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-top: -2px;
+  }
+}
+
+// ── Strength meter ────────────────────────────────────────────
+.strength-meter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: -4px;
+}
+
+.strength-bars {
+  flex: 1;
+  display: flex;
+  gap: 3px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  transition: background 200ms;
+}
+
+.strength-label {
+  font-size: 11px;
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+}
+
+// ── Plan picker ───────────────────────────────────────────────
+.plan-section {
+  &__label {
+    font-size: 12px;
+    font-weight: var(--fw-medium);
+    color: var(--ink-2);
+    margin-bottom: 8px;
+  }
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.plan-card {
+  padding: 10px 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  border-radius: var(--r-sm);
+  text-align: left;
+  position: relative;
+  cursor: pointer;
+  transition: border-color 150ms, background 150ms;
+  color: var(--ink);
+  font-family: var(--font-sans);
+
+  &:hover { border-color: var(--border-strong); background: var(--surface-2); }
+
+  &--selected {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+
+  &__badge {
+    position: absolute;
+    top: -9px;
+    right: 8px;
+    font-size: 9px;
+  }
+
+  &__name {
+    font-size: 13.5px;
+    font-weight: var(--fw-semibold);
+    color: var(--ink);
+    display: block;
+
+    &--selected { color: var(--accent-ink); }
+  }
+
+  &__price {
+    font-size: 15px;
+    font-weight: var(--fw-semibold);
+    margin-top: 2px;
+    color: var(--ink);
+    display: block;
+
+    &--selected { color: var(--accent-ink); }
+  }
+
+  &__mo {
+    font-size: 10px;
+    font-weight: var(--fw-regular);
+    color: var(--ink-mute);
+  }
+
+  &__sub {
+    font-size: 10.5px;
+    color: var(--ink-mute);
+    margin-top: 2px;
+  }
+}
+
+// ── Terms checkbox ────────────────────────────────────────────
+.terms-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 3px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: white;
+
+  &--checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+}
+
+// ── Error ─────────────────────────────────────────────────────
+.error-msg {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: 10px 12px;
+  background: var(--crit-soft);
+  color: var(--crit);
+  border-radius: var(--r-sm);
+  font-size: var(--fs-sm);
+}
+
+// ── Form panel footer ─────────────────────────────────────────
+.register__footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--ink-mute);
+}
+
+// ── Right visual panel ────────────────────────────────────────
+.register__visual {
+  background: var(--bg);
+  border-left: 1px solid var(--border);
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.dot-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, var(--border) 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.visual-content {
+  position: relative;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.visual-headline {
+  font-size: 28px;
+  font-weight: var(--fw-semibold);
+  margin: 0;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+// ── Feature rows ──────────────────────────────────────────────
+.features {
+  display: flex;
+  flex-direction: column;
+}
+
+.feature {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+
+  &--last { border-bottom: none; }
+
+  &__icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--r-sm);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__title {
+    font-size: 14px;
+    font-weight: var(--fw-semibold);
+    color: var(--ink);
+  }
+
+  &__desc {
+    font-size: 12.5px;
+    color: var(--ink-mute);
+    margin-top: 2px;
+    line-height: 1.45;
+  }
+}
+
+// ── Social proof ──────────────────────────────────────────────
+.social-proof {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+
+  &__text {
+    font-size: 12px;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+}
+
+.avatars {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: var(--fw-semibold);
+  color: var(--ink);
+  border: 2px solid var(--surface);
+}
