@@ -1,5 +1,5 @@
 import { ApplicationConfig, inject, provideAppInitializer, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter, withComponentInputBinding } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
@@ -11,10 +11,11 @@ import {
   LUCIDE_ICONS, LucideIconProvider,
   Bell, Search, ChevronRight, ChevronDown, Plus, X,
   Check, ArrowRight, Box, Clock, GitBranch, Shield,
-  Key, User, Zap, TriangleAlert, Eye, EyeOff, Copy,
+  Key, User, Users, Zap, TriangleAlert, Eye, EyeOff, Copy,
   Play, RefreshCw, ListFilter, Code, Layers, Settings,
   Download, Upload, Moon, Sun, SlidersHorizontal, Activity,
   Folder, Pause, Trash2, Link, ExternalLink, Terminal,
+  Pencil, House, Mail, MessageSquare, Slack,
 } from 'lucide-angular';
 import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
@@ -29,7 +30,7 @@ function initI18n(): Promise<unknown> {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes, withComponentInputBinding()),
+    provideRouter(routes, withComponentInputBinding(), withViewTransitions()),
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor]), withFetch()),
     MessageService,
     providePrimeNG({
@@ -51,10 +52,11 @@ export const appConfig: ApplicationConfig = {
       useValue: new LucideIconProvider({
         Bell, Search, ChevronRight, ChevronDown, Plus, X,
         Check, ArrowRight, Box, Clock, GitBranch, Shield,
-        Key, User, Zap, TriangleAlert, Eye, EyeOff, Copy,
+        Key, User, Users, Zap, TriangleAlert, Eye, EyeOff, Copy,
         Play, RefreshCw, ListFilter, Code, Layers, Settings,
         Download, Upload, Moon, Sun, SlidersHorizontal, Activity,
         Folder, Pause, Trash2, Link, ExternalLink, Terminal,
+        Pencil, House, Mail, MessageSquare, Slack,
       }),
     },
   ],

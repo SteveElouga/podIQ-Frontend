@@ -108,7 +108,7 @@
   },
   "onboarding": {
     "getStarted": "Démarrer",
-    "stepIndicator": "Étape 2 sur 4",
+    "stepOf": "Étape {{n}} sur {{total}}",
     "title": "Connectez votre premier cluster",
     "lead": "PodIQ fonctionne comme un agent léger dans votre cluster. Il lit les événements et logs des pods — pas d'exec dans les conteneurs, pas de port-forward, pas de surprises. Choisissez comment l'installer :",
     "installLabel": "install.sh — copiez et exécutez dans votre terminal",
@@ -122,16 +122,152 @@
     "readOnly": "Lecture seule par défaut",
     "skip": "Passer pour l'instant",
     "inProgress": "en cours",
+    "connected": "connecté",
+    "channelDisabled": "bientôt",
     "steps": {
       "0": "Espace de travail",
-      "1": "Connecter un cluster",
-      "2": "Inviter l'équipe",
-      "3": "Configurer les alertes"
+      "1": "Choisir un plan",
+      "2": "Connecter un cluster",
+      "3": "Inviter l'équipe",
+      "4": "Configurer les alertes"
     },
     "methods": {
       "0": { "title": "Chart Helm",    "desc": "Recommandé" },
       "1": { "title": "kubectl apply", "desc": "YAML one-shot" },
       "2": { "title": "Terraform",     "desc": "Compatible GitOps" }
+    },
+    "workspace": {
+      "title": "Nommez votre espace de travail",
+      "lead": "C'est ici que votre équipe collaborera sur les incidents et les déploiements. Vous pourrez le renommer à tout moment depuis les paramètres.",
+      "nameLabel": "Nom de l'espace",
+      "namePlaceholder": "Acme Platform",
+      "nameHint": "Lettres minuscules, chiffres et tirets.",
+      "slugLabel": "URL slug",
+      "iconLabel": "Icône de l'espace",
+      "accentLabel": "Couleur d'accent",
+      "accentHint": "Utilisé pour les surbrillances et l'arrière-plan du logo.",
+      "teamSizeLabel": "Quelle est la taille de votre équipe ?",
+      "regionLabel": "Résidence des données",
+      "regionNote": "La résidence des données est permanente. Contactez-nous pour migrer ultérieurement."
+    },
+    "teamSize": {
+      "solo":  "Seul(e)",
+      "small": "2 – 10",
+      "mid":   "11 – 50",
+      "large": "50+"
+    },
+    "region": {
+      "eu":    "EU · Francfort",
+      "euSub": "RGPD · par défaut",
+      "us":    "US · Virginie",
+      "usSub": "SOC2 II",
+      "ap":    "AP · Singapour",
+      "apSub": "SOC2 II"
+    },
+    "billing": {
+      "legend":  "Cycle de facturation",
+      "monthly": "Mensuel",
+      "annual":  "Annuel",
+      "save":    "−20%"
+    },
+    "plan": {
+      "title":        "Choisissez le plan qui vous convient",
+      "lead":         "Essai Pro de 14 jours inclus. Changez de plan ou annulez à tout moment depuis les paramètres de facturation.",
+      "trialBold":    "Essai Pro de 14 jours",
+      "trialRest":    "— aucun débit jusqu'au jour 15. Repassez au plan Gratuit à tout moment.",
+      "contactSales": "Devis personnalisé ? Contacter les ventes",
+      "continueWith": "Continuer avec {{name}}",
+      "free": {
+        "name": "Gratuit",
+        "per":  "pour toujours",
+        "sub":  "Pour les devs solo qui testent.",
+        "f0":   "1 cluster",
+        "f1":   "50 pods surveillés",
+        "f2":   "Mémoire 7 jours",
+        "f3":   "Support communauté"
+      },
+      "pro": {
+        "name": "Pro",
+        "per":  "par cluster / mois",
+        "tag":  "Le plus populaire",
+        "sub":  "Pour les équipes en production.",
+        "f0":   "10 clusters",
+        "f1":   "Pods illimités",
+        "f2":   "Mémoire illimitée",
+        "f3":   "Scanner pré-déploiement",
+        "f4":   "Slack + PagerDuty",
+        "f5":   "Support prioritaire"
+      },
+      "ent": {
+        "name": "Entreprise",
+        "per":  "contrat annuel",
+        "sub":  "Pour les orgs platform avec conformité.",
+        "f0":   "Tout ce qui est dans Pro",
+        "f1":   "SSO / SAML / SCIM",
+        "f2":   "Audit log + DPA",
+        "f3":   "Auto-hébergé",
+        "f4":   "CSM dédié",
+        "f5":   "SLA 24×7"
+      }
+    },
+    "invite": {
+      "title":            "Invitez votre équipe",
+      "lead":             "Ajoutez des membres maintenant ou passez et faites-le plus tard depuis les paramètres.",
+      "emailLabel":       "Email du collègue",
+      "roleLabel":        "Rôle",
+      "emailPlaceholder": "collegue@acme.io",
+      "add":              "Ajouter",
+      "pending":          "Invitations en attente",
+      "empty":            "Aucune invitation — ajoutez des membres ci-dessus.",
+      "autoLabel":        "Inviter automatiquement les membres avec le même domaine email"
+    },
+    "role": {
+      "admin":      "Admin",
+      "adminDesc":  "Accès complet, facturation, invitations",
+      "member":     "Membre",
+      "memberDesc": "Voir et gérer les incidents",
+      "viewer":     "Lecteur",
+      "viewerDesc": "Accès en lecture seule"
+    },
+    "alerts": {
+      "title":           "Configurez les alertes",
+      "lead":            "Choisissez les conditions qui déclenchent des notifications et où les envoyer.",
+      "rulesLabel":      "Conditions d'alerte",
+      "channelsLabel":   "Canaux de notification",
+      "quietHoursLabel": "Heures silencieuses",
+      "quietHoursDesc":  "Supprime les alertes non critiques entre 23h et 7h",
+      "finish":          "Terminer la configuration"
+    },
+    "alert": {
+      "crash":     "CrashLoopBackOff détecté",
+      "memory":    "Saturation mémoire > 90%",
+      "predeploy": "Scan pré-déploiement bloqué",
+      "fix":       "Fix automatique disponible"
+    },
+    "channel": {
+      "slack":     "Slack",
+      "pagerduty": "PagerDuty",
+      "email":     "Email",
+      "webhook":   "Webhook",
+      "teams":     "Teams",
+      "discord":   "Discord"
+    },
+    "complete": {
+      "title":         "Tout est prêt.",
+      "sub":           "Votre espace est en ligne. Voici ce qui est configuré :",
+      "workspace":     "Espace de travail",
+      "workspaceSub":  "Créé et configuré",
+      "cluster":       "Cluster",
+      "clusterSub":    "Agent déployé",
+      "team":          "Équipe",
+      "teamSub":       "Invitations envoyées",
+      "alerts":        "Alertes",
+      "alertsSub":     "Règles actives",
+      "nextActions":   "Que faire ensuite",
+      "action0":       "Regarder le tutoriel de 3 minutes",
+      "action1":       "Parcourir l'historique des incidents",
+      "action2":       "Configurer un hook de scan pré-déploiement",
+      "goToDashboard": "Aller au tableau de bord"
     }
   },
   "register": {

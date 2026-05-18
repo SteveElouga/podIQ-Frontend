@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ToastService, Toast } from '../../../core/services/toast.service';
 import { DsIconComponent } from '../ds-icon/ds-icon.component';
 
@@ -11,7 +11,7 @@ const TONE_META: Record<string, { icon: string; color: string; bg: string; borde
 
 @Component({
   selector: 'ds-toast-container',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DsIconComponent],
   template: `
     <div

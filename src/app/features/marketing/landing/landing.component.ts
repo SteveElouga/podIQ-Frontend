@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
@@ -11,7 +11,7 @@ import {
 
 @Component({
   selector: 'app-landing',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, TranslatePipe, DsIconComponent, DsButtonComponent, DsTagComponent, DsDotComponent, DsLangSwitcherComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
