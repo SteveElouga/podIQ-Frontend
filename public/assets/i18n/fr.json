@@ -17,7 +17,7 @@
       "headline3": "de planter deux fois.",
       "lead": "PodIQ surveille vos pods Kubernetes, mémorise chaque incident et vous dit exactement ce qui va casser — avant que ça arrive. Conçu pour les équipes platform fatiguées de réveiller la même personne à 3h du matin.",
       "cta1": "Connecter un cluster",
-      "cta2": "Voir la démo (90s)",
+      "cta2": "Voir la démo (30s)",
       "trust": {
         "0": "Compatible kubectl",
         "1": "Option auto-hébergée",

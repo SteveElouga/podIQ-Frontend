@@ -17,7 +17,7 @@
       "headline3": "crash twice.",
       "lead": "PodIQ watches your Kubernetes pods, remembers every incident, and tells you exactly what's about to break — before it does. Built for platform teams tired of paging the same person at 3am.",
       "cta1": "Connect a cluster",
-      "cta2": "Watch 90s demo",
+      "cta2": "Watch 30s demo",
       "trust": {
         "0": "kubectl-friendly",
         "1": "Self-hosted option",
