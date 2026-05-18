@@ -1,43 +1,80 @@
 <!-- ── Complete screen (step 6) ──────────────────────────────── -->
 @if (currentStep() === 6) {
   <div class="complete">
-    <div class="complete__inner">
-      <div class="complete__check">
-        <ds-icon name="check" [size]="40" [stroke]="2" />
-      </div>
-      <h1 class="complete__title display">{{ 'onboarding.complete.title' | translate }}</h1>
-      <p class="complete__sub">{{ 'onboarding.complete.sub' | translate }}</p>
 
-      <div class="complete__cards">
-        @for (card of summaryCards; track card.icon) {
-          <div class="summary-card">
-            <div class="summary-card__icon">
-              <ds-icon [name]="card.icon" [size]="18" />
-            </div>
-            <div>
-              <div class="summary-card__title">{{ card.titleKey | translate }}</div>
-              <div class="summary-card__sub">{{ card.subKey | translate }}</div>
-            </div>
-          </div>
-        }
+    <!-- Top bar -->
+    <div class="complete__topbar">
+      <div class="brand">
+        <span class="brand-mark display">P</span>
+        <span class="brand-name display">PodIQ</span>
       </div>
+      <ds-tag tone="ok" icon="check">{{ 'onboarding.complete.topbarTag' | translate }}</ds-tag>
+    </div>
 
-      <div class="complete__actions-section">
-        <div class="complete__actions-label">{{ 'onboarding.complete.nextActions' | translate }}</div>
-        <ul class="complete__actions-list">
-          @for (key of nextActions; track key) {
-            <li>
-              <ds-icon name="arrow" [size]="13" class="accent-icon" />
-              {{ key | translate }}
-            </li>
+    <!-- Centered body -->
+    <div class="complete__body">
+      <div class="complete__center">
+
+        <!-- Check circle -->
+        <div class="complete__check">
+          <ds-icon name="check" [size]="44" [stroke]="3" />
+        </div>
+
+        <!-- Setup complete tag -->
+        <ds-tag tone="accent">{{ 'onboarding.complete.setupTag' | translate }}</ds-tag>
+
+        <!-- Title -->
+        <h1 class="complete__title display">{{ 'onboarding.complete.title' | translate }}</h1>
+
+        <!-- Subtitle with bold cluster / channel -->
+        <p class="complete__sub">
+          {{ 'onboarding.complete.subPre' | translate }}
+          <b>{{ 'onboarding.complete.clusterValue' | translate }}</b>{{ 'onboarding.complete.subMid' | translate }}
+          <b>{{ 'onboarding.complete.channelName' | translate }}</b>{{ 'onboarding.complete.subPost' | translate }}
+        </p>
+
+        <!-- 4-column summary cards -->
+        <div class="complete__cards">
+          @for (card of summaryCards; track card.icon) {
+            <div class="summary-card">
+              <div class="summary-card__header">
+                <ds-icon [name]="card.icon" [size]="12" />
+                <span class="summary-card__label">{{ card.labelKey | translate }}</span>
+              </div>
+              <div class="summary-card__value mono">{{ card.valueKey | translate }}</div>
+            </div>
           }
-        </ul>
-      </div>
+        </div>
 
-      <ds-button variant="primary" size="lg" iconRight="arrow"
-        (click)="goToDashboard()" (keydown.enter)="goToDashboard()">
-        {{ 'onboarding.complete.goToDashboard' | translate }}
-      </ds-button>
+        <!-- Suggested next -->
+        <div class="suggested-next">
+          <div class="suggested-next__label">{{ 'onboarding.complete.suggestedNext' | translate }}</div>
+          @for (action of nextActions; track action.icon) {
+            <div class="suggested-row">
+              <div class="suggested-row__icon-wrap">
+                <ds-icon [name]="action.icon" [size]="15" />
+              </div>
+              <div class="suggested-row__body">
+                <div class="suggested-row__title">{{ action.titleKey | translate }}</div>
+                <div class="suggested-row__sub">{{ action.subKey | translate }}</div>
+              </div>
+              <ds-icon name="arrow" [size]="14" class="suggested-row__arrow" />
+            </div>
+          }
+        </div>
+
+        <!-- Bottom buttons -->
+        <div class="complete__actions">
+          <ds-button variant="secondary" size="lg" icon="play">
+            {{ 'onboarding.complete.takeTour' | translate }}
+          </ds-button>
+          <ds-button variant="primary" size="lg" iconRight="arrow"
+            (click)="goToDashboard()" (keydown.enter)="goToDashboard()">
+            {{ 'onboarding.complete.goToDashboard' | translate }}
+          </ds-button>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -397,76 +434,98 @@
             <h1 class="main__title display">{{ 'onboarding.invite.title' | translate }}</h1>
             <p class="main__lead">{{ 'onboarding.invite.lead' | translate }}</p>
 
+            <!-- Invite form: 3-col grid, no labels -->
             <div class="invite-row">
-              <label for="invite-email" class="invite-row__col-label">
-                {{ 'onboarding.invite.emailLabel' | translate }}
-              </label>
-              <label for="invite-role" class="invite-row__col-label">
-                {{ 'onboarding.invite.roleLabel' | translate }}
-              </label>
-              <span></span>
-              <input
-                id="invite-email"
-                class="field__input invite-row__email"
-                type="email"
-                [placeholder]="'onboarding.invite.emailPlaceholder' | translate"
-                [ngModel]="inviteEmail()"
-                (ngModelChange)="inviteEmail.set($event)"
-                (keydown.enter)="addInvite()"
-                autocomplete="off"
-              />
-              <select
-                id="invite-role"
-                class="field__select invite-row__role"
-                [ngModel]="inviteRole()"
-                (ngModelChange)="inviteRole.set($event)"
-              >
-                @for (r of roles; track r.id) {
-                  <option [value]="r.id">{{ r.labelKey | translate }}</option>
-                }
-              </select>
-              <ds-button variant="secondary" size="md"
+              <div class="input-wrap" [class.input-wrap--error]="inviteEmailInvalid()">
+                <ds-icon name="user" [size]="14" class="input-wrap__icon" />
+                <input
+                  class="field__input"
+                  [class.field__input--error]="inviteEmailInvalid()"
+                  type="email"
+                  [placeholder]="'onboarding.invite.emailPlaceholder' | translate"
+                  [ngModel]="inviteEmail()"
+                  (ngModelChange)="inviteEmail.set($event); clearInviteError()"
+                  (keydown.enter)="addInvite()"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="role-select-wrap">
+                <select
+                  class="field__select role-select"
+                  [ngModel]="inviteRole()"
+                  (ngModelChange)="inviteRole.set($event)"
+                >
+                  @for (r of roles; track r.id) {
+                    <option [value]="r.id">{{ r.labelKey | translate }}</option>
+                  }
+                </select>
+                <ds-icon name="chevDown" [size]="13" class="role-select-chevron" />
+              </div>
+              <ds-button variant="secondary" size="md" icon="plus"
                 (click)="addInvite()" (keydown.enter)="addInvite()">
                 {{ 'onboarding.invite.add' | translate }}
               </ds-button>
             </div>
-
-            @if (invites().length > 0) {
-              <div class="invite-list">
-                <div class="invite-list__header">{{ 'onboarding.invite.pending' | translate }}</div>
-                @for (inv of invites(); track inv.email) {
-                  <div class="invite-item">
-                    <div class="invite-item__avatar">{{ inv.email[0].toUpperCase() }}</div>
-                    <div class="invite-item__info">
-                      <div class="invite-item__email">{{ inv.email }}</div>
-                      <div class="invite-item__role">{{ ('onboarding.role.' + inv.role) | translate }}</div>
-                    </div>
-                    <button
-                      class="invite-item__remove"
-                      type="button"
-                      (click)="removeInvite(inv.email)"
-                      aria-label="Remove"
-                    >
-                      <ds-icon name="x" [size]="14" />
-                    </button>
-                  </div>
-                }
+            @if (inviteEmailInvalid()) {
+              <div class="invite-email-error">
+                <ds-icon name="alert" [size]="12" class="warn-icon" />
+                {{ 'onboarding.invite.emailError' | translate }}
               </div>
-            } @else {
-              <div class="invite-empty">{{ 'onboarding.invite.empty' | translate }}</div>
             }
 
-            <div class="role-desc-grid">
-              @for (r of roles; track r.id) {
-                <div class="role-desc">
-                  <span class="role-desc__name">{{ r.labelKey | translate }}</span>
-                  <span class="role-desc__text">{{ r.descKey | translate }}</span>
+            <!-- Pending invites card — always visible -->
+            <div class="invite-list">
+              <div class="invite-list__header">
+                <div class="invite-list__header-left">
+                  <span class="invite-list__label">{{ 'onboarding.invite.pending' | translate }}</span>
+                  <ds-tag tone="neutral">{{ invites().length }}</ds-tag>
+                </div>
+                <ds-button variant="ghost" size="sm" [icon]="inviteLinkCopied() ? 'check' : 'copy'"
+                  (click)="copyInviteLink()" (keydown.enter)="copyInviteLink()">
+                  {{ 'onboarding.invite.copyLink' | translate }}
+                </ds-button>
+              </div>
+              @if (invites().length === 0) {
+                <div class="invite-empty">{{ 'onboarding.invite.empty' | translate }}</div>
+              }
+              @for (inv of invites(); track inv.email; let i = $index) {
+                <div class="invite-item" [class.invite-item--last]="i === invites().length - 1">
+                  <div class="invite-item__avatar">{{ inv.email.slice(0, 2).toUpperCase() }}</div>
+                  <div class="invite-item__email mono">{{ inv.email }}</div>
+                  <div class="invite-item__role">{{ ('onboarding.role.' + inv.role) | translate }}</div>
+                  <ds-tag
+                    [tone]="inv.status === 'sent' ? 'ok' : 'neutral'"
+                    [icon]="inv.status === 'sent' ? 'check' : 'clock'">
+                    {{ (inv.status === 'sent' ? 'onboarding.invite.statusSent' : 'onboarding.invite.statusDraft') | translate }}
+                  </ds-tag>
+                  <button class="invite-item__more" type="button"
+                    (click)="removeInvite(inv.email)" aria-label="Remove">
+                    <ds-icon name="x" [size]="13" [stroke]="2" />
+                  </button>
                 </div>
               }
             </div>
 
-            <div class="auto-invite-row">
-              <div class="auto-invite-row__label">{{ 'onboarding.invite.autoLabel' | translate }}</div>
+            <!-- Role description cards -->
+            <div class="role-desc-grid">
+              @for (r of roles; track r.id) {
+                <div class="role-desc-card">
+                  <div class="role-desc-card__name display">{{ r.labelKey | translate }}</div>
+                  <div class="role-desc-card__desc">{{ r.descKey | translate }}</div>
+                </div>
+              }
+            </div>
+
+            <!-- Auto-invite info card -->
+            <div class="auto-invite-card">
+              <ds-icon name="shield" [size]="16" class="auto-invite-card__icon" />
+              <div class="auto-invite-card__body">
+                <div class="auto-invite-card__title">
+                  {{ 'onboarding.invite.autoTitle' | translate }}
+                  <span class="mono">{{ autoInviteDomain() }}</span>
+                </div>
+                <div class="auto-invite-card__desc">{{ 'onboarding.invite.autoDesc' | translate }}</div>
+              </div>
               <button
                 class="toggle"
                 type="button"
@@ -479,12 +538,15 @@
               </button>
             </div>
 
-            <div class="main__nav">
+            <!-- Nav: Skip left · Back + Continue right -->
+            <div class="main__nav" style="margin-top:32px">
               <ds-button variant="ghost" size="md"
-                (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
+                (click)="next()" (keydown.enter)="next()">
+                {{ 'onboarding.invite.skip' | translate }}
+              </ds-button>
               <div class="main__nav-right">
                 <ds-button variant="ghost" size="md"
-                  (click)="next()" (keydown.enter)="next()">{{ 'onboarding.skip' | translate }}</ds-button>
+                  (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
                 <ds-button variant="primary" size="md" iconRight="arrow"
                   (click)="next()" (keydown.enter)="next()">
                   {{ 'onboarding.continue' | translate }}
@@ -498,74 +560,96 @@
             <h1 class="main__title display">{{ 'onboarding.alerts.title' | translate }}</h1>
             <p class="main__lead">{{ 'onboarding.alerts.lead' | translate }}</p>
 
-            <div class="section-label">{{ 'onboarding.alerts.rulesLabel' | translate }}</div>
-            <div class="alert-rules">
-              @for (rule of alertRules(); track rule.id) {
-                <div class="alert-rule">
-                  <div class="alert-rule__info">
-                    <ds-icon name="alert" [size]="15" class="warn-icon" />
-                    <span>{{ rule.labelKey | translate }}</span>
+            <!-- Alert rules -->
+            <div class="alerts-section">
+              <div class="section-label2">{{ 'onboarding.alerts.rulesLabel' | translate }}</div>
+              <div class="alert-rules">
+                @for (rule of alertRules(); track rule.id) {
+                  <div class="alert-rule">
+                    <ds-dot [tone]="rule.tone" [size]="10" [pulse]="rule.enabled && rule.tone === 'crit'" />
+                    <div class="alert-rule__body">
+                      <div class="alert-rule__title">{{ rule.titleKey | translate }}</div>
+                      <div class="alert-rule__hint">{{ rule.hintKey | translate }}</div>
+                    </div>
+                    <button class="toggle" type="button"
+                      [class.toggle--on]="rule.enabled"
+                      (click)="toggleAlert(rule.id)"
+                      [attr.aria-checked]="rule.enabled"
+                      role="switch">
+                      <span class="toggle__thumb"></span>
+                    </button>
                   </div>
-                  <button
-                    class="toggle"
-                    type="button"
-                    [class.toggle--on]="rule.enabled"
-                    (click)="toggleAlert(rule.id)"
-                    [attr.aria-checked]="rule.enabled"
-                    role="switch"
-                  >
-                    <span class="toggle__thumb"></span>
-                  </button>
-                </div>
-              }
-            </div>
-
-            <div class="section-label" style="margin-top:24px">{{ 'onboarding.alerts.channelsLabel' | translate }}</div>
-            <div class="channel-grid">
-              @for (ch of channels(); track ch.id) {
-                <button
-                  class="channel-card"
-                  type="button"
-                  [class.channel-card--active]="ch.active"
-                  [class.channel-card--disabled]="ch.disabled"
-                  [disabled]="ch.disabled"
-                  (click)="toggleChannel(ch.id)"
-                >
-                  <ds-icon [name]="ch.icon" [size]="20" />
-                  <div class="channel-card__name">{{ ch.labelKey | translate }}</div>
-                  @if (ch.connected) {
-                    <div class="channel-card__badge ok-text">{{ 'onboarding.connected' | translate }}</div>
-                  } @else if (ch.disabled) {
-                    <div class="channel-card__badge muted">{{ 'onboarding.channelDisabled' | translate }}</div>
-                  }
-                </button>
-              }
-            </div>
-
-            <div class="quiet-hours-row">
-              <div>
-                <div class="quiet-hours-row__label">{{ 'onboarding.alerts.quietHoursLabel' | translate }}</div>
-                <div class="quiet-hours-row__sub muted">{{ 'onboarding.alerts.quietHoursDesc' | translate }}</div>
+                }
               </div>
-              <button
-                class="toggle"
-                type="button"
+            </div>
+
+            <!-- Channels -->
+            <div class="alerts-section">
+              <div class="channels-header">
+                <div class="section-label2">{{ 'onboarding.alerts.channelsLabel' | translate }}</div>
+                <span class="channels-count">
+                  {{ 'onboarding.alerts.connectedCount' | translate : { n: connectedCount(), total: channels().length } }}
+                </span>
+              </div>
+              <div class="channel-grid">
+                @for (ch of channels(); track ch.id) {
+                  <div class="channel-card"
+                    [class.channel-card--connected]="ch.connected"
+                    [class.channel-card--disabled]="ch.disabled">
+                    @if (ch.tag) {
+                      <ds-tag tone="accent" class="channel-card__tag">{{ ch.tag | translate }}</ds-tag>
+                    }
+                    <div class="channel-card__top">
+                      <div class="channel-card__icon-wrap"
+                        [class.channel-card__icon-wrap--connected]="ch.connected">
+                        <ds-icon [name]="ch.icon" [size]="16" />
+                      </div>
+                      <div class="channel-card__info">
+                        <div class="channel-card__name display">{{ ch.labelKey | translate }}</div>
+                        <div class="channel-card__desc mono">{{ ch.descKey | translate }}</div>
+                      </div>
+                    </div>
+                    <div class="channel-card__footer">
+                      @if (ch.connected) {
+                        <ds-tag tone="ok" icon="check">{{ 'onboarding.channel.connected' | translate }}</ds-tag>
+                        <a class="channel-card__configure">{{ 'onboarding.alerts.configure' | translate }}</a>
+                      } @else {
+                        <ds-button variant="secondary" size="sm" [full]="true" [disabled]="ch.disabled">
+                          {{ (ch.disabled ? 'onboarding.alerts.comingSoon' : 'onboarding.alerts.connect') | translate }}
+                        </ds-button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Quiet hours card -->
+            <div class="quiet-hours-card">
+              <ds-icon name="clock" [size]="18" class="quiet-hours-card__icon" />
+              <div class="quiet-hours-card__body">
+                <div class="quiet-hours-card__title">{{ 'onboarding.alerts.quietHoursLabel' | translate }}</div>
+                <div class="quiet-hours-card__desc">{{ 'onboarding.alerts.quietHoursDesc' | translate }}</div>
+              </div>
+              <button class="toggle" type="button"
                 [class.toggle--on]="quietHours()"
                 (click)="quietHours.set(!quietHours())"
                 [attr.aria-checked]="quietHours()"
-                role="switch"
-              >
+                role="switch">
                 <span class="toggle__thumb"></span>
               </button>
             </div>
 
-            <div class="main__nav">
+            <!-- Nav -->
+            <div class="main__nav" style="margin-top:32px">
               <ds-button variant="ghost" size="md"
-                (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
+                (click)="next()" (keydown.enter)="next()">
+                {{ 'onboarding.alerts.skip' | translate }}
+              </ds-button>
               <div class="main__nav-right">
                 <ds-button variant="ghost" size="md"
-                  (click)="next()" (keydown.enter)="next()">{{ 'onboarding.skip' | translate }}</ds-button>
-                <ds-button variant="primary" size="md" iconRight="arrow"
+                  (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
+                <ds-button variant="primary" size="md" iconRight="check"
                   (click)="next()" (keydown.enter)="next()">
                   {{ 'onboarding.alerts.finish' | translate }}
                 </ds-button>

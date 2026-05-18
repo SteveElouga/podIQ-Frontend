@@ -15,7 +15,7 @@ import {
   Play, RefreshCw, ListFilter, Code, Layers, Settings,
   Download, Upload, Moon, Sun, SlidersHorizontal, Activity,
   Folder, Pause, Trash2, Link, ExternalLink, Terminal,
-  Pencil, House, Mail, MessageSquare, Slack,
+  Pencil, House, Mail, MessageSquare, Slack, Ellipsis,
 } from 'lucide-angular';
 import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
@@ -56,7 +56,8 @@ export const appConfig: ApplicationConfig = {
         Play, RefreshCw, ListFilter, Code, Layers, Settings,
         Download, Upload, Moon, Sun, SlidersHorizontal, Activity,
         Folder, Pause, Trash2, Link, ExternalLink, Terminal,
-        Pencil, House, Mail, MessageSquare, Slack,
+        Pencil, House, Mail, MessageSquare, Slack, Ellipsis,
+        More: Ellipsis,
       }),
     },
   ],

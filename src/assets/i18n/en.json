@@ -110,7 +110,7 @@
     "getStarted": "Get started",
     "stepOf": "Step {{n}} of {{total}}",
     "title": "Connect your first cluster",
-    "lead": "PodIQ runs as a lightweight agent in your cluster. It reads pod events and logs — no exec into containers, no port-forward, no surprises. Pick how you want to install it:",
+    "lead": "PodIQ runs as a lightweight agent in your cluster. It reads pod events and logs, no exec into containers, no port-forward, no surprises. Pick how you want to install it:",
     "installLabel": "install.sh — copy and run in your terminal",
     "copy": "Copy",
     "copied": "Copied",

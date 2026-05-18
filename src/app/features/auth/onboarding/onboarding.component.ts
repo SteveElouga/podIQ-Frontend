@@ -4,10 +4,12 @@ import { Router, RouterLink } from '@angular/router';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
   DsIconComponent,
+  DsDotComponent,
   DsButtonComponent,
   DsLangSwitcherComponent,
   DsTagComponent,
 } from '@shared/design-system';
+import { DotTone } from '@shared/design-system/tokens';
 
 export type InstallMethod = 'helm' | 'kubectl' | 'terraform';
 export type PlanId       = 'free' | 'pro' | 'ent';
@@ -15,9 +17,9 @@ export type TeamSize     = 'solo' | 'small' | 'mid' | 'large';
 export type Region       = 'eu' | 'us' | 'ap';
 export type InviteRole   = 'admin' | 'member' | 'viewer';
 
-interface Invite  { email: string; role: InviteRole; }
-interface AlertRule { id: string; labelKey: string; enabled: boolean; }
-interface Channel { id: string; icon: string; labelKey: string; connected: boolean; active: boolean; disabled: boolean; }
+interface Invite  { email: string; role: InviteRole; status: 'sent' | 'draft'; }
+interface AlertRule { id: string; titleKey: string; hintKey: string; tone: DotTone; enabled: boolean; }
+interface Channel   { id: string; icon: string; labelKey: string; descKey: string; connected: boolean; disabled: boolean; tag?: string; }
 
 interface Plan {
   id: PlanId;
@@ -37,6 +39,7 @@ interface Plan {
     RouterLink,
     TranslatePipe,
     DsIconComponent,
+    DsDotComponent,
     DsButtonComponent,
     DsLangSwitcherComponent,
     DsTagComponent,
@@ -209,8 +212,21 @@ kubectl get pods -n podiq-system`;
   // ── Step 4: Invite team ───────────────────────────────────────
   inviteEmail = signal('');
   inviteRole  = signal<InviteRole>('member');
-  invites     = signal<Invite[]>([]);
+  invites     = signal<Invite[]>([
+    { email: 'marie@acme.io',  role: 'admin',  status: 'sent'  },
+    { email: 'jp@acme.io',     role: 'member', status: 'sent'  },
+    { email: 'sora.k@acme.io', role: 'member', status: 'draft' },
+  ]);
   autoInvite  = signal(false);
+
+  autoInviteDomain = computed(() => {
+    const first = this.invites()[0];
+    if (first) {
+      const at = first.email.indexOf('@');
+      if (at > 0) return first.email.slice(at);
+    }
+    return '@your-domain.io';
+  });
 
   readonly roles: { id: InviteRole; labelKey: string; descKey: string }[] = [
     { id: 'admin',  labelKey: 'onboarding.role.admin',  descKey: 'onboarding.role.adminDesc' },
@@ -218,35 +234,58 @@ kubectl get pods -n podiq-system`;
     { id: 'viewer', labelKey: 'onboarding.role.viewer', descKey: 'onboarding.role.viewerDesc' },
   ];
 
+  inviteEmailInvalid = signal(false);
+  inviteLinkCopied   = signal(false);
+
+  private readonly EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   addInvite(): void {
     const email = this.inviteEmail().trim();
-    if (!email) return;
-    this.invites.update(list => [...list, { email, role: this.inviteRole() }]);
+    if (!email || !this.EMAIL_RE.test(email)) {
+      this.inviteEmailInvalid.set(true);
+      return;
+    }
+    this.inviteEmailInvalid.set(false);
+    this.invites.update(list => [...list, { email, role: this.inviteRole(), status: 'draft' }]);
     this.inviteEmail.set('');
+  }
+
+  clearInviteError(): void {
+    if (this.inviteEmailInvalid()) this.inviteEmailInvalid.set(false);
   }
 
   removeInvite(email: string): void {
     this.invites.update(list => list.filter(i => i.email !== email));
   }
 
+  copyInviteLink(): void {
+    const link = `https://app.podiq.io/join/${this.urlSlug() || 'your-workspace'}`;
+    navigator.clipboard.writeText(link).then(() => {
+      this.inviteLinkCopied.set(true);
+      setTimeout(() => this.inviteLinkCopied.set(false), 2000);
+    });
+  }
+
   // ── Step 5: Wire up alerts ────────────────────────────────────
   alertRules = signal<AlertRule[]>([
-    { id: 'crash',     labelKey: 'onboarding.alert.crash',     enabled: true  },
-    { id: 'memory',    labelKey: 'onboarding.alert.memory',    enabled: true  },
-    { id: 'predeploy', labelKey: 'onboarding.alert.predeploy', enabled: false },
-    { id: 'fix',       labelKey: 'onboarding.alert.fix',       enabled: true  },
+    { id: 'crash',     titleKey: 'onboarding.alert.crash',     hintKey: 'onboarding.alert.crashHint',     tone: 'crit',   enabled: true  },
+    { id: 'memory',    titleKey: 'onboarding.alert.memory',    hintKey: 'onboarding.alert.memoryHint',    tone: 'warn',   enabled: true  },
+    { id: 'predeploy', titleKey: 'onboarding.alert.predeploy', hintKey: 'onboarding.alert.predeployHint', tone: 'info',   enabled: true  },
+    { id: 'fix',       titleKey: 'onboarding.alert.fix',       hintKey: 'onboarding.alert.fixHint',       tone: 'accent', enabled: false },
   ]);
 
   channels = signal<Channel[]>([
-    { id: 'slack',     icon: 'slack',   labelKey: 'onboarding.channel.slack',     connected: true,  active: true,  disabled: false },
-    { id: 'pagerduty', icon: 'bell',    labelKey: 'onboarding.channel.pagerduty', connected: true,  active: false, disabled: false },
-    { id: 'email',     icon: 'mail',    labelKey: 'onboarding.channel.email',     connected: false, active: false, disabled: false },
-    { id: 'webhook',   icon: 'code',    labelKey: 'onboarding.channel.webhook',   connected: false, active: false, disabled: false },
-    { id: 'teams',     icon: 'message', labelKey: 'onboarding.channel.teams',     connected: false, active: false, disabled: true  },
-    { id: 'discord',   icon: 'message', labelKey: 'onboarding.channel.discord',   connected: false, active: false, disabled: false },
+    { id: 'slack',     icon: 'git',   labelKey: 'onboarding.channel.slack',     descKey: 'onboarding.channel.slackDesc',     connected: true,  disabled: false, tag: 'onboarding.channel.recommended' },
+    { id: 'pagerduty', icon: 'alert', labelKey: 'onboarding.channel.pagerduty', descKey: 'onboarding.channel.pagerdutyDesc', connected: true,  disabled: false },
+    { id: 'email',     icon: 'user',  labelKey: 'onboarding.channel.email',     descKey: 'onboarding.channel.emailDesc',     connected: false, disabled: false },
+    { id: 'webhook',   icon: 'code',  labelKey: 'onboarding.channel.webhook',   descKey: 'onboarding.channel.webhookDesc',   connected: false, disabled: false },
+    { id: 'teams',     icon: 'cube',  labelKey: 'onboarding.channel.teams',     descKey: 'onboarding.channel.teamsDesc',     connected: false, disabled: true  },
+    { id: 'discord',   icon: 'play',  labelKey: 'onboarding.channel.discord',   descKey: 'onboarding.channel.discordDesc',   connected: false, disabled: false },
   ]);
 
-  quietHours = signal(false);
+  connectedCount = computed(() => this.channels().filter(c => c.connected).length);
+
+  quietHours = signal(true);
 
   toggleAlert(id: string): void {
     this.alertRules.update(rules =>
@@ -254,24 +293,18 @@ kubectl get pods -n podiq-system`;
     );
   }
 
-  toggleChannel(id: string): void {
-    this.channels.update(chs =>
-      chs.map(c => c.id === id ? { ...c, active: !c.active } : c)
-    );
-  }
-
   // ── Complete ──────────────────────────────────────────────────
-  readonly summaryCards: { icon: string; titleKey: string; subKey: string }[] = [
-    { icon: 'home',    titleKey: 'onboarding.complete.workspace', subKey: 'onboarding.complete.workspaceSub' },
-    { icon: 'cube',    titleKey: 'onboarding.complete.cluster',   subKey: 'onboarding.complete.clusterSub'   },
-    { icon: 'users',   titleKey: 'onboarding.complete.team',      subKey: 'onboarding.complete.teamSub'      },
-    { icon: 'bell',    titleKey: 'onboarding.complete.alerts',    subKey: 'onboarding.complete.alertsSub'    },
+  readonly summaryCards: { icon: string; labelKey: string; valueKey: string }[] = [
+    { icon: 'cube',  labelKey: 'onboarding.complete.workspace', valueKey: 'onboarding.complete.workspaceValue' },
+    { icon: 'git',   labelKey: 'onboarding.complete.cluster',   valueKey: 'onboarding.complete.clusterValue'   },
+    { icon: 'user',  labelKey: 'onboarding.complete.team',      valueKey: 'onboarding.complete.teamValue'      },
+    { icon: 'alert', labelKey: 'onboarding.complete.alerts',    valueKey: 'onboarding.complete.alertsValue'    },
   ];
 
-  readonly nextActions: string[] = [
-    'onboarding.complete.action0',
-    'onboarding.complete.action1',
-    'onboarding.complete.action2',
+  readonly nextActions: { icon: string; titleKey: string; subKey: string }[] = [
+    { icon: 'shield', titleKey: 'onboarding.complete.action0Title', subKey: 'onboarding.complete.action0Sub' },
+    { icon: 'git',    titleKey: 'onboarding.complete.action1Title', subKey: 'onboarding.complete.action1Sub' },
+    { icon: 'clock',  titleKey: 'onboarding.complete.action2Title', subKey: 'onboarding.complete.action2Sub' },
   ];
 
   private readonly router = inject(Router);

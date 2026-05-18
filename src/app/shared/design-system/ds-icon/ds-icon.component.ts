@@ -60,6 +60,7 @@ const ICON_MAP: Record<string, string> = {
   mail:         'mail',
   message:      'message-square',
   slack:        'slack',
+  more:         'more',
 };
 
 @Component({
