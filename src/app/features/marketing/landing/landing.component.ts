@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import {
@@ -30,4 +30,12 @@ export class LandingComponent {
   ];
 
   readonly logoNames = ['MERIDIAN', 'northwind/', 'Cobalt·', 'fjord', 'MICA labs', '↗ uplift', 'vector'];
+
+  showDemo = signal(false);
+
+  openDemo(): void  { this.showDemo.set(true); }
+  closeDemo(): void { this.showDemo.set(false); }
+
+  @HostListener('document:keydown.escape')
+  onEsc(): void { this.closeDemo(); }
 }

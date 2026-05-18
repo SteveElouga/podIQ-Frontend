@@ -26,13 +26,16 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/auth/register/register.component').then(m => m.RegisterComponent),
       },
-      {
-        path: 'onboarding',
-        loadComponent: () =>
-          import('./features/auth/onboarding/onboarding.component').then(m => m.OnboardingComponent),
-      },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
     ],
+  },
+
+  // Onboarding — authenticated only, accessible après signup et depuis le dashboard
+  {
+    path: 'auth/onboarding',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/auth/onboarding/onboarding.component').then(m => m.OnboardingComponent),
   },
 
   {

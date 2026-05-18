@@ -35,7 +35,7 @@
       <p class="hero__lead">{{ 'landing.hero.lead' | translate }}</p>
       <div class="hero__cta">
         <ds-button variant="primary"   size="lg" iconRight="arrow" routerLink="/auth/register">{{ 'landing.hero.cta1' | translate }}</ds-button>
-        <ds-button variant="secondary" size="lg" icon="play">{{ 'landing.hero.cta2' | translate }}</ds-button>
+        <ds-button variant="secondary" size="lg" icon="play" (click)="openDemo()" (keydown.enter)="openDemo()">{{ 'landing.hero.cta2' | translate }}</ds-button>
       </div>
       <div class="hero__trust">
         @for (b of trustBadges; track b.labelKey) {
@@ -152,7 +152,7 @@
       </div>
       <div class="cta-banner__actions">
         <ds-button variant="primary" size="lg" iconRight="arrow" routerLink="/auth/register">{{ 'landing.cta.connect' | translate }}</ds-button>
-        <button class="btn-outline-white">{{ 'landing.cta.demo' | translate }}</button>
+        <button class="btn-outline-white" (click)="openDemo()" (keydown.enter)="openDemo()">{{ 'landing.cta.demo' | translate }}</button>
       </div>
     </div>
   </section>
@@ -169,3 +169,23 @@
   </footer>
 
 </div>
+
+<!-- ── Demo video modal ───────────────────────────────────── -->
+@if (showDemo()) {
+  <dialog
+    class="demo-dialog"
+    open
+    aria-label="Démonstration PodIQ"
+    (click)="closeDemo()"
+    (keydown.escape)="closeDemo()"
+  >
+    <div class="demo-modal" (click)="$event.stopPropagation()" (keydown)="$event.stopPropagation()">
+      <button class="demo-modal__close" type="button" aria-label="Fermer" (click)="closeDemo()">
+        <ds-icon name="x" [size]="16" [stroke]="2" />
+      </button>
+      <video class="demo-modal__video" src="/videos/demo.mov" controls autoplay playsinline>
+        <track kind="captions" src="" default />
+      </video>
+    </div>
+  </dialog>
+}
