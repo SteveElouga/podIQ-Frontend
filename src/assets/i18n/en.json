@@ -108,9 +108,9 @@
   },
   "onboarding": {
     "getStarted": "Get started",
-    "stepIndicator": "Step 2 of 4",
+    "stepOf": "Step {{n}} of {{total}}",
     "title": "Connect your first cluster",
-    "lead": "PodIQ runs as a lightweight agent in your cluster. It reads pod events and logs — no exec into containers, no port-forward, no surprises. Pick how you want to install it:",
+    "lead": "PodIQ runs as a lightweight agent in your cluster. It reads pod events and logs, no exec into containers, no port-forward, no surprises. Pick how you want to install it:",
     "installLabel": "install.sh — copy and run in your terminal",
     "copy": "Copy",
     "copied": "Copied",
@@ -122,16 +122,142 @@
     "readOnly": "Read-only by default",
     "skip": "Skip for now",
     "inProgress": "in progress",
+    "connected": "connected",
+    "channelDisabled": "coming soon",
     "steps": {
       "0": "Workspace",
-      "1": "Connect cluster",
-      "2": "Invite team",
-      "3": "Wire up alerts"
+      "1": "Choose plan",
+      "2": "Connect cluster",
+      "3": "Invite team",
+      "4": "Wire up alerts"
     },
     "methods": {
       "0": { "title": "Helm chart",    "desc": "Recommended" },
       "1": { "title": "kubectl apply", "desc": "One-shot YAML" },
       "2": { "title": "Terraform",     "desc": "GitOps-friendly" }
+    },
+    "workspace": {
+      "title": "Name your workspace",
+      "lead": "This is where your team will collaborate on incidents and deploys. You can rename it anytime from settings.",
+      "nameLabel": "Workspace name",
+      "namePlaceholder": "Acme Platform",
+      "nameHint": "Lowercase letters, numbers, and dashes.",
+      "slugLabel": "URL slug",
+      "iconLabel": "Workspace icon",
+      "accentLabel": "Accent color",
+      "accentHint": "Used for highlights and the workspace logo background.",
+      "teamSizeLabel": "How big is your team?",
+      "regionLabel": "Data residency",
+      "regionNote": "Data residency is permanent. Contact us to migrate later."
+    },
+    "teamSize": {
+      "solo":  "Just me",
+      "small": "2 – 10",
+      "mid":   "11 – 50",
+      "large": "50+"
+    },
+    "region": {
+      "eu":    "EU · Frankfurt",
+      "euSub": "GDPR · default",
+      "us":    "US · Virginia",
+      "usSub": "SOC2 II",
+      "ap":    "AP · Singapore",
+      "apSub": "SOC2 II"
+    },
+    "billing": {
+      "legend":  "Billing cycle",
+      "monthly": "Monthly",
+      "annual":  "Annual",
+      "save":    "Save 20%"
+    },
+    "plan": {
+      "title":       "Choose your plan",
+      "lead":        "Start free, upgrade when your team grows.",
+      "perMonth":    "/ mo",
+      "trialBanner": "All Pro features free for 14 days — no credit card required.",
+      "free": {
+        "name": "Free",
+        "sub":  "1 cluster · 50 pods · community support",
+        "f0":   "Memory engine (last 30 days)",
+        "f1":   "3 alert rules",
+        "f2":   "Community support"
+      },
+      "pro": {
+        "name": "Pro",
+        "tag":  "Most popular",
+        "sub":  "10 clusters · unlimited pods",
+        "f0":   "Full memory history",
+        "f1":   "Unlimited alert rules",
+        "f2":   "Slack + PagerDuty",
+        "f3":   "Priority support"
+      },
+      "ent": {
+        "name": "Enterprise",
+        "sub":  "Unlimited clusters · SSO · SLA",
+        "f0":   "Everything in Pro",
+        "f1":   "SAML / OIDC SSO",
+        "f2":   "Audit logs",
+        "f3":   "Dedicated SLA"
+      }
+    },
+    "invite": {
+      "title":            "Invite your team",
+      "lead":             "Add teammates now or skip and do it later from settings.",
+      "emailLabel":       "Teammate email",
+      "roleLabel":        "Role",
+      "emailPlaceholder": "colleague@acme.io",
+      "add":              "Add",
+      "pending":          "Pending invites",
+      "empty":            "No invites yet — add teammates above.",
+      "autoLabel":        "Auto-invite teammates with matching email domain"
+    },
+    "role": {
+      "admin":      "Admin",
+      "adminDesc":  "Full access, billing, invite members",
+      "member":     "Member",
+      "memberDesc": "View and manage incidents",
+      "viewer":     "Viewer",
+      "viewerDesc": "Read-only access"
+    },
+    "alerts": {
+      "title":           "Wire up alerts",
+      "lead":            "Choose which conditions trigger notifications and where to send them.",
+      "rulesLabel":      "Alert conditions",
+      "channelsLabel":   "Notification channels",
+      "quietHoursLabel": "Quiet hours",
+      "quietHoursDesc":  "Suppress non-critical alerts between 11 pm – 7 am",
+      "finish":          "Finish setup"
+    },
+    "alert": {
+      "crash":     "CrashLoopBackOff detected",
+      "memory":    "Memory saturation > 90%",
+      "predeploy": "Pre-deploy scan blocked",
+      "fix":       "Automated fix available"
+    },
+    "channel": {
+      "slack":     "Slack",
+      "pagerduty": "PagerDuty",
+      "email":     "Email",
+      "webhook":   "Webhook",
+      "teams":     "Teams",
+      "discord":   "Discord"
+    },
+    "complete": {
+      "title":         "You're all set.",
+      "sub":           "Your workspace is live. Here's what's ready:",
+      "workspace":     "Workspace",
+      "workspaceSub":  "Created and configured",
+      "cluster":       "Cluster",
+      "clusterSub":    "Agent deployed",
+      "team":          "Team",
+      "teamSub":       "Invites sent",
+      "alerts":        "Alerts",
+      "alertsSub":     "Rules active",
+      "nextActions":   "What to do next",
+      "action0":       "Watch the 3-minute walkthrough",
+      "action1":       "Browse the incident history",
+      "action2":       "Set up a pre-deploy scan hook",
+      "goToDashboard": "Go to dashboard"
     }
   },
   "register": {

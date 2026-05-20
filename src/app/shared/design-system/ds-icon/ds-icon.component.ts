@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { LucideAngularModule } from 'lucide-angular';
 
 export interface DsIconConfig {
@@ -31,6 +31,8 @@ const ICON_MAP: Record<string, string> = {
   shield:       'shield',
   key:          'key',
   user:         'user',
+  users:        'users',
+  home:         'house',
   bolt:         'zap',
   alert:        'triangle-alert',
   eye:          'eye',
@@ -52,37 +54,33 @@ const ICON_MAP: Record<string, string> = {
   pause:        'pause',
   trash:        'trash-2',
   link:         'link',
+  edit:         'pencil',
   externalLink: 'external-link',
   terminal:     'terminal',
+  mail:         'mail',
+  message:      'message-square',
+  slack:        'slack',
+  more:         'more',
 };
 
 @Component({
   selector: 'ds-icon',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [LucideAngularModule],
   template: `
     <lucide-angular
-      [name]="lucideName"
-      [size]="size"
-      [strokeWidth]="stroke"
-      [color]="color"
+      [name]="lucideName()"
+      [size]="size()"
+      [strokeWidth]="stroke()"
+      [color]="color()"
     />
   `,
 })
 export class DsIconComponent {
-  @Input() name:   string = DS_ICON_DEFAULTS.name;
-  @Input() size:   number = DS_ICON_DEFAULTS.size;
-  @Input() stroke: number = DS_ICON_DEFAULTS.stroke;
-  @Input() color:  string = DS_ICON_DEFAULTS.color;
+  readonly name   = input(DS_ICON_DEFAULTS.name);
+  readonly size   = input(DS_ICON_DEFAULTS.size);
+  readonly stroke = input(DS_ICON_DEFAULTS.stroke);
+  readonly color  = input(DS_ICON_DEFAULTS.color);
 
-  @Input() set config(cfg: Partial<DsIconConfig>) {
-    if (cfg.name   !== undefined) this.name   = cfg.name;
-    if (cfg.size   !== undefined) this.size   = cfg.size;
-    if (cfg.stroke !== undefined) this.stroke = cfg.stroke;
-    if (cfg.color  !== undefined) this.color  = cfg.color;
-  }
-
-  get lucideName(): string {
-    return ICON_MAP[this.name] ?? this.name;
-  }
+  readonly lucideName = computed(() => ICON_MAP[this.name()] ?? this.name());
 }
