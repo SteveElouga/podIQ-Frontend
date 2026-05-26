@@ -1,8 +1,8 @@
 <div [class]="'ds-banner ds-banner--' + variant()">
   @if (resolvedIcon()) {
-    <span class="ds-banner__icon">
-      <ds-icon [name]="resolvedIcon()!" [size]="iconSize()" />
-    </span>
+  <span class="ds-banner__icon">
+    <ds-icon [name]="resolvedIcon()!" [size]="iconSize()" />
+  </span>
   }
   <div class="ds-banner__body">
     <ng-content />

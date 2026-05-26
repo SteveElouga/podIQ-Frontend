@@ -13,7 +13,7 @@ export type { DsBannerConfig, BannerVariant } from './ds-banner.config';
 })
 export class DsBannerComponent {
   readonly variant = input(DS_BANNER_DEFAULTS.variant);
-  readonly icon    = input<string | null | undefined>(DS_BANNER_DEFAULTS.icon);
+  readonly icon = input<string | null | undefined>(DS_BANNER_DEFAULTS.icon);
 
   readonly resolvedIcon = computed(() => {
     const explicit = this.icon();
@@ -22,6 +22,6 @@ export class DsBannerComponent {
     return BANNER_DEFAULT_ICON[this.variant()];
   });
 
-  readonly iconSize  = computed(() => 16);
+  readonly iconSize = computed(() => 16);
   readonly iconClass = computed(() => '');
 }

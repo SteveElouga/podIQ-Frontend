@@ -16,5 +16,5 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 })
 export class DsDividerComponent {
   readonly label = input<string>();
-  readonly caps  = input(true);
+  readonly caps = input(true);
 }

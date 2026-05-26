@@ -3,10 +3,10 @@ import { ToastService, Toast } from '../../../core/services/toast.service';
 import { DsIconComponent } from '../ds-icon/ds-icon.component';
 
 const TONE_META: Record<string, { icon: string; color: string; bg: string; border: string }> = {
-  ok:   { icon: 'check',  color: 'var(--ok)',   bg: 'var(--ok-soft)',   border: 'var(--ok)' },
-  warn: { icon: 'alert',  color: 'var(--warn)',  bg: 'var(--warn-soft)', border: 'var(--warn)' },
-  crit: { icon: 'alert',  color: 'var(--crit)',  bg: 'var(--crit-soft)', border: 'var(--crit)' },
-  info: { icon: 'bolt',   color: 'var(--info)',  bg: 'var(--info-soft)', border: 'var(--info)' },
+  ok: { icon: 'check', color: 'var(--ok)', bg: 'var(--ok-soft)', border: 'var(--ok)' },
+  warn: { icon: 'alert', color: 'var(--warn)', bg: 'var(--warn-soft)', border: 'var(--warn)' },
+  crit: { icon: 'alert', color: 'var(--crit)', bg: 'var(--crit-soft)', border: 'var(--crit)' },
+  info: { icon: 'bolt', color: 'var(--info)', bg: 'var(--info-soft)', border: 'var(--info)' },
 };
 
 @Component({

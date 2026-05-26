@@ -22,7 +22,9 @@
     width: 64px;
 
     .logo-text,
-    span:not(.logo-icon) { display: none; }
+    span:not(.logo-icon) {
+      display: none;
+    }
   }
 }
 
@@ -89,7 +91,11 @@
       border-right: 3px solid var(--primary-color);
     }
 
-    i { font-size: 1rem; width: 1rem; flex-shrink: 0; }
+    i {
+      font-size: 1rem;
+      width: 1rem;
+      flex-shrink: 0;
+    }
   }
 }
 
@@ -97,7 +103,8 @@
   border-top: 1px solid var(--surface-border);
   padding: 0.5rem 0;
 
-  a, .logout-btn {
+  a,
+  .logout-btn {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -118,9 +125,15 @@
       color: var(--text-color);
     }
 
-    &.active { color: var(--primary-color); }
+    &.active {
+      color: var(--primary-color);
+    }
 
-    i { font-size: 1rem; width: 1rem; flex-shrink: 0; }
+    i {
+      font-size: 1rem;
+      width: 1rem;
+      flex-shrink: 0;
+    }
   }
 }
 

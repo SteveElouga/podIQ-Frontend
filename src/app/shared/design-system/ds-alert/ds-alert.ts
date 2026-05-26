@@ -12,9 +12,9 @@ export type { DsAlertConfig, AlertTone, AlertVariant } from './ds-alert.config';
   styleUrl: './ds-alert.scss',
 })
 export class DsAlertComponent {
-  readonly tone    = input(DS_ALERT_DEFAULTS.tone);
+  readonly tone = input(DS_ALERT_DEFAULTS.tone);
   readonly variant = input(DS_ALERT_DEFAULTS.variant);
-  readonly icon    = input<string | null | undefined>(DS_ALERT_DEFAULTS.icon);
+  readonly icon = input<string | null | undefined>(DS_ALERT_DEFAULTS.icon);
 
   readonly resolvedIcon = computed(() => {
     const explicit = this.icon();

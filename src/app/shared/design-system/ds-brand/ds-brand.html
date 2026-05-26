@@ -1,19 +1,16 @@
 @if (link()) {
-  <a
-    [class]="'ds-brand ds-brand--' + size()"
-    [routerLink]="link()!"
-  >
-    <ng-container *ngTemplateOutlet="brandContent" />
-  </a>
+<a [class]="'ds-brand ds-brand--' + size()" [routerLink]="link()!">
+  <ng-container *ngTemplateOutlet="brandContent" />
+</a>
 } @else {
-  <div [class]="'ds-brand ds-brand--' + size()">
-    <ng-container *ngTemplateOutlet="brandContent" />
-  </div>
+<div [class]="'ds-brand ds-brand--' + size()">
+  <ng-container *ngTemplateOutlet="brandContent" />
+</div>
 }
 
 <ng-template #brandContent>
   <span class="ds-brand__mark display">{{ mark() }}</span>
   @if (showName()) {
-    <span class="ds-brand__name display">{{ name() }}</span>
+  <span class="ds-brand__name display">{{ name() }}</span>
   }
 </ng-template>

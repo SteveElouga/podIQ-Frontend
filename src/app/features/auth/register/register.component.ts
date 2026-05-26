@@ -56,19 +56,19 @@ interface Feature {
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  private readonly auth   = inject(AuthService);
+  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly fb     = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
 
-  loading      = signal(false);
-  error        = signal<string | null>(null);
+  loading = signal(false);
+  error = signal<string | null>(null);
   showPassword = signal(false);
   selectedPlan = signal<PlanId>('pro');
 
   form = this.fb.group({
-    email:    ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(12)]],
-    terms:    [true, Validators.requiredTrue],
+    terms: [true, Validators.requiredTrue],
   });
 
   private readonly passwordValue = toSignal(
@@ -78,24 +78,24 @@ export class RegisterComponent {
 
   readonly strength = computed(() => {
     const len = (this.passwordValue() ?? '').length;
-    if (len === 0)  return { bars: 0, labelKey: '',                           color: '' };
-    if (len < 8)   return { bars: 1, labelKey: 'register.strengthWeak',  color: 'var(--crit)' };
-    if (len < 12)  return { bars: 2, labelKey: 'register.strengthFair',  color: 'var(--warn)' };
-    if (len < 16)  return { bars: 3, labelKey: 'register.strengthGood',  color: 'var(--ok)' };
-    return          { bars: 4, labelKey: 'register.strengthStrong', color: 'var(--ok)' };
+    if (len === 0) return { bars: 0, labelKey: '', color: '' };
+    if (len < 8) return { bars: 1, labelKey: 'register.strengthWeak', color: 'var(--crit)' };
+    if (len < 12) return { bars: 2, labelKey: 'register.strengthFair', color: 'var(--warn)' };
+    if (len < 16) return { bars: 3, labelKey: 'register.strengthGood', color: 'var(--ok)' };
+    return { bars: 4, labelKey: 'register.strengthStrong', color: 'var(--ok)' };
   });
 
   readonly plans: Plan[] = [
-    { id: 'free', nameKey: 'register.plans.free.name', price: '$0',     subKey: 'register.plans.free.sub' },
-    { id: 'pro',  nameKey: 'register.plans.pro.name',  price: '$49',    subKey: 'register.plans.pro.sub',  tagKey: 'register.plans.pro.tag' },
-    { id: 'ent',  nameKey: 'register.plans.ent.name',  price: 'Custom', subKey: 'register.plans.ent.sub' },
+    { id: 'free', nameKey: 'register.plans.free.name', price: '$0', subKey: 'register.plans.free.sub' },
+    { id: 'pro', nameKey: 'register.plans.pro.name', price: '$49', subKey: 'register.plans.pro.sub', tagKey: 'register.plans.pro.tag' },
+    { id: 'ent', nameKey: 'register.plans.ent.name', price: 'Custom', subKey: 'register.plans.ent.sub' },
   ];
 
   readonly features: Feature[] = [
-    { icon: 'clock',  titleKey: 'register.visual.features.0.title', descKey: 'register.visual.features.0.desc' },
-    { icon: 'git',    titleKey: 'register.visual.features.1.title', descKey: 'register.visual.features.1.desc' },
+    { icon: 'clock', titleKey: 'register.visual.features.0.title', descKey: 'register.visual.features.0.desc' },
+    { icon: 'git', titleKey: 'register.visual.features.1.title', descKey: 'register.visual.features.1.desc' },
     { icon: 'shield', titleKey: 'register.visual.features.2.title', descKey: 'register.visual.features.2.desc' },
-    { icon: 'key',    titleKey: 'register.visual.features.3.title', descKey: 'register.visual.features.3.desc' },
+    { icon: 'key', titleKey: 'register.visual.features.3.title', descKey: 'register.visual.features.3.desc' },
   ];
 
   readonly avatars = [

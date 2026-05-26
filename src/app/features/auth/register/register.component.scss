@@ -1,5 +1,11 @@
-.display { font-family: var(--font-display); }
-.mono    { font-family: var(--font-mono); font-feature-settings: "ss01","cv11"; }
+.display {
+  font-family: var(--font-display);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv11";
+}
 
 .register {
   display: grid;
@@ -121,7 +127,10 @@
   color: var(--ink);
   font-family: var(--font-sans);
 
-  &:hover { border-color: var(--border-strong); background: var(--surface-2); }
+  &:hover {
+    border-color: var(--border-strong);
+    background: var(--surface-2);
+  }
 
   &--selected {
     background: var(--accent-soft);
@@ -141,7 +150,9 @@
     color: var(--ink);
     display: block;
 
-    &--selected { color: var(--accent-ink); }
+    &--selected {
+      color: var(--accent-ink);
+    }
   }
 
   &__price {
@@ -151,7 +162,9 @@
     color: var(--ink);
     display: block;
 
-    &--selected { color: var(--accent-ink); }
+    &--selected {
+      color: var(--accent-ink);
+    }
   }
 
   &__mo {
@@ -221,7 +234,9 @@
   padding: 12px 0;
   border-bottom: 1px solid var(--border);
 
-  &--last { border-bottom: none; }
+  &--last {
+    border-bottom: none;
+  }
 
   &__icon-box {
     width: 32px;

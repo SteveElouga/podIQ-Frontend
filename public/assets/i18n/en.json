@@ -122,6 +122,7 @@
     "readOnly": "Read-only by default",
     "skip": "Skip for now",
     "inProgress": "in progress",
+    "editing": "editing",
     "connected": "Connected",
     "channelDisabled": "coming soon",
     "creating": "Creating…",
@@ -137,9 +138,18 @@
       "4": "Wire up alerts"
     },
     "methods": {
-      "0": { "title": "Helm chart",    "desc": "Recommended" },
-      "1": { "title": "kubectl apply", "desc": "One-shot YAML" },
-      "2": { "title": "Terraform",     "desc": "GitOps-friendly" }
+      "0": {
+        "title": "Helm chart",
+        "desc": "Recommended"
+      },
+      "1": {
+        "title": "kubectl apply",
+        "desc": "One-shot YAML"
+      },
+      "2": {
+        "title": "Terraform",
+        "desc": "GitOps-friendly"
+      }
     },
     "workspace": {
       "title": "Name your workspace",
@@ -157,173 +167,173 @@
       "nameError": "Name must be at least 2 characters."
     },
     "cluster": {
-      "noWorkspace":    "Offline mode — no workspace JWT available. Use the demo token below to test the UI.",
-      "apiError":       "Could not generate a real token ({{message}}). Using demo token instead.",
-      "loadingToken":   "Generating install token…",
-      "demoTokenNote":  "This token is a placeholder — connect the backend to get a real one."
+      "noWorkspace": "Offline mode — no workspace JWT available. Use the demo token below to test the UI.",
+      "apiError": "Could not generate a real token ({{message}}). Using demo token instead.",
+      "loadingToken": "Generating install token…",
+      "demoTokenNote": "This token is a placeholder — connect the backend to get a real one."
     },
     "teamSize": {
-      "solo":  "Just me",
+      "solo": "Just me",
       "small": "2 – 10",
-      "mid":   "11 – 50",
+      "mid": "11 – 50",
       "large": "50+"
     },
     "region": {
-      "eu":    "EU · Frankfurt",
+      "eu": "EU · Frankfurt",
       "euSub": "GDPR · default",
-      "us":    "US · Virginia",
+      "us": "US · Virginia",
       "usSub": "SOC2 II",
-      "ap":    "AP · Singapore",
+      "ap": "AP · Singapore",
       "apSub": "SOC2 II"
     },
     "billing": {
-      "legend":  "Billing cycle",
+      "legend": "Billing cycle",
       "monthly": "Monthly",
-      "annual":  "Annual",
-      "save":    "Save 20%"
+      "annual": "Annual",
+      "save": "Save 20%"
     },
     "plan": {
-      "title":        "Choose your plan",
-      "lead":         "Start free, upgrade when your team grows.",
-      "perMonth":     "/ mo",
-      "trialBanner":  "All Pro features free for 14 days — no credit card required.",
-      "trialBold":    "14-day free trial",
-      "trialRest":    " — no credit card required.",
+      "title": "Choose your plan",
+      "lead": "Start free, upgrade when your team grows.",
+      "perMonth": "/ mo",
+      "trialBanner": "All Pro features free for 14 days — no credit card required.",
+      "trialBold": "14-day free trial",
+      "trialRest": " — no credit card required.",
       "contactSales": "Contact sales",
       "continueWith": "Continue with {{name}}",
       "free": {
         "name": "Free",
-        "per":  "/ mo",
-        "sub":  "1 cluster · 50 pods · community support",
-        "f0":   "Memory engine (last 30 days)",
-        "f1":   "3 alert rules",
-        "f2":   "Community support",
-        "f3":   "1 channel integration"
+        "per": "/ mo",
+        "sub": "1 cluster · 50 pods · community support",
+        "f0": "Memory engine (last 30 days)",
+        "f1": "3 alert rules",
+        "f2": "Community support",
+        "f3": "1 channel integration"
       },
       "pro": {
         "name": "Pro",
-        "tag":  "Most popular",
-        "per":  "/ mo",
-        "sub":  "10 clusters · unlimited pods",
-        "f0":   "Full memory history",
-        "f1":   "Unlimited alert rules",
-        "f2":   "Slack + PagerDuty",
-        "f3":   "Priority support",
-        "f4":   "Access audit log",
-        "f5":   "SAML SSO"
+        "tag": "Most popular",
+        "per": "/ mo",
+        "sub": "10 clusters · unlimited pods",
+        "f0": "Full memory history",
+        "f1": "Unlimited alert rules",
+        "f2": "Slack + PagerDuty",
+        "f3": "Priority support",
+        "f4": "Access audit log",
+        "f5": "SAML SSO"
       },
       "ent": {
         "name": "Enterprise",
-        "per":  "custom",
-        "sub":  "Unlimited clusters · SSO · SLA",
-        "f0":   "Everything in Pro",
-        "f1":   "SAML / OIDC SSO",
-        "f2":   "Audit logs",
-        "f3":   "Dedicated SLA",
-        "f4":   "24/7 support",
-        "f5":   "On-premise deployment"
+        "per": "custom",
+        "sub": "Unlimited clusters · SSO · SLA",
+        "f0": "Everything in Pro",
+        "f1": "SAML / OIDC SSO",
+        "f2": "Audit logs",
+        "f3": "Dedicated SLA",
+        "f4": "24/7 support",
+        "f5": "On-premise deployment"
       }
     },
     "invite": {
-      "title":            "Invite your team",
-      "lead":             "Add teammates now or skip and do it later from settings.",
-      "emailLabel":       "Teammate email",
-      "roleLabel":        "Role",
+      "title": "Invite your team",
+      "lead": "Add teammates now or skip and do it later from settings.",
+      "emailLabel": "Teammate email",
+      "roleLabel": "Role",
       "emailPlaceholder": "colleague@acme.io",
-      "add":              "Add",
-      "pending":          "Pending invites",
-      "empty":            "No invites yet — add teammates above.",
-      "autoLabel":        "Auto-invite teammates with matching email domain",
-      "emailError":       "Invalid email address.",
-      "statusSent":       "Sent",
-      "statusDraft":      "Draft",
-      "copyLink":         "Copy invite link",
-      "autoTitle":        "Auto-invite @",
-      "autoDesc":         "Anyone joining with this domain will be added as a Member.",
-      "skip":             "Skip this step"
+      "add": "Add",
+      "pending": "Pending invites",
+      "empty": "No invites yet — add teammates above.",
+      "autoLabel": "Auto-invite teammates with matching email domain",
+      "emailError": "Invalid email address.",
+      "statusSent": "Sent",
+      "statusDraft": "Draft",
+      "copyLink": "Copy invite link",
+      "autoTitle": "Auto-invite @",
+      "autoDesc": "Anyone joining with this domain will be added as a Member.",
+      "skip": "Skip this step"
     },
     "role": {
-      "admin":      "Admin",
-      "adminDesc":  "Full access, billing, invite members",
-      "member":     "Member",
+      "admin": "Admin",
+      "adminDesc": "Full access, billing, invite members",
+      "member": "Member",
       "memberDesc": "View and manage incidents",
-      "viewer":     "Viewer",
+      "viewer": "Viewer",
       "viewerDesc": "Read-only access"
     },
     "alerts": {
-      "title":           "Wire up alerts",
-      "lead":            "Choose which conditions trigger notifications and where to send them.",
-      "rulesLabel":      "Alert conditions",
-      "channelsLabel":   "Notification channels",
+      "title": "Wire up alerts",
+      "lead": "Choose which conditions trigger notifications and where to send them.",
+      "rulesLabel": "Alert conditions",
+      "channelsLabel": "Notification channels",
       "quietHoursLabel": "Quiet hours",
-      "quietHoursDesc":  "Suppress non-critical alerts between 11 pm – 7 am",
-      "finish":          "Finish setup",
-      "configure":       "Configure",
-      "comingSoon":      "Coming soon",
-      "connect":         "Connect",
-      "connectedCount":  "{{n}} of {{total}} connected",
-      "skip":            "Skip for now"
+      "quietHoursDesc": "Suppress non-critical alerts between 11 pm – 7 am",
+      "finish": "Finish setup",
+      "configure": "Configure",
+      "comingSoon": "Coming soon",
+      "connect": "Connect",
+      "connectedCount": "{{n}} of {{total}} connected",
+      "skip": "Skip for now"
     },
     "alert": {
-      "crash":         "CrashLoopBackOff detected",
-      "crashHint":     "Immediate notification when a pod enters a restart loop.",
-      "memory":        "Memory saturation > 90%",
-      "memoryHint":    "Alert when memory usage exceeds 90%.",
-      "predeploy":     "Pre-deploy scan blocked",
+      "crash": "CrashLoopBackOff detected",
+      "crashHint": "Immediate notification when a pod enters a restart loop.",
+      "memory": "Memory saturation > 90%",
+      "memoryHint": "Alert when memory usage exceeds 90%.",
+      "predeploy": "Pre-deploy scan blocked",
       "predeployHint": "Block deployments matching past failure patterns.",
-      "fix":           "Automated fix available",
-      "fixHint":       "Notifies when an automated remediation is available."
+      "fix": "Automated fix available",
+      "fixHint": "Notifies when an automated remediation is available."
     },
     "channel": {
-      "connected":     "Connected",
-      "recommended":   "Recommended",
-      "slack":         "Slack",
-      "slackDesc":     "#incidents · real-time alerts",
-      "pagerduty":     "PagerDuty",
+      "connected": "Connected",
+      "recommended": "Recommended",
+      "slack": "Slack",
+      "slackDesc": "#incidents · real-time alerts",
+      "pagerduty": "PagerDuty",
       "pagerdutyDesc": "On-call · escalation",
-      "email":         "Email",
-      "emailDesc":     "Daily digest",
-      "webhook":       "Webhook",
-      "webhookDesc":   "POST to your endpoint",
-      "teams":         "Teams",
-      "teamsDesc":     "Coming soon",
-      "discord":       "Discord",
-      "discordDesc":   "#alerts"
+      "email": "Email",
+      "emailDesc": "Daily digest",
+      "webhook": "Webhook",
+      "webhookDesc": "POST to your endpoint",
+      "teams": "Teams",
+      "teamsDesc": "Coming soon",
+      "discord": "Discord",
+      "discordDesc": "#alerts"
     },
     "complete": {
-      "topbarTag":      "Setup complete",
-      "setupTag":       "All set",
-      "title":          "You're all set.",
-      "sub":            "Your workspace is live. Here's what's ready:",
-      "subPre":         "Your cluster ",
-      "subMid":         " is sending alerts to ",
-      "subPost":        ".",
-      "clusterValue":   "Connected",
-      "channelName":    "#incidents",
-      "workspace":      "Workspace",
-      "workspaceSub":   "Created and configured",
+      "topbarTag": "Setup complete",
+      "setupTag": "All set",
+      "title": "You're all set.",
+      "sub": "Your workspace is live. Here's what's ready:",
+      "subPre": "Your cluster ",
+      "subMid": " is sending alerts to ",
+      "subPost": ".",
+      "clusterValue": "Connected",
+      "channelName": "#incidents",
+      "workspace": "Workspace",
+      "workspaceSub": "Created and configured",
       "workspaceValue": "Created and configured",
-      "cluster":        "Cluster",
-      "clusterSub":     "Agent deployed",
-      "team":           "Team",
-      "teamSub":        "Invites sent",
-      "teamValue":      "Invites sent",
-      "alerts":         "Alerts",
-      "alertsSub":      "Rules active",
-      "alertsValue":    "Rules active",
-      "suggestedNext":  "What to do next",
-      "takeTour":       "Take the tour",
-      "nextActions":    "What to do next",
-      "action0":        "Watch the 3-minute walkthrough",
-      "action0Title":   "Browse incident history",
-      "action0Sub":     "Dive into your latest incidents and correlate root causes.",
-      "action1":        "Browse the incident history",
-      "action1Title":   "Set up a pre-deploy scan",
-      "action1Sub":     "Block deployments that match known failure patterns.",
-      "action2":        "Set up a pre-deploy scan hook",
-      "action2Title":   "Explore metrics",
-      "action2Sub":     "Monitor CPU and memory usage across your pods.",
-      "goToDashboard":  "Go to dashboard"
+      "cluster": "Cluster",
+      "clusterSub": "Agent deployed",
+      "team": "Team",
+      "teamSub": "Invites sent",
+      "teamValue": "Invites sent",
+      "alerts": "Alerts",
+      "alertsSub": "Rules active",
+      "alertsValue": "Rules active",
+      "suggestedNext": "What to do next",
+      "takeTour": "Take the tour",
+      "nextActions": "What to do next",
+      "action0": "Watch the 3-minute walkthrough",
+      "action0Title": "Browse incident history",
+      "action0Sub": "Dive into your latest incidents and correlate root causes.",
+      "action1": "Browse the incident history",
+      "action1Title": "Set up a pre-deploy scan",
+      "action1Sub": "Block deployments that match known failure patterns.",
+      "action2": "Set up a pre-deploy scan hook",
+      "action2Title": "Explore metrics",
+      "action2Sub": "Monitor CPU and memory usage across your pods.",
+      "goToDashboard": "Go to dashboard"
     }
   },
   "register": {
@@ -357,9 +367,19 @@
     "footerCopy": "© 2026 PodIQ Labs",
     "footerLinks": "Privacy · Terms · Status",
     "plans": {
-      "free": { "name": "Free",       "sub": "1 cluster · 50 pods" },
-      "pro":  { "name": "Pro",        "sub": "10 clusters · unlimited", "tag": "Popular" },
-      "ent":  { "name": "Enterprise", "sub": "SSO · audit · SLA" }
+      "free": {
+        "name": "Free",
+        "sub": "1 cluster · 50 pods"
+      },
+      "pro": {
+        "name": "Pro",
+        "sub": "10 clusters · unlimited",
+        "tag": "Popular"
+      },
+      "ent": {
+        "name": "Enterprise",
+        "sub": "SSO · audit · SLA"
+      }
     },
     "visual": {
       "tag": "What ships with every workspace",
@@ -368,10 +388,22 @@
       "socialBold": "1,247 teams",
       "socialRest": "shipped to prod with PodIQ this week.",
       "features": {
-        "0": { "title": "Memory engine",            "desc": "Every incident is fingerprinted and indexed." },
-        "1": { "title": "Cross-service correlation", "desc": "See blast radius before your dashboard refreshes." },
-        "2": { "title": "Pre-deploy scanner",        "desc": "Block manifests that match prior outages." },
-        "3": { "title": "SOC2 type II · SSO",        "desc": "Read-only agent. No exec, no port-forward." }
+        "0": {
+          "title": "Memory engine",
+          "desc": "Every incident is fingerprinted and indexed."
+        },
+        "1": {
+          "title": "Cross-service correlation",
+          "desc": "See blast radius before your dashboard refreshes."
+        },
+        "2": {
+          "title": "Pre-deploy scanner",
+          "desc": "Block manifests that match prior outages."
+        },
+        "3": {
+          "title": "SOC2 type II · SSO",
+          "desc": "Read-only agent. No exec, no port-forward."
+        }
       }
     }
   },

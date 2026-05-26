@@ -9,7 +9,7 @@ import { DsIconComponent } from '../ds-icon/ds-icon.component';
   styleUrl: './ds-sso-button.scss',
 })
 export class DsSsoButtonComponent {
-  readonly icon     = input<string>();
-  readonly full     = input(false);
+  readonly icon = input<string>();
+  readonly full = input(false);
   readonly disabled = input(false);
 }

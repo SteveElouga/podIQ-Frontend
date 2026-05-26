@@ -1,11 +1,6 @@
-<button
-  type="button"
-  class="ds-sso-btn"
-  [class.ds-sso-btn--full]="full()"
-  [disabled]="disabled()"
->
+<button type="button" class="ds-sso-btn" [class.ds-sso-btn--full]="full()" [disabled]="disabled()">
   @if (icon()) {
-    <ds-icon [name]="icon()!" [size]="16" />
+  <ds-icon [name]="icon()!" [size]="16" />
   }
   <ng-content />
 </button>

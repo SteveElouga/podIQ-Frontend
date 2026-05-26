@@ -13,9 +13,9 @@ export type { DsBrandConfig, BrandSize } from './ds-brand.config';
   styleUrl: './ds-brand.scss',
 })
 export class DsBrandComponent {
-  readonly size     = input(DS_BRAND_DEFAULTS.size);
-  readonly mark     = input(DS_BRAND_DEFAULTS.mark);
-  readonly name     = input('PodIQ');
+  readonly size = input(DS_BRAND_DEFAULTS.size);
+  readonly mark = input(DS_BRAND_DEFAULTS.mark);
+  readonly name = input('PodIQ');
   readonly showName = input(true);
-  readonly link     = input<string | null>('/');
+  readonly link = input<string | null>('/');
 }

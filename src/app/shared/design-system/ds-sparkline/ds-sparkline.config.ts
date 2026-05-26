@@ -12,8 +12,8 @@ export interface DsSparklineConfig {
 }
 
 export const DS_SPARKLINE_DEFAULTS: Readonly<Omit<DsSparklineConfig, 'points'>> = {
-  width:  120,
+  width: 120,
   height: 32,
-  color:  'var(--accent)',
-  fill:   true,
+  color: 'var(--accent)',
+  fill: true,
 };

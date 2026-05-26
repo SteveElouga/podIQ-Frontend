@@ -19,7 +19,7 @@ export type { DsDotConfig } from './ds-dot.config';
   styleUrls: ['./ds-dot.component.scss'],
 })
 export class DsDotComponent {
-  readonly tone  = input<DotTone>(DS_DOT_DEFAULTS.tone);
-  readonly size  = input(DS_DOT_DEFAULTS.size);
+  readonly tone = input<DotTone>(DS_DOT_DEFAULTS.tone);
+  readonly size = input(DS_DOT_DEFAULTS.size);
   readonly pulse = input(DS_DOT_DEFAULTS.pulse);
 }

@@ -1,9 +1,6 @@
-<div
-  [class]="'ds-alert ds-alert--' + tone() + ' ds-alert--' + variant()"
-  role="alert"
->
+<div [class]="'ds-alert ds-alert--' + tone() + ' ds-alert--' + variant()" role="alert">
   @if (resolvedIcon()) {
-    <ds-icon [name]="resolvedIcon()!" [size]="iconSize()" [class]="'ds-alert__icon ds-alert__icon--' + tone()" />
+  <ds-icon [name]="resolvedIcon()!" [size]="iconSize()" [class]="'ds-alert__icon ds-alert__icon--' + tone()" />
   }
   <div class="ds-alert__body">
     <ng-content />

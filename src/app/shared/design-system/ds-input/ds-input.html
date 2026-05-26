@@ -1,35 +1,28 @@
-<div
-  class="ds-field"
-  [class.ds-field--readonly]="readonly()"
-  [class.ds-field--error]="error()"
->
+<div class="ds-field" [class.ds-field--readonly]="readonly()" [class.ds-field--error]="error()">
   @if (label()) {
-    <label [for]="forId()" class="ds-field__label">{{ label() }}</label>
+  <label [for]="forId()" class="ds-field__label">{{ label() }}</label>
   }
 
-  <div
-    [class]="'ds-field__box ds-field__box--' + size()"
-    [class.ds-field__box--readonly]="readonly()"
-    [class.ds-field__box--error]="error()"
-  >
+  <div [class]="'ds-field__box ds-field__box--' + size()" [class.ds-field__box--readonly]="readonly()"
+    [class.ds-field__box--error]="error()">
     @if (icon()) {
-      <ds-icon [name]="icon()!" [size]="14" class="ds-field__icon" />
+    <ds-icon [name]="icon()!" [size]="14" class="ds-field__icon" />
     }
     <div class="ds-field__content">
       <ng-content />
     </div>
     @if (toggleIcon()) {
-      <button type="button" class="ds-field__toggle" (click)="toggleClick.emit($event)">
-        <ds-icon [name]="toggleIcon()!" [size]="13" />
-      </button>
+    <button type="button" class="ds-field__toggle" (click)="toggleClick.emit($event)">
+      <ds-icon [name]="toggleIcon()!" [size]="13" />
+    </button>
     }
   </div>
 
   @if (errorKey()) {
-    <span class="ds-field__error">{{ errorKey() | translate }}</span>
+  <span class="ds-field__error">{{ errorKey() | translate }}</span>
   } @else if (errorMessage()) {
-    <span class="ds-field__error">{{ errorMessage() }}</span>
+  <span class="ds-field__error">{{ errorMessage() }}</span>
   } @else if (hint()) {
-    <span class="ds-field__hint">{{ hint() }}</span>
+  <span class="ds-field__hint">{{ hint() }}</span>
   }
 </div>

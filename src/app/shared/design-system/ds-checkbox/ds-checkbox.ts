@@ -9,9 +9,9 @@ import { DsIconComponent } from '../ds-icon/ds-icon.component';
   styleUrl: './ds-checkbox.scss',
 })
 export class DsCheckboxComponent {
-  readonly checked   = input(false);
-  readonly alignTop  = input(false);
-  readonly stroke    = input(2.5);
+  readonly checked = input(false);
+  readonly alignTop = input(false);
+  readonly stroke = input(2.5);
   readonly checkedChange = output<boolean>();
 
   onToggle(event: Event): void {

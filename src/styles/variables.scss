@@ -6,76 +6,80 @@
 
 :root {
   // ── Type stacks ──────────────────────────────────────────────
-  --font-sans:    "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
   --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
-  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   // ── Type scale ───────────────────────────────────────────────
-  --fs-xs:  11px;     // meta, mono labels
-  --fs-sm:  12.5px;   // body small
-  --fs-md:  13.5px;   // body
-  --fs-lg:  15px;     // body emphasis
-  --fs-xl:  18px;     // page title
-  --fs-2xl: 24px;     // section title
-  --fs-3xl: 32px;     // hero kpi
-  --fs-4xl: 40px;     // marketing h2
-  --fs-5xl: 64px;     // marketing hero
+  --fs-xs: 11px; // meta, mono labels
+  --fs-sm: 12.5px; // body small
+  --fs-md: 13.5px; // body
+  --fs-lg: 15px; // body emphasis
+  --fs-xl: 18px; // page title
+  --fs-2xl: 24px; // section title
+  --fs-3xl: 32px; // hero kpi
+  --fs-4xl: 40px; // marketing h2
+  --fs-5xl: 64px; // marketing hero
 
-  --fw-regular:  400;
-  --fw-medium:   500;
+  --fw-regular: 400;
+  --fw-medium: 500;
   --fw-semibold: 600;
-  --fw-bold:     700;
+  --fw-bold: 700;
 
   --lh-tight: 1.15;
-  --lh-snug:  1.35;
-  --lh-base:  1.55;
+  --lh-snug: 1.35;
+  --lh-base: 1.55;
   --lh-loose: 1.7;
 
-  --tracking-tight:  -0.025em;
-  --tracking-snug:   -0.015em;
+  --tracking-tight: -0.025em;
+  --tracking-snug: -0.015em;
   --tracking-normal: 0;
-  --tracking-mono:   -0.01em;
-  --tracking-caps:   0.06em;
+  --tracking-mono: -0.01em;
+  --tracking-caps: 0.06em;
 
   // ── Radius scale ─────────────────────────────────────────────
-  --r-xs:   4px;
-  --r-sm:   6px;
-  --r-md:   10px;
-  --r-lg:   14px;
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
   --r-pill: 999px;
 
   // ── Spacing scale (4-pt grid) ────────────────────────────────
-  --s-1:  4px;
-  --s-2:  8px;
-  --s-3:  12px;
-  --s-4:  16px;
-  --s-5:  20px;
-  --s-6:  24px;
-  --s-8:  32px;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
   --s-10: 40px;
   --s-12: 48px;
 
   // ── LIGHT (default) ──────────────────────────────────────────
-  --bg:          #fafaf7;   // viewport — warm-grey, jamais blanc pur
-  --surface:     #ffffff;   // cards
-  --surface-2:   #f5f5f2;   // subdued / hover / table header
+  --bg: #fafaf7; // viewport — warm-grey, jamais blanc pur
+  --surface: #ffffff; // cards
+  --surface-2: #f5f5f2; // subdued / hover / table header
 
-  --ink:         #0a0a0a;   // primary text
-  --ink-2:       #404040;   // secondary text
-  --ink-mute:    #737373;   // tertiary, captions
+  --ink: #0a0a0a; // primary text
+  --ink-2: #404040; // secondary text
+  --ink-mute: #737373; // tertiary, captions
 
-  --border:        #e7e5e0; // default 1px
+  --border: #e7e5e0; // default 1px
   --border-strong: #c5c2bb; // input outlines, separators
 
-  --accent:      #d97706;   // PodIQ orange — utiliser avec parcimonie
-  --accent-soft: #fff3e6;   // accent-tinted surface
-  --accent-ink:  #b25c00;   // accent on text
+  --accent: #d97706; // PodIQ orange — utiliser avec parcimonie
+  --accent-soft: #fff3e6; // accent-tinted surface
+  --accent-ink: #b25c00; // accent on text
 
   // Semantic — ne jamais utiliser à des fins décoratives
-  --ok:   #15803d;  --ok-soft:   #dcfce7;
-  --warn: #b45309;  --warn-soft: #fef3c7;
-  --crit: #b91c1c;  --crit-soft: #fee2e2;
-  --info: #0e7490;  --info-soft: #cffafe;
+  --ok: #15803d;
+  --ok-soft: #dcfce7;
+  --warn: #b45309;
+  --warn-soft: #fef3c7;
+  --crit: #b91c1c;
+  --crit-soft: #fee2e2;
+  --info: #0e7490;
+  --info-soft: #cffafe;
 
   // ── Élévation ────────────────────────────────────────────────
   --shadow-xs: 0 1px 0 rgba(15, 15, 15, 0.04);
@@ -90,14 +94,14 @@
   --radius-lg: var(--r-lg);
 
   // ── Raccourcis typographiques (font shorthand) ────────────────
-  --h1:        var(--fw-semibold) var(--fs-5xl)/var(--lh-tight) var(--font-display);
-  --h2:        var(--fw-semibold) var(--fs-4xl)/var(--lh-tight) var(--font-display);
-  --h3:        var(--fw-semibold) var(--fs-2xl)/var(--lh-snug)  var(--font-display);
-  --h4:        var(--fw-semibold) var(--fs-xl)/var(--lh-snug)   var(--font-display);
-  --body:      var(--fw-regular) var(--fs-md)/var(--lh-base)    var(--font-sans);
-  --body-emph: var(--fw-medium) var(--fs-md)/var(--lh-base)     var(--font-sans);
-  --caption:   var(--fw-medium) var(--fs-xs)/var(--lh-base)     var(--font-sans);
-  --code:      var(--fw-medium) var(--fs-sm)/var(--lh-base)     var(--font-mono);
+  --h1: var(--fw-semibold) var(--fs-5xl)/var(--lh-tight) var(--font-display);
+  --h2: var(--fw-semibold) var(--fs-4xl)/var(--lh-tight) var(--font-display);
+  --h3: var(--fw-semibold) var(--fs-2xl)/var(--lh-snug) var(--font-display);
+  --h4: var(--fw-semibold) var(--fs-xl)/var(--lh-snug) var(--font-display);
+  --body: var(--fw-regular) var(--fs-md)/var(--lh-base) var(--font-sans);
+  --body-emph: var(--fw-medium) var(--fs-md)/var(--lh-base) var(--font-sans);
+  --caption: var(--fw-medium) var(--fs-xs)/var(--lh-base) var(--font-sans);
+  --code: var(--fw-medium) var(--fs-sm)/var(--lh-base) var(--font-mono);
 
   color-scheme: light;
 }
@@ -105,26 +109,30 @@
 // ── DARK ─────────────────────────────────────────────────────
 :root[data-mode="dark"],
 .dark {
-  --bg:          #0c0c0b;
-  --surface:     #161614;
-  --surface-2:   #1f1e1c;
+  --bg: #0c0c0b;
+  --surface: #161614;
+  --surface-2: #1f1e1c;
 
-  --ink:         #f5f5f2;
-  --ink-2:       #c4c2bd;
-  --ink-mute:    #8a8780;
+  --ink: #f5f5f2;
+  --ink-2: #c4c2bd;
+  --ink-mute: #8a8780;
 
-  --border:        #2a2926;
+  --border: #2a2926;
   --border-strong: #3a3934;
 
   // Accent plus lumineux en dark pour le contraste
-  --accent:      #f59e0b;
+  --accent: #f59e0b;
   --accent-soft: rgba(245, 158, 11, 0.12);
-  --accent-ink:  #fcd34d;
+  --accent-ink: #fcd34d;
 
-  --ok:   #4ade80;  --ok-soft:   rgba(74, 222, 128, 0.10);
-  --warn: #fbbf24;  --warn-soft: rgba(251, 191, 36, 0.10);
-  --crit: #f87171;  --crit-soft: rgba(248, 113, 113, 0.10);
-  --info: #22d3ee;  --info-soft: rgba(34, 211, 238, 0.10);
+  --ok: #4ade80;
+  --ok-soft: rgba(74, 222, 128, 0.10);
+  --warn: #fbbf24;
+  --warn-soft: rgba(251, 191, 36, 0.10);
+  --crit: #f87171;
+  --crit-soft: rgba(248, 113, 113, 0.10);
+  --info: #22d3ee;
+  --info-soft: rgba(34, 211, 238, 0.10);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.04);
   --shadow-md: 0 12px 32px -10px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);

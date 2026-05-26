@@ -14,15 +14,15 @@ export type { DsInputConfig, InputSize } from './ds-input.config';
   styleUrl: './ds-input.scss',
 })
 export class DsInputComponent {
-  readonly label      = input<string>();
-  readonly hint       = input<string>();
-  readonly icon       = input<string>();
+  readonly label = input<string>();
+  readonly hint = input<string>();
+  readonly icon = input<string>();
   readonly toggleIcon = input<string>();
-  readonly forId      = input<string>();
-  readonly size       = input(DS_INPUT_DEFAULTS.size);
-  readonly readonly   = input(false);
-  readonly error        = input(false);
-  readonly errorKey     = input<string>();
+  readonly forId = input<string>();
+  readonly size = input(DS_INPUT_DEFAULTS.size);
+  readonly readonly = input(false);
+  readonly error = input(false);
+  readonly errorKey = input<string>();
   readonly errorMessage = input<string>();
   readonly toggleClick = output<Event>();
 }

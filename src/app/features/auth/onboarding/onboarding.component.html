@@ -1,690 +1,608 @@
 <!-- ── Complete screen (step 6) ──────────────────────────────── -->
 @if (currentStep() === 6) {
-  <div class="complete">
+<div class="complete">
 
-    <!-- Top bar -->
-    <div class="complete__topbar">
-      <ds-brand size="sm" [link]="null" />
-      <ds-tag tone="ok" icon="check">{{ 'onboarding.complete.topbarTag' | translate }}</ds-tag>
-    </div>
+  <!-- Top bar -->
+  <div class="complete__topbar">
+    <ds-brand size="sm" [link]="null" />
+    <ds-tag tone="ok" icon="check">{{ 'onboarding.complete.topbarTag' | translate }}</ds-tag>
+  </div>
 
-    <!-- Centered body -->
-    <div class="complete__body">
-      <div class="complete__center">
+  <!-- Centered body -->
+  <div class="complete__body">
+    <div class="complete__center">
 
-        <!-- Check circle -->
-        <div class="complete__check">
-          <ds-icon name="check" [size]="44" [stroke]="3" />
-        </div>
-
-        <!-- Setup complete tag -->
-        <ds-tag tone="accent">{{ 'onboarding.complete.setupTag' | translate }}</ds-tag>
-
-        <!-- Title -->
-        <h1 class="complete__title display">{{ 'onboarding.complete.title' | translate }}</h1>
-
-        <!-- Subtitle with bold cluster / channel -->
-        <p class="complete__sub">
-          {{ 'onboarding.complete.subPre' | translate }}
-          <b>{{ 'onboarding.complete.clusterValue' | translate }}</b>{{ 'onboarding.complete.subMid' | translate }}
-          <b>{{ 'onboarding.complete.channelName' | translate }}</b>{{ 'onboarding.complete.subPost' | translate }}
-        </p>
-
-        <!-- 4-column summary cards -->
-        <div class="complete__cards">
-          @for (card of summaryCards; track card.icon) {
-            <div class="summary-card">
-              <div class="summary-card__header">
-                <ds-icon [name]="card.icon" [size]="12" />
-                <span class="summary-card__label">{{ card.labelKey | translate }}</span>
-              </div>
-              <div class="summary-card__value mono">{{ card.valueKey | translate }}</div>
-            </div>
-          }
-        </div>
-
-        <!-- Suggested next -->
-        <div class="suggested-next">
-          <div class="suggested-next__label">{{ 'onboarding.complete.suggestedNext' | translate }}</div>
-          @for (action of nextActions; track action.icon) {
-            <div class="suggested-row">
-              <div class="suggested-row__icon-wrap">
-                <ds-icon [name]="action.icon" [size]="15" />
-              </div>
-              <div class="suggested-row__body">
-                <div class="suggested-row__title">{{ action.titleKey | translate }}</div>
-                <div class="suggested-row__sub">{{ action.subKey | translate }}</div>
-              </div>
-              <ds-icon name="arrow" [size]="14" class="suggested-row__arrow" />
-            </div>
-          }
-        </div>
-
-        <!-- Bottom buttons -->
-        <div class="complete__actions">
-          <ds-button variant="secondary" size="lg" icon="play">
-            {{ 'onboarding.complete.takeTour' | translate }}
-          </ds-button>
-          <ds-button variant="primary" size="lg" iconRight="arrow"
-            [disabled]="completeLoading()"
-            (click)="goToDashboard()" (keydown.enter)="goToDashboard()">
-            {{ (completeLoading() ? 'onboarding.saving' : 'onboarding.complete.goToDashboard') | translate }}
-          </ds-button>
-        </div>
-
+      <!-- Check circle -->
+      <div class="complete__check">
+        <ds-icon name="check" [size]="44" [stroke]="3" />
       </div>
+
+      <!-- Setup complete tag -->
+      <ds-tag tone="accent">{{ 'onboarding.complete.setupTag' | translate }}</ds-tag>
+
+      <!-- Title -->
+      <h1 class="complete__title display">{{ 'onboarding.complete.title' | translate }}</h1>
+
+      <!-- Subtitle with bold cluster / channel -->
+      <p class="complete__sub">
+        {{ 'onboarding.complete.subPre' | translate }}
+        <b>{{ 'onboarding.complete.clusterValue' | translate }}</b>{{ 'onboarding.complete.subMid' | translate }}
+        <b>{{ 'onboarding.complete.channelName' | translate }}</b>{{ 'onboarding.complete.subPost' | translate }}
+      </p>
+
+      <!-- 4-column summary cards -->
+      <div class="complete__cards">
+        @for (card of summaryCards; track card.icon) {
+        <div class="summary-card">
+          <div class="summary-card__header">
+            <ds-icon [name]="card.icon" [size]="12" />
+            <span class="summary-card__label">{{ card.labelKey | translate }}</span>
+          </div>
+          <div class="summary-card__value mono">{{ card.valueKey | translate }}</div>
+        </div>
+        }
+      </div>
+
+      <!-- Suggested next -->
+      <div class="suggested-next">
+        <div class="suggested-next__label">{{ 'onboarding.complete.suggestedNext' | translate }}</div>
+        @for (action of nextActions; track action.icon) {
+        <div class="suggested-row">
+          <div class="suggested-row__icon-wrap">
+            <ds-icon [name]="action.icon" [size]="15" />
+          </div>
+          <div class="suggested-row__body">
+            <div class="suggested-row__title">{{ action.titleKey | translate }}</div>
+            <div class="suggested-row__sub">{{ action.subKey | translate }}</div>
+          </div>
+          <ds-icon name="arrow" [size]="14" class="suggested-row__arrow" />
+        </div>
+        }
+      </div>
+
+      <!-- Bottom buttons -->
+      <div class="complete__actions">
+        <ds-button variant="secondary" size="lg" icon="play">
+          {{ 'onboarding.complete.takeTour' | translate }}
+        </ds-button>
+        <ds-button variant="primary" size="lg" iconRight="arrow" [disabled]="completeLoading()"
+          (click)="goToDashboard()" (keydown.enter)="goToDashboard()">
+          {{ (completeLoading() ? 'onboarding.saving' : 'onboarding.complete.goToDashboard') | translate }}
+        </ds-button>
+      </div>
+
     </div>
   </div>
+</div>
 
 } @else {
 
-  <!-- ── Two-column shell (steps 1–5) ────────────────────────── -->
-  <div class="onboarding">
+<!-- ── Two-column shell (steps 1–5) ────────────────────────── -->
+<div class="onboarding">
 
-    <!-- ── Left: stepper sidebar ─────────────────────────────── -->
-    <aside class="stepper">
-      <div class="stepper__top">
-        <ds-brand />
-        <ds-lang-switcher />
+  <!-- ── Left: stepper sidebar ─────────────────────────────── -->
+  <aside class="stepper">
+    <div class="stepper__top">
+      <ds-brand />
+      <ds-lang-switcher />
+    </div>
+
+    <div class="stepper__label mono">{{ 'onboarding.getStarted' | translate }}</div>
+
+    <div class="stepper__steps">
+      <div class="stepper__connector"></div>
+      @for (label of stepLabels; track label; let i = $index) {
+      <div class="step" [class]="'step--' + stepState(i + 1)" [class.step--clickable]="isStepNavigable(i + 1)"
+        [attr.role]="isStepNavigable(i + 1) ? 'button' : null" [attr.tabindex]="isStepNavigable(i + 1) ? 0 : null"
+        [attr.aria-label]="isStepNavigable(i + 1) ? ('onboarding.goToStep' | translate : { n: i + 1 }) : null"
+        (click)="isStepNavigable(i + 1) && goToStep(i + 1)" (keydown.enter)="isStepNavigable(i + 1) && goToStep(i + 1)">
+        <div class="step__dot">
+          @if (stepState(i + 1) === 'done') {
+          <ds-icon name="check" [size]="13" [stroke]="2.5" />
+          } @else {
+          {{ i + 1 }}
+          }
+        </div>
+        <div class="step__info">
+          <div class="step__label">{{ label | translate }}</div>
+          @switch (stepState(i + 1)) {
+          @case ('current') {
+          @if (isRevisiting()) {
+          <!-- Retour sur un step déjà validé -->
+          <div class="step__sub step__sub--editing">
+            <ds-icon name="edit" [size]="10" [stroke]="2" />
+            {{ 'onboarding.editing' | translate }}
+          </div>
+          } @else {
+          <!-- Première visite, step actif maintenant -->
+          <div class="step__sub">
+            <ds-dot tone="accent" [size]="6" [pulse]="true" />
+            {{ 'onboarding.inProgress' | translate }}
+          </div>
+          }
+          }
+          @case ('in-progress') {
+          <!-- Visité mais non complété, l'utilisateur est revenu en arrière -->
+          <div class="step__sub step__sub--in-progress">
+            <ds-dot tone="accent" [size]="6" [pulse]="false" />
+            {{ 'onboarding.inProgress' | translate }}
+          </div>
+          }
+          }
+        </div>
+      </div>
+      }
+    </div>
+
+    <hr class="divider" />
+
+    <div class="stepper__meta">
+      <div class="meta-item">
+        <ds-icon name="bolt" [size]="13" class="accent-icon" />
+        {{ 'onboarding.avgSetup' | translate }}
+      </div>
+      <div class="meta-item">
+        <ds-icon name="shield" [size]="13" class="ok-icon" />
+        {{ 'onboarding.readOnly' | translate }}
+      </div>
+    </div>
+
+    <ds-button variant="ghost" size="sm" style="margin-top:auto" routerLink="/dashboard">
+      {{ 'onboarding.skip' | translate }}
+    </ds-button>
+  </aside>
+
+  <!-- ── Main content ───────────────────────────────────────── -->
+  <main class="main">
+    <div class="main__inner" [style.max-width]="mainInnerWidth()">
+      <div class="step-indicator mono">
+        {{ 'onboarding.stepOf' | translate : { n: currentStep(), total: totalSteps } }}
       </div>
 
-      <div class="stepper__label mono">{{ 'onboarding.getStarted' | translate }}</div>
+      @switch (currentStep()) {
 
-      <div class="stepper__steps">
-        <div class="stepper__connector"></div>
-        @for (label of stepLabels; track label; let i = $index) {
-          <div class="step" [class]="'step--' + stepState(i + 1)">
-            <div class="step__dot">
-              @if (stepState(i + 1) === 'done') {
-                <ds-icon name="check" [size]="13" [stroke]="2.5" />
-              } @else {
-                {{ i + 1 }}
+      <!-- ── Step 1: Workspace ───────────────────────────── -->
+      @case (1) {
+      <h1 class="main__title display">{{ 'onboarding.workspace.title' | translate }}</h1>
+      <p class="main__lead">{{ 'onboarding.workspace.lead' | translate }}</p>
+
+      <div class="form-section">
+        <ds-input [label]="'onboarding.workspace.nameLabel' | translate"
+          [hint]="'onboarding.workspace.nameHint' | translate" icon="cube" forId="ws-name" size="md"
+          [error]="!!step1Error()" [errorMessage]="step1Error() ?? undefined">
+          <input id="ws-name" type="text" [placeholder]="'onboarding.workspace.namePlaceholder' | translate"
+            [ngModel]="workspaceName()" (ngModelChange)="onWorkspaceNameChange($event)" autocomplete="organization" />
+        </ds-input>
+
+        <ds-input [label]="'onboarding.workspace.slugLabel' | translate" icon="git" size="md" [readonly]="true">
+          <span class="mono">{{ (urlSlug() || 'your-workspace') + '.podiq.io' }}</span>
+        </ds-input>
+
+        <div class="ws-accent-row">
+          <div class="ws-icon-section">
+            <div class="field__label">{{ 'onboarding.workspace.iconLabel' | translate }}</div>
+            <div class="ws-icon-wrap">
+              <div class="ws-icon-preview display">
+                {{ firstLetter() }}
+              </div>
+              <button class="ws-icon-edit" type="button">
+                <ds-icon name="edit" [size]="12" [stroke]="1.8" />
+                <span class="sr-only">Change icon</span>
+              </button>
+            </div>
+          </div>
+
+          <fieldset class="field ws-accent-section">
+            <legend class="field__label">{{ 'onboarding.workspace.accentLabel' | translate }}</legend>
+            <div class="accent-row">
+              @for (color of accents; track color) {
+              <button class="accent-swatch" type="button" [style.background]="color"
+                [class.accent-swatch--selected]="selectedAccent() === color" (click)="selectedAccent.set(color)"
+                [attr.aria-label]="color" [attr.aria-pressed]="selectedAccent() === color"></button>
               }
             </div>
-            <div class="step__info">
-              <div class="step__label">{{ label | translate }}</div>
-              @if (stepState(i + 1) === 'current') {
-                <div class="step__sub">{{ 'onboarding.inProgress' | translate }}</div>
+            <p class="accent-hint">{{ 'onboarding.workspace.accentHint' | translate }}</p>
+          </fieldset>
+        </div>
+
+        <fieldset class="field">
+          <legend class="field__label">{{ 'onboarding.workspace.teamSizeLabel' | translate }}</legend>
+          <div class="choice-grid">
+            @for (ts of teamSizes; track ts.id) {
+            <button class="choice-btn" type="button" [class.choice-btn--selected]="selectedTeamSize() === ts.id"
+              (click)="selectedTeamSize.set(ts.id)" [attr.aria-pressed]="selectedTeamSize() === ts.id">
+              {{ ts.labelKey | translate }}
+            </button>
+            }
+          </div>
+        </fieldset>
+
+        <fieldset class="field">
+          <legend class="field__label">{{ 'onboarding.workspace.regionLabel' | translate }}</legend>
+          <div class="region-row">
+            @for (r of regions; track r.id) {
+            <button class="region-card" type="button" [class.region-card--selected]="selectedRegion() === r.id"
+              (click)="selectedRegion.set(r.id)" [attr.aria-pressed]="selectedRegion() === r.id">
+              <span class="region-card__radio" [class.region-card__radio--on]="selectedRegion() === r.id">
+                <span class="region-card__radio-dot"></span>
+              </span>
+              <div>
+                <span class="region-card__name">{{ r.labelKey | translate }}</span>
+                <span class="region-card__sub">{{ r.subKey | translate }}</span>
+              </div>
+            </button>
+            }
+          </div>
+          <p class="region-note">{{ 'onboarding.workspace.regionNote' | translate }}</p>
+        </fieldset>
+      </div>
+
+      <div class="main__nav main__nav--end">
+        <ds-button variant="ghost" size="md" style="opacity:0.4" (click)="prev()" (keydown.enter)="prev()">
+          {{ 'onboarding.back' | translate }}
+        </ds-button>
+        <ds-button variant="primary" size="md" iconRight="arrow" [disabled]="step1Loading()" (click)="submitWorkspace()"
+          (keydown.enter)="submitWorkspace()">
+          {{ (step1Loading() ? 'onboarding.creating' : 'onboarding.continue') | translate }}
+        </ds-button>
+      </div>
+      }
+
+      <!-- ── Step 2: Choose plan ─────────────────────────── -->
+      @case (2) {
+      <h1 class="main__title display">{{ 'onboarding.plan.title' | translate }}</h1>
+      <p class="main__lead">{{ 'onboarding.plan.lead' | translate }}</p>
+
+      <fieldset class="billing-toggle">
+        <legend class="sr-only">{{ 'onboarding.billing.legend' | translate }}</legend>
+        <button class="billing-btn" type="button" [class.billing-btn--active]="billingCycle() === 'monthly'"
+          (click)="billingCycle.set('monthly')" [attr.aria-pressed]="billingCycle() === 'monthly'">
+          {{ 'onboarding.billing.monthly' | translate }}
+        </button>
+        <button class="billing-btn" type="button" [class.billing-btn--active]="billingCycle() === 'annual'"
+          (click)="billingCycle.set('annual')" [attr.aria-pressed]="billingCycle() === 'annual'">
+          {{ 'onboarding.billing.annual' | translate }}
+          <span class="billing-save">{{ 'onboarding.billing.save' | translate }}</span>
+        </button>
+      </fieldset>
+
+      <!-- Plan cards — proper radio pattern -->
+      <div class="plan-grid" role="radiogroup">
+        @for (p of plans; track p.id) {
+        <label class="plan-card" [class.plan-card--selected]="selectedPlan() === p.id">
+          <input type="radio" name="plan" [value]="p.id" [checked]="selectedPlan() === p.id"
+            (change)="selectedPlan.set(p.id)" class="sr-only" />
+          @if (p.tag) {
+          <ds-tag tone="accent" class="plan-card__tag">{{ p.tag | translate }}</ds-tag>
+          }
+          <div class="plan-card__header">
+            <div>
+              <div class="plan-card__name display" [class.plan-card__name--selected]="selectedPlan() === p.id">
+                {{ p.nameKey | translate }}
+              </div>
+              <div class="plan-card__sub">{{ p.subKey | translate }}</div>
+            </div>
+            <div class="plan-card__radio" [class.plan-card__radio--on]="selectedPlan() === p.id">
+              @if (selectedPlan() === p.id) {
+              <span class="plan-card__radio-dot"></span>
               }
             </div>
           </div>
+          <div class="plan-card__price">
+            <span class="plan-card__amount display num" [class.plan-card__amount--selected]="selectedPlan() === p.id">
+              {{ planPrice(p) }}
+            </span>
+            <span class="plan-card__period">{{ p.perKey | translate }}</span>
+          </div>
+          <hr class="plan-divider" />
+          <ul class="plan-card__features">
+            @for (fk of p.featuresKeys; track fk) {
+            <li>
+              <ds-icon name="check" [size]="13" [stroke]="2.5"
+                [class]="selectedPlan() === p.id ? 'accent-icon' : 'ok-icon'" />
+              {{ fk | translate }}
+            </li>
+            }
+          </ul>
+        </label>
         }
       </div>
 
-      <hr class="divider" />
+      <ds-banner variant="promo">
+        <b>{{ 'onboarding.plan.trialBold' | translate }}</b>
+        {{ 'onboarding.plan.trialRest' | translate }}
+      </ds-banner>
 
-      <div class="stepper__meta">
-        <div class="meta-item">
-          <ds-icon name="bolt" [size]="13" class="accent-icon" />
-          {{ 'onboarding.avgSetup' | translate }}
-        </div>
-        <div class="meta-item">
-          <ds-icon name="shield" [size]="13" class="ok-icon" />
-          {{ 'onboarding.readOnly' | translate }}
+      <div class="main__nav">
+        <ds-button variant="ghost" size="md">
+          {{ 'onboarding.plan.contactSales' | translate }}
+        </ds-button>
+        <div class="main__nav-right">
+          <ds-button variant="ghost" size="md" (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' |
+            translate }}</ds-button>
+          <ds-button variant="primary" size="md" iconRight="arrow" (click)="next()" (keydown.enter)="next()">
+            {{ 'onboarding.plan.continueWith' | translate : { name: selectedPlanNameTranslated() } }}
+          </ds-button>
         </div>
       </div>
+      }
 
-      <ds-button variant="ghost" size="sm" style="margin-top:auto" routerLink="/dashboard">
-        {{ 'onboarding.skip' | translate }}
-      </ds-button>
-    </aside>
+      <!-- ── Step 3: Connect cluster ─────────────────────── -->
+      @case (3) {
+      <h1 class="main__title display">{{ 'onboarding.title' | translate }}</h1>
+      <p class="main__lead">{{ 'onboarding.lead' | translate }}</p>
 
-    <!-- ── Main content ───────────────────────────────────────── -->
-    <main class="main">
-      <div class="main__inner" [style.max-width]="mainInnerWidth()">
-        <div class="step-indicator mono">
-          {{ 'onboarding.stepOf' | translate : { n: currentStep(), total: totalSteps } }}
-        </div>
+      @if (step3Error()) {
+      <ds-alert variant="banner" tone="warn">
+        {{ step3Error() }}
+        <span class="ds-alert__note">{{ 'onboarding.cluster.demoTokenNote' | translate }}</span>
+      </ds-alert>
+      }
 
-        @switch (currentStep()) {
-
-          <!-- ── Step 1: Workspace ───────────────────────────── -->
-          @case (1) {
-            <h1 class="main__title display">{{ 'onboarding.workspace.title' | translate }}</h1>
-            <p class="main__lead">{{ 'onboarding.workspace.lead' | translate }}</p>
-
-            <div class="form-section">
-              <ds-input
-                [label]="'onboarding.workspace.nameLabel' | translate"
-                [hint]="'onboarding.workspace.nameHint' | translate"
-                icon="cube"
-                forId="ws-name"
-                size="md"
-                [error]="!!step1Error()"
-                [errorMessage]="step1Error() ?? undefined"
-              >
-                <input
-                  id="ws-name"
-                  type="text"
-                  [placeholder]="'onboarding.workspace.namePlaceholder' | translate"
-                  [ngModel]="workspaceName()"
-                  (ngModelChange)="onWorkspaceNameChange($event)"
-                  autocomplete="organization"
-                />
-              </ds-input>
-
-              <ds-input
-                [label]="'onboarding.workspace.slugLabel' | translate"
-                icon="git"
-                size="md"
-                [readonly]="true"
-              >
-                <span class="mono">{{ (urlSlug() || 'your-workspace') + '.podiq.io' }}</span>
-              </ds-input>
-
-              <div class="ws-accent-row">
-                <div class="ws-icon-section">
-                  <div class="field__label">{{ 'onboarding.workspace.iconLabel' | translate }}</div>
-                  <div class="ws-icon-wrap">
-                    <div class="ws-icon-preview display">
-                      {{ firstLetter() }}
-                    </div>
-                    <button class="ws-icon-edit" type="button">
-                      <ds-icon name="edit" [size]="12" [stroke]="1.8" />
-                      <span class="sr-only">Change icon</span>
-                    </button>
-                  </div>
-                </div>
-
-                <fieldset class="field ws-accent-section">
-                  <legend class="field__label">{{ 'onboarding.workspace.accentLabel' | translate }}</legend>
-                  <div class="accent-row">
-                    @for (color of accents; track color) {
-                      <button
-                        class="accent-swatch"
-                        type="button"
-                        [style.background]="color"
-                        [class.accent-swatch--selected]="selectedAccent() === color"
-                        (click)="selectedAccent.set(color)"
-                        [attr.aria-label]="color"
-                        [attr.aria-pressed]="selectedAccent() === color"
-                      ></button>
-                    }
-                  </div>
-                  <p class="accent-hint">{{ 'onboarding.workspace.accentHint' | translate }}</p>
-                </fieldset>
-              </div>
-
-              <fieldset class="field">
-                <legend class="field__label">{{ 'onboarding.workspace.teamSizeLabel' | translate }}</legend>
-                <div class="choice-grid">
-                  @for (ts of teamSizes; track ts.id) {
-                    <button
-                      class="choice-btn"
-                      type="button"
-                      [class.choice-btn--selected]="selectedTeamSize() === ts.id"
-                      (click)="selectedTeamSize.set(ts.id)"
-                      [attr.aria-pressed]="selectedTeamSize() === ts.id"
-                    >
-                      {{ ts.labelKey | translate }}
-                    </button>
-                  }
-                </div>
-              </fieldset>
-
-              <fieldset class="field">
-                <legend class="field__label">{{ 'onboarding.workspace.regionLabel' | translate }}</legend>
-                <div class="region-row">
-                  @for (r of regions; track r.id) {
-                    <button
-                      class="region-card"
-                      type="button"
-                      [class.region-card--selected]="selectedRegion() === r.id"
-                      (click)="selectedRegion.set(r.id)"
-                      [attr.aria-pressed]="selectedRegion() === r.id"
-                    >
-                      <span class="region-card__radio" [class.region-card__radio--on]="selectedRegion() === r.id">
-                        <span class="region-card__radio-dot"></span>
-                      </span>
-                      <div>
-                        <span class="region-card__name">{{ r.labelKey | translate }}</span>
-                        <span class="region-card__sub">{{ r.subKey | translate }}</span>
-                      </div>
-                    </button>
-                  }
-                </div>
-                <p class="region-note">{{ 'onboarding.workspace.regionNote' | translate }}</p>
-              </fieldset>
-            </div>
-
-            <div class="main__nav main__nav--end">
-              <ds-button variant="ghost" size="md" style="opacity:0.4"
-                (click)="prev()" (keydown.enter)="prev()">
-                {{ 'onboarding.back' | translate }}
-              </ds-button>
-              <ds-button variant="primary" size="md" iconRight="arrow"
-                [disabled]="step1Loading()"
-                (click)="submitWorkspace()" (keydown.enter)="submitWorkspace()">
-                {{ (step1Loading() ? 'onboarding.creating' : 'onboarding.continue') | translate }}
-              </ds-button>
-            </div>
+      <div class="method-grid">
+        @for (opt of installOptions; track opt.id) {
+        <button class="method-card" [class.method-card--selected]="selectedMethod() === opt.id" type="button"
+          (click)="selectedMethod.set(opt.id)">
+          <ds-icon [name]="opt.icon" [size]="20"
+            [color]="selectedMethod() === opt.id ? 'var(--accent-ink)' : 'var(--ink-2)'" />
+          <div class="method-card__title display">{{ opt.titleKey | translate }}</div>
+          <div class="method-card__desc">{{ opt.descKey | translate }}</div>
+          @if (selectedMethod() === opt.id) {
+          <span class="method-card__check">
+            <ds-icon name="check" [size]="12" [stroke]="2.5" />
+          </span>
           }
-
-          <!-- ── Step 2: Choose plan ─────────────────────────── -->
-          @case (2) {
-            <h1 class="main__title display">{{ 'onboarding.plan.title' | translate }}</h1>
-            <p class="main__lead">{{ 'onboarding.plan.lead' | translate }}</p>
-
-            <fieldset class="billing-toggle">
-              <legend class="sr-only">{{ 'onboarding.billing.legend' | translate }}</legend>
-              <button
-                class="billing-btn"
-                type="button"
-                [class.billing-btn--active]="billingCycle() === 'monthly'"
-                (click)="billingCycle.set('monthly')"
-                [attr.aria-pressed]="billingCycle() === 'monthly'"
-              >
-                {{ 'onboarding.billing.monthly' | translate }}
-              </button>
-              <button
-                class="billing-btn"
-                type="button"
-                [class.billing-btn--active]="billingCycle() === 'annual'"
-                (click)="billingCycle.set('annual')"
-                [attr.aria-pressed]="billingCycle() === 'annual'"
-              >
-                {{ 'onboarding.billing.annual' | translate }}
-                <span class="billing-save">{{ 'onboarding.billing.save' | translate }}</span>
-              </button>
-            </fieldset>
-
-            <!-- Plan cards — proper radio pattern -->
-            <div class="plan-grid" role="radiogroup">
-              @for (p of plans; track p.id) {
-                <label
-                  class="plan-card"
-                  [class.plan-card--selected]="selectedPlan() === p.id"
-                >
-                  <input
-                    type="radio"
-                    name="plan"
-                    [value]="p.id"
-                    [checked]="selectedPlan() === p.id"
-                    (change)="selectedPlan.set(p.id)"
-                    class="sr-only"
-                  />
-                  @if (p.tag) {
-                    <ds-tag tone="accent" class="plan-card__tag">{{ p.tag | translate }}</ds-tag>
-                  }
-                  <div class="plan-card__header">
-                    <div>
-                      <div class="plan-card__name display"
-                        [class.plan-card__name--selected]="selectedPlan() === p.id">
-                        {{ p.nameKey | translate }}
-                      </div>
-                      <div class="plan-card__sub">{{ p.subKey | translate }}</div>
-                    </div>
-                    <div class="plan-card__radio"
-                      [class.plan-card__radio--on]="selectedPlan() === p.id">
-                      @if (selectedPlan() === p.id) {
-                        <span class="plan-card__radio-dot"></span>
-                      }
-                    </div>
-                  </div>
-                  <div class="plan-card__price">
-                    <span class="plan-card__amount display num"
-                      [class.plan-card__amount--selected]="selectedPlan() === p.id">
-                      {{ planPrice(p) }}
-                    </span>
-                    <span class="plan-card__period">{{ p.perKey | translate }}</span>
-                  </div>
-                  <hr class="plan-divider" />
-                  <ul class="plan-card__features">
-                    @for (fk of p.featuresKeys; track fk) {
-                      <li>
-                        <ds-icon name="check" [size]="13" [stroke]="2.5"
-                          [class]="selectedPlan() === p.id ? 'accent-icon' : 'ok-icon'" />
-                        {{ fk | translate }}
-                      </li>
-                    }
-                  </ul>
-                </label>
-              }
-            </div>
-
-            <ds-banner variant="promo">
-              <b>{{ 'onboarding.plan.trialBold' | translate }}</b>
-              {{ 'onboarding.plan.trialRest' | translate }}
-            </ds-banner>
-
-            <div class="main__nav">
-              <ds-button variant="ghost" size="md">
-                {{ 'onboarding.plan.contactSales' | translate }}
-              </ds-button>
-              <div class="main__nav-right">
-                <ds-button variant="ghost" size="md"
-                  (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
-                <ds-button variant="primary" size="md" iconRight="arrow"
-                  (click)="next()" (keydown.enter)="next()">
-                  {{ 'onboarding.plan.continueWith' | translate : { name: selectedPlanNameTranslated() } }}
-                </ds-button>
-              </div>
-            </div>
-          }
-
-          <!-- ── Step 3: Connect cluster ─────────────────────── -->
-          @case (3) {
-            <h1 class="main__title display">{{ 'onboarding.title' | translate }}</h1>
-            <p class="main__lead">{{ 'onboarding.lead' | translate }}</p>
-
-            @if (step3Error()) {
-              <ds-alert variant="banner" tone="warn">
-                {{ step3Error() }}
-                <span class="ds-alert__note">{{ 'onboarding.cluster.demoTokenNote' | translate }}</span>
-              </ds-alert>
-            }
-
-            <div class="method-grid">
-              @for (opt of installOptions; track opt.id) {
-                <button
-                  class="method-card"
-                  [class.method-card--selected]="selectedMethod() === opt.id"
-                  type="button"
-                  (click)="selectedMethod.set(opt.id)"
-                >
-                  <ds-icon
-                    [name]="opt.icon"
-                    [size]="20"
-                    [color]="selectedMethod() === opt.id ? 'var(--accent-ink)' : 'var(--ink-2)'"
-                  />
-                  <div class="method-card__title display">{{ opt.titleKey | translate }}</div>
-                  <div class="method-card__desc">{{ opt.descKey | translate }}</div>
-                  @if (selectedMethod() === opt.id) {
-                    <span class="method-card__check">
-                      <ds-icon name="check" [size]="12" [stroke]="2.5" />
-                    </span>
-                  }
-                </button>
-              }
-            </div>
-
-            <div class="code-block" [class.code-block--loading]="step3Loading()">
-              <div class="code-block__bar">
-                <span class="mono code-label">
-                  @if (step3Loading()) {
-                    <ds-loading-inline
-                      variant="dot"
-                      [label]="'onboarding.cluster.loadingToken' | translate"
-                    />
-                  } @else {
-                    {{ 'onboarding.installLabel' | translate }}
-                  }
-                </span>
-                <button class="copy-btn" type="button"
-                  [disabled]="step3Loading() || !installToken()"
-                  (click)="copyCommand()">
-                  <ds-icon [name]="copied() ? 'check' : 'copy'" [size]="13" />
-                  {{ (copied() ? 'onboarding.copied' : 'onboarding.copy') | translate }}
-                </button>
-              </div>
-              <pre class="code-block__pre mono">{{ codePre }}<span class="code-token">{{ installToken() ?? '…' }}</span>{{ codeSuf }}</pre>
-            </div>
-
-            <div class="connect__footer">
-              @if (clusterConnected()) {
-                <div class="waiting-status waiting-status--connected">
-                  <span class="waiting-pill waiting-pill--ok">
-                    <ds-icon name="check" [size]="11" [stroke]="2.5" />
-                    {{ 'onboarding.connected' | translate }}
-                  </span>
-                  <span class="waiting-hint mono">{{ connectedClusterName() }}</span>
-                </div>
-              } @else if (!step3Error()) {
-                <!-- Polling actif : token réel généré, on attend le premier ping -->
-                <div class="waiting-status">
-                  <span class="waiting-pill">
-                    <ds-loading-inline variant="dot" />
-                    {{ 'onboarding.waiting' | translate }}
-                  </span>
-                  <span class="waiting-hint">{{ 'onboarding.waitingHint' | translate }}</span>
-                </div>
-              }
-              <!-- En mode démo (step3Error présent) on n'affiche pas le spinner d'attente -->
-              <div class="main__nav">
-                <ds-button variant="ghost" size="md"
-                  (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
-                <ds-button variant="primary" size="md" iconRight="arrow"
-                  (click)="next()" (keydown.enter)="next()">
-                  {{ 'onboarding.continue' | translate }}
-                </ds-button>
-              </div>
-            </div>
-          }
-
-          <!-- ── Step 4: Invite team ─────────────────────────── -->
-          @case (4) {
-            <h1 class="main__title display">{{ 'onboarding.invite.title' | translate }}</h1>
-            <p class="main__lead">{{ 'onboarding.invite.lead' | translate }}</p>
-
-            <!-- Invite form: 3-col grid, no labels -->
-            <div class="invite-row">
-              <ds-input
-                icon="user"
-                size="md"
-                [error]="inviteEmailInvalid()"
-              >
-                <input
-                  type="email"
-                  [placeholder]="'onboarding.invite.emailPlaceholder' | translate"
-                  [ngModel]="inviteEmail()"
-                  (ngModelChange)="inviteEmail.set($event); clearInviteError()"
-                  (keydown.enter)="addInvite()"
-                  autocomplete="off"
-                />
-              </ds-input>
-              <div class="role-select-wrap">
-                <select
-                  class="field__select role-select"
-                  [ngModel]="inviteRole()"
-                  (ngModelChange)="inviteRole.set($event)"
-                >
-                  @for (r of roles; track r.id) {
-                    <option [value]="r.id">{{ r.labelKey | translate }}</option>
-                  }
-                </select>
-                <ds-icon name="chevDown" [size]="13" class="role-select-chevron" />
-              </div>
-              <ds-button variant="secondary" size="md" icon="plus"
-                (click)="addInvite()" (keydown.enter)="addInvite()">
-                {{ 'onboarding.invite.add' | translate }}
-              </ds-button>
-            </div>
-            @if (inviteEmailInvalid()) {
-              <div class="invite-email-error">
-                <ds-icon name="alert" [size]="12" class="warn-icon" />
-                {{ 'onboarding.invite.emailError' | translate }}
-              </div>
-            }
-
-            <!-- Pending invites card — always visible -->
-            <div class="invite-list">
-              <div class="invite-list__header">
-                <div class="invite-list__header-left">
-                  <span class="invite-list__label">{{ 'onboarding.invite.pending' | translate }}</span>
-                  <ds-tag tone="neutral">{{ invites().length }}</ds-tag>
-                </div>
-                <ds-button variant="ghost" size="sm" [icon]="inviteLinkCopied() ? 'check' : 'copy'"
-                  (click)="copyInviteLink()" (keydown.enter)="copyInviteLink()">
-                  {{ 'onboarding.invite.copyLink' | translate }}
-                </ds-button>
-              </div>
-              @if (invites().length === 0) {
-                <div class="invite-empty">{{ 'onboarding.invite.empty' | translate }}</div>
-              }
-              @for (inv of invites(); track inv.email; let i = $index) {
-                <div class="invite-item" [class.invite-item--last]="i === invites().length - 1">
-                  <div class="invite-item__avatar">{{ inv.email.slice(0, 2).toUpperCase() }}</div>
-                  <div class="invite-item__email mono">{{ inv.email }}</div>
-                  <div class="invite-item__role">{{ ('onboarding.role.' + inv.role) | translate }}</div>
-                  <ds-tag
-                    [tone]="inv.status === 'sent' ? 'ok' : 'neutral'"
-                    [icon]="inv.status === 'sent' ? 'check' : 'clock'">
-                    {{ (inv.status === 'sent' ? 'onboarding.invite.statusSent' : 'onboarding.invite.statusDraft') | translate }}
-                  </ds-tag>
-                  <button class="invite-item__more" type="button"
-                    (click)="removeInvite(inv.email)" aria-label="Remove">
-                    <ds-icon name="x" [size]="13" [stroke]="2" />
-                  </button>
-                </div>
-              }
-            </div>
-
-            <!-- Role description cards -->
-            <div class="role-desc-grid">
-              @for (r of roles; track r.id) {
-                <div class="role-desc-card">
-                  <div class="role-desc-card__name display">{{ r.labelKey | translate }}</div>
-                  <div class="role-desc-card__desc">{{ r.descKey | translate }}</div>
-                </div>
-              }
-            </div>
-
-            <!-- Auto-invite info card -->
-            <div class="auto-invite-card">
-              <ds-icon name="shield" [size]="16" class="auto-invite-card__icon" />
-              <div class="auto-invite-card__body">
-                <div class="auto-invite-card__title">
-                  {{ 'onboarding.invite.autoTitle' | translate }}
-                  <span class="mono">{{ autoInviteDomain() }}</span>
-                </div>
-                <div class="auto-invite-card__desc">{{ 'onboarding.invite.autoDesc' | translate }}</div>
-              </div>
-              <button
-                class="toggle"
-                type="button"
-                [class.toggle--on]="autoInvite()"
-                (click)="autoInvite.set(!autoInvite())"
-                [attr.aria-checked]="autoInvite()"
-                role="switch"
-              >
-                <span class="toggle__thumb"></span>
-              </button>
-            </div>
-
-            <!-- Nav: Skip left · Back + Continue right -->
-            <div class="main__nav" style="margin-top:32px">
-              <ds-button variant="ghost" size="md"
-                (click)="next()" (keydown.enter)="next()">
-                {{ 'onboarding.invite.skip' | translate }}
-              </ds-button>
-              <div class="main__nav-right">
-                <ds-button variant="ghost" size="md"
-                  (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
-                <ds-button variant="primary" size="md" iconRight="arrow"
-                  (click)="next()" (keydown.enter)="next()">
-                  {{ 'onboarding.continue' | translate }}
-                </ds-button>
-              </div>
-            </div>
-          }
-
-          <!-- ── Step 5: Wire up alerts ──────────────────────── -->
-          @case (5) {
-            <h1 class="main__title display">{{ 'onboarding.alerts.title' | translate }}</h1>
-            <p class="main__lead">{{ 'onboarding.alerts.lead' | translate }}</p>
-
-            <!-- Alert rules -->
-            <div class="alerts-section">
-              <div class="section-label2">{{ 'onboarding.alerts.rulesLabel' | translate }}</div>
-              <div class="alert-rules">
-                @for (rule of alertRules(); track rule.id) {
-                  <div class="alert-rule">
-                    <ds-dot [tone]="rule.tone" [size]="10" [pulse]="rule.enabled && rule.tone === 'crit'" />
-                    <div class="alert-rule__body">
-                      <div class="alert-rule__title">{{ rule.titleKey | translate }}</div>
-                      <div class="alert-rule__hint">{{ rule.hintKey | translate }}</div>
-                    </div>
-                    <button class="toggle" type="button"
-                      [class.toggle--on]="rule.enabled"
-                      (click)="toggleAlert(rule.id)"
-                      [attr.aria-checked]="rule.enabled"
-                      role="switch">
-                      <span class="toggle__thumb"></span>
-                    </button>
-                  </div>
-                }
-              </div>
-            </div>
-
-            <!-- Channels -->
-            <div class="alerts-section">
-              <div class="channels-header">
-                <div class="section-label2">{{ 'onboarding.alerts.channelsLabel' | translate }}</div>
-                <span class="channels-count">
-                  {{ 'onboarding.alerts.connectedCount' | translate : { n: connectedCount(), total: channels().length } }}
-                </span>
-              </div>
-              <div class="channel-grid">
-                @for (ch of channels(); track ch.id) {
-                  <div class="channel-card"
-                    [class.channel-card--connected]="ch.connected"
-                    [class.channel-card--disabled]="ch.disabled">
-                    @if (ch.tag) {
-                      <ds-tag tone="accent" class="channel-card__tag">{{ ch.tag | translate }}</ds-tag>
-                    }
-                    <div class="channel-card__top">
-                      <div class="channel-card__icon-wrap"
-                        [class.channel-card__icon-wrap--connected]="ch.connected">
-                        <ds-icon [name]="ch.icon" [size]="16" />
-                      </div>
-                      <div class="channel-card__info">
-                        <div class="channel-card__name display">{{ ch.labelKey | translate }}</div>
-                        <div class="channel-card__desc mono">{{ ch.descKey | translate }}</div>
-                      </div>
-                    </div>
-                    <div class="channel-card__footer">
-                      @if (ch.connected) {
-                        <ds-tag tone="ok" icon="check">{{ 'onboarding.channel.connected' | translate }}</ds-tag>
-                        <a class="channel-card__configure">{{ 'onboarding.alerts.configure' | translate }}</a>
-                      } @else {
-                        <ds-button variant="secondary" size="sm" [full]="true" [disabled]="ch.disabled">
-                          {{ (ch.disabled ? 'onboarding.alerts.comingSoon' : 'onboarding.alerts.connect') | translate }}
-                        </ds-button>
-                      }
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-
-            <!-- Quiet hours card -->
-            <div class="quiet-hours-card">
-              <ds-icon name="clock" [size]="18" class="quiet-hours-card__icon" />
-              <div class="quiet-hours-card__body">
-                <div class="quiet-hours-card__title">{{ 'onboarding.alerts.quietHoursLabel' | translate }}</div>
-                <div class="quiet-hours-card__desc">{{ 'onboarding.alerts.quietHoursDesc' | translate }}</div>
-              </div>
-              <button class="toggle" type="button"
-                [class.toggle--on]="quietHours()"
-                (click)="quietHours.set(!quietHours())"
-                [attr.aria-checked]="quietHours()"
-                role="switch">
-                <span class="toggle__thumb"></span>
-              </button>
-            </div>
-
-            <!-- Nav -->
-            <div class="main__nav" style="margin-top:32px">
-              <ds-button variant="ghost" size="md"
-                (click)="next()" (keydown.enter)="next()">
-                {{ 'onboarding.alerts.skip' | translate }}
-              </ds-button>
-              <div class="main__nav-right">
-                <ds-button variant="ghost" size="md"
-                  (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
-                <ds-button variant="primary" size="md" iconRight="check"
-                  [disabled]="step5Loading()"
-                  (click)="finishAlerts()" (keydown.enter)="finishAlerts()">
-                  {{ (step5Loading() ? 'onboarding.saving' : 'onboarding.alerts.finish') | translate }}
-                </ds-button>
-              </div>
-            </div>
-          }
-
+        </button>
         }
       </div>
-    </main>
 
-  </div>
+      <div class="code-block" [class.code-block--loading]="step3Loading()">
+        <div class="code-block__bar">
+          <span class="mono code-label">
+            @if (step3Loading()) {
+            <ds-loading-inline variant="dot" [label]="'onboarding.cluster.loadingToken' | translate" />
+            } @else {
+            {{ 'onboarding.installLabel' | translate }}
+            }
+          </span>
+          <button class="copy-btn" type="button" [disabled]="step3Loading() || !installToken()" (click)="copyCommand()">
+            <ds-icon [name]="copied() ? 'check' : 'copy'" [size]="13" />
+            {{ (copied() ? 'onboarding.copied' : 'onboarding.copy') | translate }}
+          </button>
+        </div>
+        <pre
+          class="code-block__pre mono">{{ codePre }}<span class="code-token">{{ installToken() ?? '…' }}</span>{{ codeSuf }}</pre>
+      </div>
+
+      <div class="connect__footer">
+        @if (clusterConnected()) {
+        <div class="waiting-status waiting-status--connected">
+          <span class="waiting-pill waiting-pill--ok">
+            <ds-icon name="check" [size]="11" [stroke]="2.5" />
+            {{ 'onboarding.connected' | translate }}
+          </span>
+          <span class="waiting-hint mono">{{ connectedClusterName() }}</span>
+        </div>
+        } @else if (!step3Error()) {
+        <!-- Polling actif : token réel généré, on attend le premier ping -->
+        <div class="waiting-status">
+          <span class="waiting-pill">
+            <ds-loading-inline variant="dot" />
+            {{ 'onboarding.waiting' | translate }}
+          </span>
+          <span class="waiting-hint">{{ 'onboarding.waitingHint' | translate }}</span>
+        </div>
+        }
+        <!-- En mode démo (step3Error présent) on n'affiche pas le spinner d'attente -->
+        <div class="main__nav">
+          <ds-button variant="ghost" size="md" (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' |
+            translate }}</ds-button>
+          <ds-button variant="primary" size="md" iconRight="arrow" (click)="next()" (keydown.enter)="next()">
+            {{ 'onboarding.continue' | translate }}
+          </ds-button>
+        </div>
+      </div>
+      }
+
+      <!-- ── Step 4: Invite team ─────────────────────────── -->
+      @case (4) {
+      <h1 class="main__title display">{{ 'onboarding.invite.title' | translate }}</h1>
+      <p class="main__lead">{{ 'onboarding.invite.lead' | translate }}</p>
+
+      <!-- Invite form: 3-col grid, no labels -->
+      <div class="invite-row">
+        <ds-input icon="user" size="md" [error]="inviteEmailInvalid()">
+          <input type="email" [placeholder]="'onboarding.invite.emailPlaceholder' | translate" [ngModel]="inviteEmail()"
+            (ngModelChange)="inviteEmail.set($event); clearInviteError()" (keydown.enter)="addInvite()"
+            autocomplete="off" />
+        </ds-input>
+        <div class="role-select-wrap">
+          <select class="field__select role-select" [ngModel]="inviteRole()" (ngModelChange)="inviteRole.set($event)">
+            @for (r of roles; track r.id) {
+            <option [value]="r.id">{{ r.labelKey | translate }}</option>
+            }
+          </select>
+          <ds-icon name="chevDown" [size]="13" class="role-select-chevron" />
+        </div>
+        <ds-button variant="secondary" size="md" icon="plus" (click)="addInvite()" (keydown.enter)="addInvite()">
+          {{ 'onboarding.invite.add' | translate }}
+        </ds-button>
+      </div>
+      @if (inviteEmailInvalid()) {
+      <div class="invite-email-error">
+        <ds-icon name="alert" [size]="12" class="warn-icon" />
+        {{ 'onboarding.invite.emailError' | translate }}
+      </div>
+      }
+
+      <!-- Pending invites card — always visible -->
+      <div class="invite-list">
+        <div class="invite-list__header">
+          <div class="invite-list__header-left">
+            <span class="invite-list__label">{{ 'onboarding.invite.pending' | translate }}</span>
+            <ds-tag tone="neutral">{{ invites().length }}</ds-tag>
+          </div>
+          <ds-button variant="ghost" size="sm" [icon]="inviteLinkCopied() ? 'check' : 'copy'" (click)="copyInviteLink()"
+            (keydown.enter)="copyInviteLink()">
+            {{ 'onboarding.invite.copyLink' | translate }}
+          </ds-button>
+        </div>
+        @if (invites().length === 0) {
+        <div class="invite-empty">{{ 'onboarding.invite.empty' | translate }}</div>
+        }
+        @for (inv of invites(); track inv.email; let i = $index) {
+        <div class="invite-item" [class.invite-item--last]="i === invites().length - 1">
+          <div class="invite-item__avatar">{{ inv.email.slice(0, 2).toUpperCase() }}</div>
+          <div class="invite-item__email mono">{{ inv.email }}</div>
+          <div class="invite-item__role">{{ ('onboarding.role.' + inv.role) | translate }}</div>
+          <ds-tag [tone]="inv.status === 'sent' ? 'ok' : 'neutral'" [icon]="inv.status === 'sent' ? 'check' : 'clock'">
+            {{ (inv.status === 'sent' ? 'onboarding.invite.statusSent' : 'onboarding.invite.statusDraft') | translate }}
+          </ds-tag>
+          <button class="invite-item__more" type="button" (click)="removeInvite(inv.email)" aria-label="Remove">
+            <ds-icon name="x" [size]="13" [stroke]="2" />
+          </button>
+        </div>
+        }
+      </div>
+
+      <!-- Role description cards -->
+      <div class="role-desc-grid">
+        @for (r of roles; track r.id) {
+        <div class="role-desc-card">
+          <div class="role-desc-card__name display">{{ r.labelKey | translate }}</div>
+          <div class="role-desc-card__desc">{{ r.descKey | translate }}</div>
+        </div>
+        }
+      </div>
+
+      <!-- Auto-invite info card -->
+      <div class="auto-invite-card">
+        <ds-icon name="shield" [size]="16" class="auto-invite-card__icon" />
+        <div class="auto-invite-card__body">
+          <div class="auto-invite-card__title">
+            {{ 'onboarding.invite.autoTitle' | translate }}
+            <span class="mono">{{ autoInviteDomain() }}</span>
+          </div>
+          <div class="auto-invite-card__desc">{{ 'onboarding.invite.autoDesc' | translate }}</div>
+        </div>
+        <button class="toggle" type="button" [class.toggle--on]="autoInvite()" (click)="autoInvite.set(!autoInvite())"
+          [attr.aria-checked]="autoInvite()" role="switch">
+          <span class="toggle__thumb"></span>
+        </button>
+      </div>
+
+      <!-- Nav: Skip left · Back + Continue right -->
+      <div class="main__nav" style="margin-top:32px">
+        <ds-button variant="ghost" size="md" (click)="next()" (keydown.enter)="next()">
+          {{ 'onboarding.invite.skip' | translate }}
+        </ds-button>
+        <div class="main__nav-right">
+          <ds-button variant="ghost" size="md" (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' |
+            translate }}</ds-button>
+          <ds-button variant="primary" size="md" iconRight="arrow" (click)="next()" (keydown.enter)="next()">
+            {{ 'onboarding.continue' | translate }}
+          </ds-button>
+        </div>
+      </div>
+      }
+
+      <!-- ── Step 5: Wire up alerts ──────────────────────── -->
+      @case (5) {
+      <h1 class="main__title display">{{ 'onboarding.alerts.title' | translate }}</h1>
+      <p class="main__lead">{{ 'onboarding.alerts.lead' | translate }}</p>
+
+      <!-- Alert rules -->
+      <div class="alerts-section">
+        <div class="section-label2">{{ 'onboarding.alerts.rulesLabel' | translate }}</div>
+        <div class="alert-rules">
+          @for (rule of alertRules(); track rule.id) {
+          <div class="alert-rule">
+            <ds-dot [tone]="rule.tone" [size]="10" [pulse]="rule.enabled && rule.tone === 'crit'" />
+            <div class="alert-rule__body">
+              <div class="alert-rule__title">{{ rule.titleKey | translate }}</div>
+              <div class="alert-rule__hint">{{ rule.hintKey | translate }}</div>
+            </div>
+            <button class="toggle" type="button" [class.toggle--on]="rule.enabled" (click)="toggleAlert(rule.id)"
+              [attr.aria-checked]="rule.enabled" role="switch">
+              <span class="toggle__thumb"></span>
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Channels -->
+      <div class="alerts-section">
+        <div class="channels-header">
+          <div class="section-label2">{{ 'onboarding.alerts.channelsLabel' | translate }}</div>
+          <span class="channels-count">
+            {{ 'onboarding.alerts.connectedCount' | translate : { n: connectedCount(), total: channels().length } }}
+          </span>
+        </div>
+        <div class="channel-grid">
+          @for (ch of channels(); track ch.id) {
+          <div class="channel-card" [class.channel-card--connected]="ch.connected"
+            [class.channel-card--disabled]="ch.disabled">
+            @if (ch.tag) {
+            <ds-tag tone="accent" class="channel-card__tag">{{ ch.tag | translate }}</ds-tag>
+            }
+            <div class="channel-card__top">
+              <div class="channel-card__icon-wrap" [class.channel-card__icon-wrap--connected]="ch.connected">
+                <ds-icon [name]="ch.icon" [size]="16" />
+              </div>
+              <div class="channel-card__info">
+                <div class="channel-card__name display">{{ ch.labelKey | translate }}</div>
+                <div class="channel-card__desc mono">{{ ch.descKey | translate }}</div>
+              </div>
+            </div>
+            <div class="channel-card__footer">
+              @if (ch.connected) {
+              <ds-tag tone="ok" icon="check">{{ 'onboarding.channel.connected' | translate }}</ds-tag>
+              <a class="channel-card__configure">{{ 'onboarding.alerts.configure' | translate }}</a>
+              } @else {
+              <ds-button variant="secondary" size="sm" [full]="true" [disabled]="ch.disabled">
+                {{ (ch.disabled ? 'onboarding.alerts.comingSoon' : 'onboarding.alerts.connect') | translate }}
+              </ds-button>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Quiet hours card -->
+      <div class="quiet-hours-card">
+        <ds-icon name="clock" [size]="18" class="quiet-hours-card__icon" />
+        <div class="quiet-hours-card__body">
+          <div class="quiet-hours-card__title">{{ 'onboarding.alerts.quietHoursLabel' | translate }}</div>
+          <div class="quiet-hours-card__desc">{{ 'onboarding.alerts.quietHoursDesc' | translate }}</div>
+        </div>
+        <button class="toggle" type="button" [class.toggle--on]="quietHours()" (click)="quietHours.set(!quietHours())"
+          [attr.aria-checked]="quietHours()" role="switch">
+          <span class="toggle__thumb"></span>
+        </button>
+      </div>
+
+      <!-- Nav -->
+      <div class="main__nav" style="margin-top:32px">
+        <ds-button variant="ghost" size="md" (click)="next()" (keydown.enter)="next()">
+          {{ 'onboarding.alerts.skip' | translate }}
+        </ds-button>
+        <div class="main__nav-right">
+          <ds-button variant="ghost" size="md" (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' |
+            translate }}</ds-button>
+          <ds-button variant="primary" size="md" iconRight="check" [disabled]="step5Loading()" (click)="finishAlerts()"
+            (keydown.enter)="finishAlerts()">
+            {{ (step5Loading() ? 'onboarding.saving' : 'onboarding.alerts.finish') | translate }}
+          </ds-button>
+        </div>
+      </div>
+      }
+
+      }
+    </div>
+  </main>
+
+</div>
 
 }

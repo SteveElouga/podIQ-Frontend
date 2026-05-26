@@ -22,10 +22,10 @@ export interface DsButtonConfig {
 }
 
 export const DS_BUTTON_DEFAULTS: Readonly<DsButtonConfig> = {
-  variant:  'secondary',
-  size:     'md',
-  full:     false,
+  variant: 'secondary',
+  size: 'md',
+  full: false,
   disabled: false,
-  loading:  false,
-  type:     'button',
+  loading: false,
+  type: 'button',
 };

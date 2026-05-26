@@ -55,8 +55,8 @@ const DEFAULT_TTL = 5 * 60 * 1000;
 
 @Injectable({ providedIn: 'root' })
 export class GraphqlService {
-  private readonly http  = inject(HttpClient);
-  private readonly url   = `${environment.apiUrl}/graphql`;
+  private readonly http = inject(HttpClient);
+  private readonly url = `${environment.apiUrl}/graphql`;
   private readonly _cache = new Map<string, CacheEntry>();
 
   // ── API publique ────────────────────────────────────────────────────────────

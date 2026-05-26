@@ -20,5 +20,5 @@ export const ALERT_ICON: Partial<Record<AlertTone, string>> = {
   crit: 'alert',
   warn: 'alert',
   info: 'bolt',
-  ok:   'check',
+  ok: 'check',
 };

@@ -27,41 +27,19 @@
 
       <!-- Email/password form -->
       <form [formGroup]="form" (ngSubmit)="submit()" class="email-form">
-        <ds-input
-          [label]="'login.emailLabel' | translate"
-          icon="user"
-          forId="login-email"
-        >
-          <input
-            id="login-email"
-            type="email"
-            formControlName="email"
-            [placeholder]="'login.emailPlaceholder' | translate"
-            autocomplete="email"
-          />
+        <ds-input [label]="'login.emailLabel' | translate" icon="user" forId="login-email">
+          <input id="login-email" type="email" formControlName="email"
+            [placeholder]="'login.emailPlaceholder' | translate" autocomplete="email" />
         </ds-input>
 
-        <ds-input
-          [label]="'login.passwordLabel' | translate"
-          icon="key"
-          forId="login-password"
-          [toggleIcon]="showPassword() ? 'eye' : 'key'"
-          (toggleClick)="showPassword.set(!showPassword())"
-        >
-          <input
-            id="login-password"
-            [type]="showPassword() ? 'text' : 'password'"
-            formControlName="password"
-            placeholder="••••••••••••"
-            autocomplete="current-password"
-          />
+        <ds-input [label]="'login.passwordLabel' | translate" icon="key" forId="login-password"
+          [toggleIcon]="showPassword() ? 'eye' : 'key'" (toggleClick)="showPassword.set(!showPassword())">
+          <input id="login-password" [type]="showPassword() ? 'text' : 'password'" formControlName="password"
+            placeholder="••••••••••••" autocomplete="current-password" />
         </ds-input>
 
         <div class="form-row">
-          <ds-checkbox
-            [checked]="!!form.value.remember"
-            (checkedChange)="form.patchValue({ remember: $event })"
-          >
+          <ds-checkbox [checked]="!!form.value.remember" (checkedChange)="form.patchValue({ remember: $event })">
             {{ 'login.remember' | translate }}
           </ds-checkbox>
           <input type="checkbox" formControlName="remember" hidden />
@@ -69,17 +47,11 @@
         </div>
 
         @if (error()) {
-          <ds-alert>{{ error() }}</ds-alert>
+        <ds-alert>{{ error() }}</ds-alert>
         }
 
-        <ds-button
-          variant="primary"
-          size="lg"
-          iconRight="arrow"
-          [full]="true"
-          type="submit"
-          [disabled]="form.invalid || loading()"
-        >
+        <ds-button variant="primary" size="lg" iconRight="arrow" [full]="true" type="submit"
+          [disabled]="form.invalid || loading()">
           {{ (loading() ? 'login.signingIn' : 'login.signIn') | translate }}
         </ds-button>
       </form>
@@ -113,12 +85,7 @@
           <span class="mono pod-name">auth-api-7f4d92b</span>
           <ds-tag tone="ok" style="margin-left:auto">{{ 'login.visual.recovered' | translate }}</ds-tag>
         </div>
-        <ds-sparkline
-          [points]="sparkPoints"
-          [width]="400"
-          [height]="56"
-          color="var(--ok)"
-        />
+        <ds-sparkline [points]="sparkPoints" [width]="400" [height]="56" color="var(--ok)" />
         <div class="time-labels mono">
           <span>−14m</span>
           <span>now</span>

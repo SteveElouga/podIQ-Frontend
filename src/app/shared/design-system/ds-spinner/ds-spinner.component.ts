@@ -37,7 +37,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   `],
 })
 export class DsSpinnerComponent {
-  readonly size   = input(24);
+  readonly size = input(24);
   readonly stroke = input(2);
-  readonly color  = input('currentColor');
+  readonly color = input('currentColor');
 }

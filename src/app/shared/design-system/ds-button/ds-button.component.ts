@@ -14,15 +14,15 @@ export type { DsButtonConfig } from './ds-button.config';
   styleUrls: ['./ds-button.component.scss'],
 })
 export class DsButtonComponent {
-  readonly variant   = input<ButtonVariant>(DS_BUTTON_DEFAULTS.variant);
-  readonly size      = input<ComponentSize>(DS_BUTTON_DEFAULTS.size);
-  readonly icon      = input<string>();
+  readonly variant = input<ButtonVariant>(DS_BUTTON_DEFAULTS.variant);
+  readonly size = input<ComponentSize>(DS_BUTTON_DEFAULTS.size);
+  readonly icon = input<string>();
   readonly iconRight = input<string>();
-  readonly label     = input<string>();
-  readonly full      = input(DS_BUTTON_DEFAULTS.full);
-  readonly disabled  = input(DS_BUTTON_DEFAULTS.disabled);
-  readonly loading   = input(DS_BUTTON_DEFAULTS.loading);
-  readonly type      = input<'button' | 'submit' | 'reset'>(DS_BUTTON_DEFAULTS.type);
+  readonly label = input<string>();
+  readonly full = input(DS_BUTTON_DEFAULTS.full);
+  readonly disabled = input(DS_BUTTON_DEFAULTS.disabled);
+  readonly loading = input(DS_BUTTON_DEFAULTS.loading);
+  readonly type = input<'button' | 'submit' | 'reset'>(DS_BUTTON_DEFAULTS.type);
 
   readonly classes = computed(() => {
     const base = `ds-btn ds-btn--${this.variant()} ds-btn--${this.size()}`;

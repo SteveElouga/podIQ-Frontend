@@ -28,54 +28,34 @@
       <!-- Form -->
       <form [formGroup]="form" (ngSubmit)="submit()" class="email-form">
 
-        <ds-input
-          [label]="'register.emailLabel' | translate"
-          [hint]="'register.emailHint' | translate"
-          icon="user"
-          forId="register-email"
-        >
-          <input
-            id="register-email"
-            type="email"
-            formControlName="email"
-            [placeholder]="'register.emailPlaceholder' | translate"
-            autocomplete="email"
-          />
+        <ds-input [label]="'register.emailLabel' | translate" [hint]="'register.emailHint' | translate" icon="user"
+          forId="register-email">
+          <input id="register-email" type="email" formControlName="email"
+            [placeholder]="'register.emailPlaceholder' | translate" autocomplete="email" />
         </ds-input>
 
-        <ds-input
-          [label]="'register.passwordLabel' | translate"
-          icon="key"
-          forId="register-password"
-          [toggleIcon]="showPassword() ? 'eyeOff' : 'eye'"
-          (toggleClick)="showPassword.set(!showPassword())"
-        >
-          <input
-            id="register-password"
-            [type]="showPassword() ? 'text' : 'password'"
-            formControlName="password"
+        <ds-input [label]="'register.passwordLabel' | translate" icon="key" forId="register-password"
+          [toggleIcon]="showPassword() ? 'eyeOff' : 'eye'" (toggleClick)="showPassword.set(!showPassword())">
+          <input id="register-password" [type]="showPassword() ? 'text' : 'password'" formControlName="password"
             [placeholder]="'register.passwordPlaceholder' | translate"
-            [attr.autocomplete]="showPassword() ? 'off' : 'new-password'"
-          />
+            [attr.autocomplete]="showPassword() ? 'off' : 'new-password'" />
         </ds-input>
 
         <!-- Password strength meter -->
         @if ((form.get('password')?.value?.length ?? 0) > 0) {
-          <div class="strength-meter">
-            <div class="strength-bars">
-              @for (i of barIndices; track i) {
-                <span
-                  class="strength-bar"
-                  [style.background]="i < strength().bars ? strength().color : 'var(--border)'"
-                ></span>
-              }
-            </div>
-            @if (strength().labelKey) {
-              <span class="strength-label" [style.color]="strength().color">
-                {{ strength().labelKey | translate }}
-              </span>
+        <div class="strength-meter">
+          <div class="strength-bars">
+            @for (i of barIndices; track i) {
+            <span class="strength-bar"
+              [style.background]="i < strength().bars ? strength().color : 'var(--border)'"></span>
             }
           </div>
+          @if (strength().labelKey) {
+          <span class="strength-label" [style.color]="strength().color">
+            {{ strength().labelKey | translate }}
+          </span>
+          }
+        </div>
         }
 
         <!-- Plan picker -->
@@ -83,34 +63,26 @@
           <div class="plan-section__label">{{ 'register.choosePlan' | translate }}</div>
           <div class="plan-grid">
             @for (plan of plans; track plan.id) {
-              <button
-                type="button"
-                class="plan-card"
-                [class.plan-card--selected]="selectedPlan() === plan.id"
-                (click)="selectedPlan.set(plan.id)"
-              >
-                @if (plan.tagKey) {
-                  <ds-tag tone="accent" class="plan-card__badge">{{ plan.tagKey | translate }}</ds-tag>
-                }
-                <div class="plan-card__name display" [class.plan-card__name--selected]="selectedPlan() === plan.id">
-                  {{ plan.nameKey | translate }}
-                </div>
-                <div class="plan-card__price mono" [class.plan-card__price--selected]="selectedPlan() === plan.id">
-                  {{ plan.price }}<span class="plan-card__mo">{{ plan.id !== 'ent' ? '/mo' : '' }}</span>
-                </div>
-                <div class="plan-card__sub">{{ plan.subKey | translate }}</div>
-              </button>
+            <button type="button" class="plan-card" [class.plan-card--selected]="selectedPlan() === plan.id"
+              (click)="selectedPlan.set(plan.id)">
+              @if (plan.tagKey) {
+              <ds-tag tone="accent" class="plan-card__badge">{{ plan.tagKey | translate }}</ds-tag>
+              }
+              <div class="plan-card__name display" [class.plan-card__name--selected]="selectedPlan() === plan.id">
+                {{ plan.nameKey | translate }}
+              </div>
+              <div class="plan-card__price mono" [class.plan-card__price--selected]="selectedPlan() === plan.id">
+                {{ plan.price }}<span class="plan-card__mo">{{ plan.id !== 'ent' ? '/mo' : '' }}</span>
+              </div>
+              <div class="plan-card__sub">{{ plan.subKey | translate }}</div>
+            </button>
             }
           </div>
         </div>
 
         <!-- Terms checkbox -->
-        <ds-checkbox
-          [checked]="!!form.value.terms"
-          [alignTop]="true"
-          [stroke]="3"
-          (checkedChange)="form.patchValue({ terms: $event })"
-        >
+        <ds-checkbox [checked]="!!form.value.terms" [alignTop]="true" [stroke]="3"
+          (checkedChange)="form.patchValue({ terms: $event })">
           {{ 'register.terms.agree' | translate }}
           <a class="link">{{ 'register.terms.termsLink' | translate }}</a>
           {{ 'register.terms.and' | translate }}
@@ -120,17 +92,11 @@
         <input type="checkbox" formControlName="terms" hidden />
 
         @if (error()) {
-          <ds-alert>{{ error() }}</ds-alert>
+        <ds-alert>{{ error() }}</ds-alert>
         }
 
-        <ds-button
-          variant="primary"
-          size="lg"
-          iconRight="arrow"
-          [full]="true"
-          type="submit"
-          [disabled]="form.invalid || loading()"
-        >
+        <ds-button variant="primary" size="lg" iconRight="arrow" [full]="true" type="submit"
+          [disabled]="form.invalid || loading()">
           {{ (loading() ? 'register.creating' : 'register.cta') | translate }}
         </ds-button>
       </form>
@@ -155,15 +121,15 @@
       <!-- Feature rows -->
       <div class="features">
         @for (f of features; track f.icon; let last = $last) {
-          <div class="feature" [class.feature--last]="last">
-            <div class="feature__icon-box">
-              <ds-icon [name]="f.icon" [size]="16" />
-            </div>
-            <div>
-              <div class="feature__title display">{{ f.titleKey | translate }}</div>
-              <div class="feature__desc">{{ f.descKey | translate }}</div>
-            </div>
+        <div class="feature" [class.feature--last]="last">
+          <div class="feature__icon-box">
+            <ds-icon [name]="f.icon" [size]="16" />
           </div>
+          <div>
+            <div class="feature__title display">{{ f.titleKey | translate }}</div>
+            <div class="feature__desc">{{ f.descKey | translate }}</div>
+          </div>
+        </div>
         }
       </div>
 
@@ -171,11 +137,8 @@
       <div class="social-proof">
         <div class="avatars">
           @for (a of avatars; track a.initials; let k = $index) {
-            <div
-              class="avatar"
-              [style.background]="a.bg"
-              [style.margin-left]="k > 0 ? '-8px' : '0'"
-            >{{ a.initials }}</div>
+          <div class="avatar" [style.background]="a.bg" [style.margin-left]="k > 0 ? '-8px' : '0'">{{ a.initials }}
+          </div>
           }
         </div>
         <div class="social-proof__text">

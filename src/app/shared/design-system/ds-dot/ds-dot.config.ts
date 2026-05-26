@@ -10,7 +10,7 @@ export interface DsDotConfig {
 }
 
 export const DS_DOT_DEFAULTS: Readonly<DsDotConfig> = {
-  tone:  'ok',
-  size:  8,
+  tone: 'ok',
+  size: 8,
   pulse: false,
 };

@@ -60,10 +60,21 @@
   &__icon {
     flex-shrink: 0;
 
-    &--crit { color: var(--crit); }
-    &--warn { color: var(--warn); }
-    &--info { color: var(--info); }
-    &--ok   { color: var(--ok); }
+    &--crit {
+      color: var(--crit);
+    }
+
+    &--warn {
+      color: var(--warn);
+    }
+
+    &--info {
+      color: var(--info);
+    }
+
+    &--ok {
+      color: var(--ok);
+    }
   }
 
   &__body {

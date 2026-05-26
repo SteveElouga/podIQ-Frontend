@@ -8,4 +8,4 @@ import { DsToastContainerComponent } from '@shared/design-system';
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {}
+export class App { }

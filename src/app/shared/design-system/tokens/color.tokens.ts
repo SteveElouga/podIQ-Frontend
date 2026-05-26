@@ -18,13 +18,13 @@ export type ColorIntent =
 /** Correspondance intention → CSS variable */
 export const COLOR_VAR: Record<ColorIntent, string> = {
   primary: 'var(--accent)',
-  ok:      'var(--ok)',
-  warn:    'var(--warn)',
-  crit:    'var(--crit)',
-  info:    'var(--info)',
+  ok: 'var(--ok)',
+  warn: 'var(--warn)',
+  crit: 'var(--crit)',
+  info: 'var(--info)',
   neutral: 'var(--ink-2)',
-  mute:    'var(--ink-mute)',
-  ink:     'var(--ink)',
+  mute: 'var(--ink-mute)',
+  ink: 'var(--ink)',
   surface: 'var(--surface)',
 };
 

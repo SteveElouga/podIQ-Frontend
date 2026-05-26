@@ -23,7 +23,7 @@ export type { DsLoadingInlineConfig, LoadingVariant } from './ds-loading-inline.
   styleUrl: './ds-loading-inline.scss',
 })
 export class DsLoadingInlineComponent {
-  readonly label   = input<string>();
+  readonly label = input<string>();
   readonly variant = input(DS_LOADING_INLINE_DEFAULTS.variant);
-  readonly size    = input(DS_LOADING_INLINE_DEFAULTS.size);
+  readonly size = input(DS_LOADING_INLINE_DEFAULTS.size);
 }

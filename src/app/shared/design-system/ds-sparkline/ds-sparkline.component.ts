@@ -24,20 +24,20 @@ export type { DsSparklineConfig } from './ds-sparkline.config';
 })
 export class DsSparklineComponent {
   readonly points = input<number[]>([]);
-  readonly width  = input(DS_SPARKLINE_DEFAULTS.width);
+  readonly width = input(DS_SPARKLINE_DEFAULTS.width);
   readonly height = input(DS_SPARKLINE_DEFAULTS.height);
-  readonly color  = input(DS_SPARKLINE_DEFAULTS.color);
-  readonly fill   = input(DS_SPARKLINE_DEFAULTS.fill);
+  readonly color = input(DS_SPARKLINE_DEFAULTS.color);
+  readonly fill = input(DS_SPARKLINE_DEFAULTS.fill);
 
   readonly paths = computed(() => {
-    const pts    = this.points();
-    const width  = this.width();
+    const pts = this.points();
+    const width = this.width();
     const height = this.height();
     if (pts.length < 2) return { linePath: '', areaPath: '' };
-    const max   = Math.max(...pts);
-    const min   = Math.min(...pts);
+    const max = Math.max(...pts);
+    const min = Math.min(...pts);
     const range = max - min || 1;
-    const step  = width / (pts.length - 1);
+    const step = width / (pts.length - 1);
     const coords = pts.map((p, i) => [
       i * step,
       height - ((p - min) / range) * (height - 4) - 2,

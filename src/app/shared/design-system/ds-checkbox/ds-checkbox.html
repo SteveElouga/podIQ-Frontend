@@ -1,14 +1,7 @@
-<label
-  class="ds-checkbox"
-  [class.ds-checkbox--align-top]="alignTop()"
-  (click)="onToggle($event)"
->
-  <span
-    class="ds-checkbox__box"
-    [class.ds-checkbox__box--checked]="checked()"
-  >
+<label class="ds-checkbox" [class.ds-checkbox--align-top]="alignTop()" (click)="onToggle($event)">
+  <span class="ds-checkbox__box" [class.ds-checkbox__box--checked]="checked()">
     @if (checked()) {
-      <ds-icon name="check" [size]="10" [stroke]="stroke()" />
+    <ds-icon name="check" [size]="10" [stroke]="stroke()" />
     }
   </span>
   <span class="ds-checkbox__label">

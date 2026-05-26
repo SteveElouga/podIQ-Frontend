@@ -1,8 +1,24 @@
-.display { font-family: var(--font-display); }
-.mono    { font-family: var(--font-mono); font-feature-settings: "ss01","cv11"; }
-.num     { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
-.ok-text     { color: var(--ok); }
-.accent-text { color: var(--accent); }
+.display {
+  font-family: var(--font-display);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv11";
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.ok-text {
+  color: var(--ok);
+}
+
+.accent-text {
+  color: var(--accent);
+}
 
 .login {
   display: grid;
@@ -57,7 +73,10 @@
   font-weight: var(--fw-medium);
   text-decoration: none;
   cursor: pointer;
-  &.small { font-size: 12.5px; }
+
+  &.small {
+    font-size: 12.5px;
+  }
 }
 
 .sso-buttons {
@@ -151,7 +170,9 @@
   }
 }
 
-.pod-name { font-size: 11.5px; }
+.pod-name {
+  font-size: 11.5px;
+}
 
 .time-labels {
   display: flex;

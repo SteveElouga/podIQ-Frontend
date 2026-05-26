@@ -128,7 +128,7 @@ function refreshAndRetry(
 // ── Intercepteur ──────────────────────────────────────────────────────────────
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-  const auth     = inject(AuthService);
+  const auth = inject(AuthService);
   const messages = inject(MessageService);
 
   // Calculé une seule fois par requête pour tout le pipeline RxJS.
@@ -170,15 +170,15 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (err.status === 0) {
         messages.add({
           severity: 'error',
-          summary:  'Réseau indisponible',
-          detail:   'Impossible de joindre le serveur. Vérifiez votre connexion.',
+          summary: 'Réseau indisponible',
+          detail: 'Impossible de joindre le serveur. Vérifiez votre connexion.',
           life: 6_000,
         });
       } else if (err.status >= 500) {
         messages.add({
           severity: 'error',
-          summary:  'Erreur serveur',
-          detail:   `Erreur inattendue (${err.status}). Veuillez réessayer.`,
+          summary: 'Erreur serveur',
+          detail: `Erreur inattendue (${err.status}). Veuillez réessayer.`,
           life: 6_000,
         });
       }

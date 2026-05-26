@@ -18,7 +18,7 @@ export type { DsTagConfig } from './ds-tag.config';
   styleUrls: ['./ds-tag.component.scss'],
 })
 export class DsTagComponent {
-  readonly tone  = input<TagTone>(DS_TAG_DEFAULTS.tone);
-  readonly icon  = input<string>();
+  readonly tone = input<TagTone>(DS_TAG_DEFAULTS.tone);
+  readonly icon = input<string>();
   readonly label = input<string>();
 }

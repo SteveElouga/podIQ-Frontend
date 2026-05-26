@@ -121,7 +121,9 @@
     "avgSetup": "Installation moy. : 6 min",
     "readOnly": "Lecture seule par défaut",
     "skip": "Passer pour l'instant",
+    "goToStep": "Revenir à l'étape {{n}}",
     "inProgress": "en cours",
+    "editing": "modification",
     "connected": "Connecté",
     "channelDisabled": "bientôt",
     "creating": "Création en cours…",
@@ -137,9 +139,18 @@
       "4": "Configurer les alertes"
     },
     "methods": {
-      "0": { "title": "Chart Helm",    "desc": "Recommandé" },
-      "1": { "title": "kubectl apply", "desc": "YAML one-shot" },
-      "2": { "title": "Terraform",     "desc": "Compatible GitOps" }
+      "0": {
+        "title": "Chart Helm",
+        "desc": "Recommandé"
+      },
+      "1": {
+        "title": "kubectl apply",
+        "desc": "YAML one-shot"
+      },
+      "2": {
+        "title": "Terraform",
+        "desc": "Compatible GitOps"
+      }
     },
     "workspace": {
       "title": "Nommez votre espace de travail",
@@ -157,173 +168,173 @@
       "nameError": "Le nom doit comporter au moins 2 caractères."
     },
     "cluster": {
-      "noWorkspace":    "Mode hors-ligne — aucun workspace JWT disponible. Utilisez le token de démo ci-dessous pour tester l'interface.",
-      "apiError":       "Impossible de générer un token réel ({{message}}). Token de démo utilisé à la place.",
-      "loadingToken":   "Génération du token d'installation…",
-      "demoTokenNote":  "Ce token est fictif — connectez le backend pour obtenir un token réel."
+      "noWorkspace": "Mode hors-ligne — aucun workspace JWT disponible. Utilisez le token de démo ci-dessous pour tester l'interface.",
+      "apiError": "Impossible de générer un token réel ({{message}}). Token de démo utilisé à la place.",
+      "loadingToken": "Génération du token d'installation…",
+      "demoTokenNote": "Ce token est fictif — connectez le backend pour obtenir un token réel."
     },
     "teamSize": {
-      "solo":  "Seul(e)",
+      "solo": "Seul(e)",
       "small": "2 – 10",
-      "mid":   "11 – 50",
+      "mid": "11 – 50",
       "large": "50+"
     },
     "region": {
-      "eu":    "EU · Francfort",
+      "eu": "EU · Francfort",
       "euSub": "RGPD · par défaut",
-      "us":    "US · Virginie",
+      "us": "US · Virginie",
       "usSub": "SOC2 II",
-      "ap":    "AP · Singapour",
+      "ap": "AP · Singapour",
       "apSub": "SOC2 II"
     },
     "billing": {
-      "legend":  "Cycle de facturation",
+      "legend": "Cycle de facturation",
       "monthly": "Mensuel",
-      "annual":  "Annuel",
-      "save":    "−20%"
+      "annual": "Annuel",
+      "save": "−20%"
     },
     "plan": {
-      "title":        "Choisissez votre plan",
-      "lead":         "Commencez gratuitement, passez à la vitesse supérieure quand votre équipe grandit.",
-      "perMonth":     "/ mois",
-      "trialBanner":  "Toutes les fonctionnalités Pro gratuites pendant 14 jours — sans carte bancaire.",
-      "trialBold":    "14 jours d'essai gratuit",
-      "trialRest":    " — aucune carte bancaire requise.",
+      "title": "Choisissez votre plan",
+      "lead": "Commencez gratuitement, passez à la vitesse supérieure quand votre équipe grandit.",
+      "perMonth": "/ mois",
+      "trialBanner": "Toutes les fonctionnalités Pro gratuites pendant 14 jours — sans carte bancaire.",
+      "trialBold": "14 jours d'essai gratuit",
+      "trialRest": " — aucune carte bancaire requise.",
       "contactSales": "Contacter les ventes",
       "continueWith": "Continuer avec {{name}}",
       "free": {
         "name": "Gratuit",
-        "per":  "/ mois",
-        "sub":  "1 cluster · 50 pods · support communauté",
-        "f0":   "Moteur de mémoire (30 derniers jours)",
-        "f1":   "3 règles d'alerte",
-        "f2":   "Support communauté",
-        "f3":   "1 intégration de canal"
+        "per": "/ mois",
+        "sub": "1 cluster · 50 pods · support communauté",
+        "f0": "Moteur de mémoire (30 derniers jours)",
+        "f1": "3 règles d'alerte",
+        "f2": "Support communauté",
+        "f3": "1 intégration de canal"
       },
       "pro": {
         "name": "Pro",
-        "tag":  "Le plus populaire",
-        "per":  "/ mois",
-        "sub":  "10 clusters · pods illimités",
-        "f0":   "Historique mémoire complet",
-        "f1":   "Règles d'alerte illimitées",
-        "f2":   "Slack + PagerDuty",
-        "f3":   "Support prioritaire",
-        "f4":   "Audit des accès",
-        "f5":   "SSO SAML"
+        "tag": "Le plus populaire",
+        "per": "/ mois",
+        "sub": "10 clusters · pods illimités",
+        "f0": "Historique mémoire complet",
+        "f1": "Règles d'alerte illimitées",
+        "f2": "Slack + PagerDuty",
+        "f3": "Support prioritaire",
+        "f4": "Audit des accès",
+        "f5": "SSO SAML"
       },
       "ent": {
         "name": "Entreprise",
-        "per":  "sur devis",
-        "sub":  "Clusters illimités · SSO · SLA",
-        "f0":   "Tout ce qui est dans Pro",
-        "f1":   "SAML / OIDC SSO",
-        "f2":   "Logs d'audit",
-        "f3":   "SLA dédié",
-        "f4":   "Support 24/7",
-        "f5":   "Déploiement on-premise"
+        "per": "sur devis",
+        "sub": "Clusters illimités · SSO · SLA",
+        "f0": "Tout ce qui est dans Pro",
+        "f1": "SAML / OIDC SSO",
+        "f2": "Logs d'audit",
+        "f3": "SLA dédié",
+        "f4": "Support 24/7",
+        "f5": "Déploiement on-premise"
       }
     },
     "invite": {
-      "title":            "Invitez votre équipe",
-      "lead":             "Ajoutez des membres maintenant ou passez et faites-le plus tard depuis les paramètres.",
-      "emailLabel":       "Email du collègue",
-      "roleLabel":        "Rôle",
+      "title": "Invitez votre équipe",
+      "lead": "Ajoutez des membres maintenant ou passez et faites-le plus tard depuis les paramètres.",
+      "emailLabel": "Email du collègue",
+      "roleLabel": "Rôle",
       "emailPlaceholder": "collegue@acme.io",
-      "add":              "Ajouter",
-      "pending":          "Invitations en attente",
-      "empty":            "Aucune invitation — ajoutez des membres ci-dessus.",
-      "autoLabel":        "Inviter automatiquement les membres avec le même domaine email",
-      "emailError":       "Adresse email invalide.",
-      "statusSent":       "Envoyée",
-      "statusDraft":      "Brouillon",
-      "copyLink":         "Copier le lien",
-      "autoTitle":        "Inviter automatiquement @",
-      "autoDesc":         "Tout membre rejoignant avec ce domaine sera ajouté en tant que Membre.",
-      "skip":             "Passer cette étape"
+      "add": "Ajouter",
+      "pending": "Invitations en attente",
+      "empty": "Aucune invitation — ajoutez des membres ci-dessus.",
+      "autoLabel": "Inviter automatiquement les membres avec le même domaine email",
+      "emailError": "Adresse email invalide.",
+      "statusSent": "Envoyée",
+      "statusDraft": "Brouillon",
+      "copyLink": "Copier le lien",
+      "autoTitle": "Inviter automatiquement @",
+      "autoDesc": "Tout membre rejoignant avec ce domaine sera ajouté en tant que Membre.",
+      "skip": "Passer cette étape"
     },
     "role": {
-      "admin":      "Admin",
-      "adminDesc":  "Accès complet, facturation, invitations",
-      "member":     "Membre",
+      "admin": "Admin",
+      "adminDesc": "Accès complet, facturation, invitations",
+      "member": "Membre",
       "memberDesc": "Voir et gérer les incidents",
-      "viewer":     "Lecteur",
+      "viewer": "Lecteur",
       "viewerDesc": "Accès en lecture seule"
     },
     "alerts": {
-      "title":           "Configurez les alertes",
-      "lead":            "Choisissez les conditions qui déclenchent des notifications et où les envoyer.",
-      "rulesLabel":      "Conditions d'alerte",
-      "channelsLabel":   "Canaux de notification",
+      "title": "Configurez les alertes",
+      "lead": "Choisissez les conditions qui déclenchent des notifications et où les envoyer.",
+      "rulesLabel": "Conditions d'alerte",
+      "channelsLabel": "Canaux de notification",
       "quietHoursLabel": "Heures silencieuses",
-      "quietHoursDesc":  "Supprime les alertes non critiques entre 23h et 7h",
-      "finish":          "Terminer la configuration",
-      "configure":       "Configurer",
-      "comingSoon":      "Bientôt disponible",
-      "connect":         "Connecter",
-      "connectedCount":  "{{n}} sur {{total}} connecté(s)",
-      "skip":            "Passer pour l'instant"
+      "quietHoursDesc": "Supprime les alertes non critiques entre 23h et 7h",
+      "finish": "Terminer la configuration",
+      "configure": "Configurer",
+      "comingSoon": "Bientôt disponible",
+      "connect": "Connecter",
+      "connectedCount": "{{n}} sur {{total}} connecté(s)",
+      "skip": "Passer pour l'instant"
     },
     "alert": {
-      "crash":          "CrashLoopBackOff détecté",
-      "crashHint":      "Notification immédiate dès qu'un pod entre en boucle de redémarrage.",
-      "memory":         "Saturation mémoire > 90%",
-      "memoryHint":     "Alerte quand l'utilisation mémoire dépasse 90 %.",
-      "predeploy":      "Scan pré-déploiement bloqué",
-      "predeployHint":  "Bloque les déploiements correspondant à des pannes passées.",
-      "fix":            "Fix automatique disponible",
-      "fixHint":        "Notifie quand un correctif automatique est disponible."
+      "crash": "CrashLoopBackOff détecté",
+      "crashHint": "Notification immédiate dès qu'un pod entre en boucle de redémarrage.",
+      "memory": "Saturation mémoire > 90%",
+      "memoryHint": "Alerte quand l'utilisation mémoire dépasse 90 %.",
+      "predeploy": "Scan pré-déploiement bloqué",
+      "predeployHint": "Bloque les déploiements correspondant à des pannes passées.",
+      "fix": "Fix automatique disponible",
+      "fixHint": "Notifie quand un correctif automatique est disponible."
     },
     "channel": {
-      "connected":       "Connecté",
-      "recommended":     "Recommandé",
-      "slack":           "Slack",
-      "slackDesc":       "#incidents · alertes en temps réel",
-      "pagerduty":       "PagerDuty",
-      "pagerdutyDesc":   "On-call · escalade",
-      "email":           "Email",
-      "emailDesc":       "Digest quotidien",
-      "webhook":         "Webhook",
-      "webhookDesc":     "POST vers votre endpoint",
-      "teams":           "Teams",
-      "teamsDesc":       "Bientôt disponible",
-      "discord":         "Discord",
-      "discordDesc":     "#alerts"
+      "connected": "Connecté",
+      "recommended": "Recommandé",
+      "slack": "Slack",
+      "slackDesc": "#incidents · alertes en temps réel",
+      "pagerduty": "PagerDuty",
+      "pagerdutyDesc": "On-call · escalade",
+      "email": "Email",
+      "emailDesc": "Digest quotidien",
+      "webhook": "Webhook",
+      "webhookDesc": "POST vers votre endpoint",
+      "teams": "Teams",
+      "teamsDesc": "Bientôt disponible",
+      "discord": "Discord",
+      "discordDesc": "#alerts"
     },
     "complete": {
-      "topbarTag":      "Configuration terminée",
-      "setupTag":       "Tout est configuré",
-      "title":          "Tout est prêt.",
-      "sub":            "Votre espace est en ligne. Voici ce qui est configuré :",
-      "subPre":         "Votre cluster ",
-      "subMid":         " envoie des alertes vers ",
-      "subPost":        ".",
-      "clusterValue":   "Connecté",
-      "channelName":    "#incidents",
-      "workspace":      "Espace de travail",
-      "workspaceSub":   "Créé et configuré",
+      "topbarTag": "Configuration terminée",
+      "setupTag": "Tout est configuré",
+      "title": "Tout est prêt.",
+      "sub": "Votre espace est en ligne. Voici ce qui est configuré :",
+      "subPre": "Votre cluster ",
+      "subMid": " envoie des alertes vers ",
+      "subPost": ".",
+      "clusterValue": "Connecté",
+      "channelName": "#incidents",
+      "workspace": "Espace de travail",
+      "workspaceSub": "Créé et configuré",
       "workspaceValue": "Créé et configuré",
-      "cluster":        "Cluster",
-      "clusterSub":     "Agent déployé",
-      "team":           "Équipe",
-      "teamSub":        "Invitations envoyées",
-      "teamValue":      "Invitations envoyées",
-      "alerts":         "Alertes",
-      "alertsSub":      "Règles actives",
-      "alertsValue":    "Règles actives",
-      "suggestedNext":  "Que faire ensuite",
-      "takeTour":       "Visite guidée",
-      "nextActions":    "Que faire ensuite",
-      "action0":        "Regarder le tutoriel de 3 minutes",
-      "action0Title":   "Parcourir l'historique des incidents",
-      "action0Sub":     "Explorez vos derniers incidents et corrélez les causes.",
-      "action1":        "Parcourir l'historique des incidents",
-      "action1Title":   "Configurer un scan pré-déploiement",
-      "action1Sub":     "Bloquez les déploiements qui correspondent à des pannes passées.",
-      "action2":        "Configurer un hook de scan pré-déploiement",
-      "action2Title":   "Explorer les métriques",
-      "action2Sub":     "Surveillez l'utilisation CPU et mémoire de vos pods.",
-      "goToDashboard":  "Aller au tableau de bord"
+      "cluster": "Cluster",
+      "clusterSub": "Agent déployé",
+      "team": "Équipe",
+      "teamSub": "Invitations envoyées",
+      "teamValue": "Invitations envoyées",
+      "alerts": "Alertes",
+      "alertsSub": "Règles actives",
+      "alertsValue": "Règles actives",
+      "suggestedNext": "Que faire ensuite",
+      "takeTour": "Visite guidée",
+      "nextActions": "Que faire ensuite",
+      "action0": "Regarder le tutoriel de 3 minutes",
+      "action0Title": "Parcourir l'historique des incidents",
+      "action0Sub": "Explorez vos derniers incidents et corrélez les causes.",
+      "action1": "Parcourir l'historique des incidents",
+      "action1Title": "Configurer un scan pré-déploiement",
+      "action1Sub": "Bloquez les déploiements qui correspondent à des pannes passées.",
+      "action2": "Configurer un hook de scan pré-déploiement",
+      "action2Title": "Explorer les métriques",
+      "action2Sub": "Surveillez l'utilisation CPU et mémoire de vos pods.",
+      "goToDashboard": "Aller au tableau de bord"
     }
   },
   "register": {
@@ -357,9 +368,19 @@
     "footerCopy": "© 2026 PodIQ Labs",
     "footerLinks": "Confidentialité · CGU · Statut",
     "plans": {
-      "free": { "name": "Gratuit",      "sub": "1 cluster · 50 pods" },
-      "pro":  { "name": "Pro",          "sub": "10 clusters · illimité", "tag": "Populaire" },
-      "ent":  { "name": "Entreprise",   "sub": "SSO · audit · SLA" }
+      "free": {
+        "name": "Gratuit",
+        "sub": "1 cluster · 50 pods"
+      },
+      "pro": {
+        "name": "Pro",
+        "sub": "10 clusters · illimité",
+        "tag": "Populaire"
+      },
+      "ent": {
+        "name": "Entreprise",
+        "sub": "SSO · audit · SLA"
+      }
     },
     "visual": {
       "tag": "Ce qui est inclus dans chaque espace",
@@ -368,10 +389,22 @@
       "socialBold": "1 247 équipes",
       "socialRest": "ont déployé en prod avec PodIQ cette semaine.",
       "features": {
-        "0": { "title": "Moteur de mémoire",          "desc": "Chaque incident est empreinte digitale et indexé." },
-        "1": { "title": "Corrélation inter-services",  "desc": "Visualisez le blast radius avant que votre dashboard se rafraîchisse." },
-        "2": { "title": "Scanner pré-déploiement",     "desc": "Bloquez les manifests qui correspondent à des pannes passées." },
-        "3": { "title": "SOC2 type II · SSO",          "desc": "Agent en lecture seule. Pas d'exec, pas de port-forward." }
+        "0": {
+          "title": "Moteur de mémoire",
+          "desc": "Chaque incident est empreinte digitale et indexé."
+        },
+        "1": {
+          "title": "Corrélation inter-services",
+          "desc": "Visualisez le blast radius avant que votre dashboard se rafraîchisse."
+        },
+        "2": {
+          "title": "Scanner pré-déploiement",
+          "desc": "Bloquez les manifests qui correspondent à des pannes passées."
+        },
+        "3": {
+          "title": "SOC2 type II · SSO",
+          "desc": "Agent en lecture seule. Pas d'exec, pas de port-forward."
+        }
       }
     }
   },

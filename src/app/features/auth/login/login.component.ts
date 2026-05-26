@@ -43,18 +43,18 @@ import {
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  private readonly auth   = inject(AuthService);
+  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly fb     = inject(FormBuilder);
+  private readonly fb = inject(FormBuilder);
 
-  loading      = signal(false);
-  error        = signal<string | null>(null);
+  loading = signal(false);
+  error = signal<string | null>(null);
   showPassword = signal(false);
 
   readonly sparkPoints = [8, 9, 12, 18, 22, 16, 9, 6, 5, 4, 4, 3];
 
   form = this.fb.group({
-    email:    ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
     remember: [false],
   });
@@ -85,7 +85,7 @@ export class LoginComponent {
         }),
       )
       .subscribe({
-        next:  ({ redirect }) => this.router.navigate([redirect]),
+        next: ({ redirect }) => this.router.navigate([redirect]),
         error: (err: Error) => {
           this.error.set(err.message);
           this.loading.set(false);

@@ -1,23 +1,18 @@
-<button
-  [class]="classes()"
-  [disabled]="isDisabled()"
-  [attr.type]="type()"
-  [attr.aria-disabled]="isDisabled()"
-  [attr.aria-busy]="loading()"
->
+<button [class]="classes()" [disabled]="isDisabled()" [attr.type]="type()" [attr.aria-disabled]="isDisabled()"
+  [attr.aria-busy]="loading()">
   @if (loading()) {
-    <ds-spinner [size]="iconSize()" [stroke]="2" aria-hidden="true" />
+  <ds-spinner [size]="iconSize()" [stroke]="2" aria-hidden="true" />
   } @else if (icon()) {
-    <ds-icon [name]="icon()!" [size]="iconSize()" />
+  <ds-icon [name]="icon()!" [size]="iconSize()" />
   }
 
   @if (label()) {
-    {{ label() }}
+  {{ label() }}
   } @else {
-    <ng-content />
+  <ng-content />
   }
 
   @if (iconRight() && !loading()) {
-    <ds-icon [name]="iconRight()!" [size]="iconSize()" />
+  <ds-icon [name]="iconRight()!" [size]="iconSize()" />
   }
 </button>
