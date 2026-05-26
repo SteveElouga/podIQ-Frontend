@@ -189,8 +189,15 @@ readonly role            = computed(() => payload?.['role'] ?? null);
 readonly hasWorkspace    = computed(() => !!this.workspaceId());
 ```
 
-L'`authInterceptor` injecte automatiquement le token courant dans chaque requête HTTP.  
-L'`errorInterceptor` intercepte les erreurs GraphQL `UNAUTHENTICATED` (HTTP 200 avec `errors[].extensions.code`) et appelle `auth.logout()`.
+L'`authInterceptor` injecte automatiquement le token courant dans chaque requête HTTP.
+
+L'`errorInterceptor` intercepte deux types d'erreurs d'authentification :
+- **Erreurs GraphQL** `UNAUTHENTICATED` (HTTP 200, `errors[].extensions.code === 'UNAUTHENTICATED'`)
+- **Erreurs HTTP `401`**
+
+Dans les deux cas, il déclenche un **refresh + retry** : `refreshToken()` (mutation GraphQL via cookie httpOnly), puis re-exécute la requête originale. Si le refresh échoue à son tour, il appelle `auth.logout()`.
+
+Une garde `isRefreshRequest()` empêche la boucle infinie : la requête de refresh elle-même ne déclenche pas de nouveau refresh.
 
 ### Guards
 
@@ -250,7 +257,8 @@ Composants disponibles via `@shared/design-system` :
 
 ### Internationalisation
 
-- Fichiers : [`src/assets/i18n/en.json`](src/assets/i18n/en.json) et [`fr.json`](src/assets/i18n/fr.json)
+- Fichiers : [`public/assets/i18n/en.json`](public/assets/i18n/en.json) et [`fr.json`](public/assets/i18n/fr.json)
+- **Important** : Angular 17+ sert les assets depuis `public/`, pas `src/assets/`. Ne jamais éditer dans `src/assets/` (supprimé).
 - Langue détectée depuis le navigateur, stockée en `localStorage`
 - Pipe : `| translate` · Service : `TranslateService.instant()`
 - Convention de clés : `feature.section.element`

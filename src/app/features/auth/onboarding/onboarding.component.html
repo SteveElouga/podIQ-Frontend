@@ -182,7 +182,7 @@
           <div class="ws-icon-section">
             <div class="field__label">{{ 'onboarding.workspace.iconLabel' | translate }}</div>
             <div class="ws-icon-wrap">
-              <div class="ws-icon-preview display">
+              <div class="ws-icon-preview display" [style.background]="selectedAccent()">
                 {{ firstLetter() }}
               </div>
               <button class="ws-icon-edit" type="button">

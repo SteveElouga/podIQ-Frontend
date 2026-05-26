@@ -1,9 +1,11 @@
 # PodIQ — Spécification Fonctionnelle
 
-**Version** : 1.0
-**Date** : 2026-05-18
+**Version** : 1.1
+**Date** : 2026-05-26
 **Public cible** : Équipe backend (Django / DRF)
 **Source** : `PodIQ Hi-fi.html` — 9 sections, ~30 écrans
+
+> **Note v1.1** : Mise à jour des conventions transverses (REST → GraphQL, format erreurs, double JWT, refresh token) et des sections onboarding (route unique, validation, fallback demo token, machine à états du stepper).
 
 ---
 
@@ -14,12 +16,7 @@
 | 01 | Acquisition | Landing marketing | `/` |
 | 02 | Acquisition | Login | `/login` |
 | 03 | Acquisition | Signup (3 variantes) | `/signup` |
-| 04 | Acquisition | Onboarding · Workspace | `/onboarding/workspace` |
-| 05 | Acquisition | Onboarding · Choose plan | `/onboarding/plan` |
-| 06 | Acquisition | Onboarding · Connect cluster | `/onboarding/cluster` |
-| 07 | Acquisition | Onboarding · Invite team | `/onboarding/team` |
-| 08 | Acquisition | Onboarding · Wire up alerts | `/onboarding/alerts` |
-| 09 | Acquisition | Onboarding · Complete | `/onboarding/complete` |
+| 04–09 | Acquisition | Onboarding (5 steps + complete) | `/onboarding` (SPA, navigation côté client) |
 | 10 | Cluster intelligence | Cluster dashboard | `/dashboard` |
 | 11 | Cluster intelligence | Incident analysis | `/incidents/:id` |
 | 12 | Differentiators | Memory engine | `/memory` |
@@ -52,44 +49,105 @@
 
 ## Conventions transverses
 
-### Authentification
-- Toutes les routes hors `/`, `/login`, `/signup`, `/help`, `/legal/*` exigent un JWT valide dans `Authorization: Bearer <token>`.
-- Le JWT porte `workspace_id`, `user_id`, `role` (`admin` | `member` | `viewer`).
-- Refresh via `POST /api/auth/refresh` avec un cookie `httpOnly` `refresh_token`.
+### Transport API — GraphQL over HTTP
 
-### Format de réponse standard
+> ⚠️ **Toute la communication frontend ↔ backend passe par un seul endpoint `POST /graphql`.**  
+> Il n'y a pas d'API REST séparée. Les sections ci-dessous décrivent les opérations sous forme de mutations/queries GraphQL ; les noms d'endpoint REST précédemment indiqués (`PATCH /api/…`, `POST /api/…`) sont obsolètes.
+
+Chaque requête est un `POST /graphql` avec le body :
+```json
+{ "query": "mutation | query ...", "variables": { ... } }
+```
+La réponse est **toujours HTTP 200** (même en cas d'erreur d'authentification).
+
+### Authentification — double JWT
+
+Le backend émet deux types de JWT :
+
+| Type | Payload | Obtenu via |
+|------|---------|------------|
+| **User-JWT** | `sub`, `email` | `register` / `login` mutation |
+| **Workspace-JWT** | `workspace_id`, `role`, `sub` | `selectWorkspace(id)` mutation |
+
+**Flux** :
+```
+login / register
+    │
+    ▼
+user-JWT  ──────────────────────────────┐
+    │                                   │
+    ▼                                   │
+listWorkspaces                          │
+    │                                   │
+    ├─ 0 workspace → /onboarding        │
+    │                                   │
+    └─ ≥1 workspace → selectWorkspace   │
+                          │             │
+                          ▼             │
+                  workspace-JWT ◄───────┘
+                  (workspace_id, role)
+                          │
+                          ▼
+                      /dashboard
+```
+
+Toutes les mutations scoped à un workspace (`createAlertRule`, `inviteMember`, etc.) requièrent un **workspace-JWT**.  
+L'header `Authorization: Bearer <jwt>` est injecté par `authInterceptor` sur chaque requête.
+
+### Refresh token
+
+- Cookie httpOnly `refresh_token` émis à la connexion.
+- **Mutation** : `mutation { refreshToken }` → retourne un nouveau JWT.
+- Le `refresh_token` est valide 30 jours (`remember=true`) ou 24h.
+- **`errorInterceptor`** déclenche automatiquement le refresh dans deux cas :
+  1. Réponse GraphQL avec `errors[].extensions.code === 'UNAUTHENTICATED'`
+  2. Réponse HTTP `401`
+  - Après refresh réussi : la requête originale est ré-exécutée (retry).
+  - Si le refresh échoue : `logout()` + redirection `/auth/login`.
+  - **Garde anti-boucle** : la requête `refreshToken` elle-même ne déclenche pas de retry.
+
+> **Pendant l'onboarding** : le refresh ne s'applique pas à la création du workspace (step 1).  
+> Si `selectWorkspace()` échoue (backend indisponible), l'UI continue en mode dégradé (voir step 3 — fallback demo token).
+
+### Format de réponse GraphQL
+
+Succès :
+```json
+{ "data": { "operationName": { ... } } }
+```
+
+Erreur :
 ```json
 {
-  "data": { ... } | [ ... ],
-  "meta": { "page": 1, "per_page": 50, "total": 1247, "next": "..." }
-}
-```
-Erreurs :
-```json
-{
-  "error": {
-    "code": "VALIDATION_FAILED",
-    "message": "Workspace name must be lowercase.",
-    "fields": { "workspace.name": "must be lowercase" }
-  }
+  "data": null,
+  "errors": [
+    {
+      "message": "Workspace name must be lowercase.",
+      "extensions": {
+        "code": "VALIDATION_FAILED",
+        "fields": { "name": "must be lowercase" }
+      }
+    }
+  ]
 }
 ```
 
-### Codes d'erreur normalisés
-| Code HTTP | `error.code` | Sens |
-|-----------|--------------|------|
-| 400 | `VALIDATION_FAILED` | Payload invalide |
-| 401 | `UNAUTHENTICATED` | Pas de JWT ou expiré |
-| 403 | `FORBIDDEN` | Rôle insuffisant |
-| 404 | `NOT_FOUND` | Ressource absente |
-| 409 | `CONFLICT` | Ressource existe déjà (slug pris, etc.) |
-| 422 | `BUSINESS_RULE_VIOLATION` | Règle métier (RMxxx) bloquée |
-| 429 | `RATE_LIMITED` | Throttling |
-| 503 | `CLUSTER_DISCONNECTED` | Agent K8s injoignable |
+### Codes d'erreur normalisés (`extensions.code`)
+
+| `extensions.code` | Sens |
+|-------------------|------|
+| `VALIDATION_FAILED` | Payload invalide |
+| `UNAUTHENTICATED` | JWT absent, expiré ou insuffisant |
+| `FORBIDDEN` | Rôle insuffisant |
+| `NOT_FOUND` | Ressource absente |
+| `CONFLICT` | Ressource existe déjà (slug pris, etc.) |
+| `BUSINESS_RULE_VIOLATION` | Règle métier (RMxxx) bloquée |
+| `RATE_LIMITED` | Throttling |
+| `CLUSTER_DISCONNECTED` | Agent K8s injoignable |
 
 ### Pagination
 - Cursor-based par défaut sur les listes longues (incidents, events).
-- Paramètres : `?cursor=<opaque>&limit=50`.
+- Argument GraphQL : `(cursor: String, limit: Int = 50)`.
 
 ### Rôles & permissions
 | Rôle | Lecture | Écriture | Admin (billing/SSO/API keys) |
@@ -334,65 +392,77 @@ And je suis redirigé vers /onboarding/workspace
 # 04 · Onboarding — Step 1 : Workspace
 
 ## 1. Vue d'ensemble
-- **Route** : `/onboarding/workspace`
-- **Rôle** : Finaliser le workspace (nom, slug, icon, accent color, taille équipe, région).
-- **Précondition** : JWT scope `onboarding` ou utilisateur authentifié sans workspace finalisé.
+- **Route** : `/onboarding` (étape 1 parmi 5 — route unique, navigation côté client)
+- **Rôle** : Créer le workspace (nom, slug, icon, accent color, taille équipe, région).
+- **Précondition** : user-JWT valide (utilisateur sans workspace ou premier workspace).
 
 ## 2. Composants et données saisies
 
 | Champ | Type | Requis | Règles | Source |
 |-------|------|--------|--------|--------|
-| Workspace name | string | ✅ | 3–32 chars, `[a-z0-9-]` | Saisie |
-| URL slug | string | ✅ | Dérivé auto du nom, éditable, unique global | Saisie + check API |
-| Workspace icon | image | ❌ | PNG/JPG ≤ 2 MB, square | Upload |
+| Workspace name | string | ✅ | **Min 2 chars** (validation front) | Saisie |
+| URL slug | string | auto | Dérivé du nom : lowercase, tirets, alphanumérique | Calculé |
+| Workspace icon | — | — | Première lettre du nom (avatar généré, pas d'upload v1) | Calculé |
 | Accent color | hex | ✅ | Parmi 6 presets | Saisie |
 | Team size | enum | ✅ | `solo` \| `2_10` \| `11_50` \| `50_plus` | Saisie |
 | Region | enum | ✅ | `eu` \| `us` \| `ap` | Saisie |
 
 ## 3. Actions
 
-### Check slug disponibilité (debounced 300ms)
-- **API** : `GET /api/workspaces/check-slug?slug=acme-platform`
-- **Réponse** : `{ "available": true }` ou `{ "available": false, "suggestion": "acme-platform-2" }`
-
-### Submit
-- **API** : `PATCH /api/onboarding/workspace`
-- **Payload** :
-```json
-{
-  "name": "acme-platform",
-  "slug": "acme-platform",
-  "icon_url": "https://cdn.../w_xxx.png",
-  "accent_color": "#d97706",
-  "team_size": "2_10",
-  "region": "eu"
+### Submit (mutation GraphQL)
+```graphql
+mutation CreateWorkspace($input: CreateWorkspaceInput!) {
+  createWorkspace(input: $input) {
+    id
+    name
+    slug
+  }
 }
 ```
-- **Réponse 200** : workspace finalisé, nouveau JWT scope = `full`, redirection `/onboarding/plan`.
+Variables :
+```json
+{
+  "name": "Acme Platform",
+  "region": "eu",
+  "teamSize": "2_10",
+  "accentColor": "#d97706"
+}
+```
+
+Immédiatement après `createWorkspace` → `selectWorkspace(workspaceId)` pour échanger le user-JWT contre un workspace-JWT :
+```graphql
+mutation SelectWorkspace($id: String!) {
+  selectWorkspace(id: $id) { token }
+}
+```
+
+### Mode dégradé (backend indisponible)
+Si `createWorkspace` échoue → l'UI continue avec un ID local (`local_<timestamp>`).  
+Si `selectWorkspace` échoue → l'UI continue sans workspace-JWT (impacts : step 3 utilise un token démo, step 4/5 enregistrent les données localement).
 
 ## 4. États
-- **Initial** : champs pré-remplis si retour utilisateur (nom = local part de l'email).
-- **Slug check en cours** : icône loader à droite du champ.
-- **Slug pris** : badge rouge + suggestion cliquable.
-- **Loading submit** : bouton "Continue" disabled + spinner.
+- **Loading submit** : bouton "Continue" disabled + spinner "Creating…".
+- **Erreur validation** : message rouge sous le champ nom (< 2 chars).
+- **Erreur API** : toast d'erreur, mode dégradé activé silencieusement.
 
 ## 5. Règles métier
-- **RM030** — Slug unique global, immuable après création (rename = ticket support).
-- **RM031** — Region permanente (pas de migration auto). Affiché en hint.
-- **RM032** — Team size = télémétrie produit, n'affecte pas les permissions.
-- **RM033** — Accent color = visuel UI uniquement.
+- **RM030** — Slug unique global, immuable après création.
+- **RM031** — Region permanente. Affiché en hint "Data residency is permanent."
+- **RM032** — Team size = télémétrie produit uniquement.
+- **RM033** — Accent color = UI uniquement.
 
 ## 6. Critères d'acceptation
 ```gherkin
-Given je tape un slug déjà pris
-When le check API retourne available=false
-Then une suggestion s'affiche
-And le bouton Continue est désactivé
-
-Given tous les champs valides
+Given un nom de workspace valide (≥ 2 chars)
 When je clique Continue
-Then PATCH /api/onboarding/workspace est appelé
-And je suis redirigé vers /onboarding/plan
+Then createWorkspace est appelé
+And selectWorkspace est appelé avec le nouvel ID
+And je passe à l'étape 2 avec un workspace-JWT
+
+Given un nom de workspace de 1 char
+When je clique Continue
+Then un message d'erreur s'affiche
+And aucun appel API n'est déclenché
 ```
 
 ---
@@ -400,56 +470,57 @@ And je suis redirigé vers /onboarding/plan
 # 05 · Onboarding — Step 2 : Choose plan
 
 ## 1. Vue d'ensemble
-- **Route** : `/onboarding/plan`
+- **Route** : `/onboarding` — step 2 (navigation côté client)
 - **Rôle** : Choisir Free / Pro / Enterprise + cycle de facturation.
-- **Précondition** : workspace finalisé. Saute cette étape si le plan a déjà été choisi au signup ; **mais** doit être atteignable via "Change plan" si le user est arrivé par SSO sans plan.
+- **Précondition** : step 1 complété.
+
+> **Note** : En v1, la sélection de plan est **locale uniquement** (pas d'appel backend à cette étape).  
+> Le plan est transmis lors de la finalisation de l'onboarding (`updateWorkspace`).
 
 ## 2. Données affichées
 | Composant | Source |
 |-----------|--------|
-| Toggle Monthly/Annual (−20%) | Front state |
-| 3 plan cards | `GET /api/plans` |
-| Trial banner 14j | Si plan sélectionné = pro |
+| Toggle Monthly/Annual (−20%) | Front state (signal `billingCycle`) |
+| 3 plan cards (Free / Pro / Enterprise) | Hard-codé en front (`plans[]`) |
+| Trial banner 14j | Affiché si plan sélectionné = pro |
+| CTA "Contact sales" | Enterprise uniquement → lien externe |
+
+Prix :
+| Plan | Monthly | Annual |
+|------|---------|--------|
+| Free | $0 | $0 |
+| Pro | $49/mo | $39/mo |
+| Enterprise | Custom | Custom |
 
 ## 3. Actions
 
-### Get plans
-- **API** : `GET /api/plans`
-- **Réponse** :
-```json
-{
-  "data": [
-    { "id": "free",       "price_monthly": 0,   "price_annual": 0,    "features": [...] },
-    { "id": "pro",        "price_monthly": 49,  "price_annual": 470,  "features": [...], "trial_days": 14 },
-    { "id": "enterprise", "price_monthly": null,"price_annual": null, "features": [...], "contact_sales": true }
-  ]
+### Submit plan (local)
+- Enregistre `selectedPlan` et `billingCycle` dans le state du composant.
+- Avance à l'étape 3.
+- Aucun appel backend à cette étape.
+
+### (Futur) Submit plan backend
+```graphql
+mutation SelectPlan($input: SelectPlanInput!) {
+  selectPlan(input: $input) { planId billingCycle trialEndsAt }
 }
 ```
 
-### Submit plan
-- **API** : `PATCH /api/workspaces/:id/plan`
-- **Payload** :
-```json
-{ "plan": "pro", "billing_cycle": "monthly" }
-```
-- Si `enterprise` → ne pas créer de subscription Stripe, marquer `pending_sales = true` et router vers Step 3 quand même (commercial gère hors flow).
-
 ## 4. États
-- Sélection radio par card.
-- "Selected" sur Pro par défaut.
-- Loading sur submit.
+- Sélection radio par card (Pro sélectionné par défaut).
+- Loading sur submit (immédiat, pas d'API).
 
 ## 5. Règles métier
-- **RM040** — Trial 14j sur Pro = 1 fois par workspace, jamais réactivable.
-- **RM041** — Si downgrade Pro → Free pendant le trial, le trial est perdu.
-- **RM042** — Enterprise ne charge rien automatiquement.
+- **RM040** — Trial 14j sur Pro = 1 fois par workspace.
+- **RM041** — Downgrade Pro → Free pendant le trial = trial perdu.
+- **RM042** — Enterprise : pas de Stripe, marquer `pending_sales = true`.
 
 ## 6. Critères d'acceptation
 ```gherkin
-Given je choisis Pro monthly
-When je clique Continue
-Then un trial Stripe de 14j est créé (status=trialing)
-And je passe à Step 3
+Given je suis à l'étape 2
+When je sélectionne Pro et clique Continue
+Then je passe à l'étape 3
+And selectedPlan = 'pro'
 ```
 
 ---
@@ -457,48 +528,85 @@ And je passe à Step 3
 # 06 · Onboarding — Step 3 : Connect cluster
 
 ## 1. Vue d'ensemble
-- **Route** : `/onboarding/cluster`
+- **Route** : `/onboarding` — step 3 (navigation côté client)
 - **Rôle** : Installer l'agent PodIQ et attendre le premier ping.
+- **Précondition** : workspace-JWT disponible. Si absent → mode dégradé (voir ci-dessous).
 
 ## 2. Composants
 | Composant | Type | Source |
 |-----------|------|--------|
 | Method picker (Helm / kubectl / Terraform) | 3 cards, radio | Front state |
-| Snippet d'install | `pre` éditable | Généré côté front avec le workspace token |
-| Status "Waiting for first ping" | Polling | API |
-| Bouton Copy | Action | Clipboard API |
+| Snippet d'install avec token | `pre` | Token généré par mutation + front |
+| Bouton Copy | Clipboard API | Front |
+| Status "Waiting for first ping…" | Polling | GraphQL query |
+| Status "Connected · <cluster-name>" | Polling | GraphQL query |
+| Bannière d'avertissement (mode dégradé) | Conditionnel | Front |
 
 ## 3. Actions
 
-### Récupérer le token d'installation
-- **API** : `GET /api/workspaces/:id/install-token`
-- **Réponse** :
-```json
-{ "token": "wsk_3f8a92c1e4d7b6", "expires_at": "2026-05-19T..." }
+### Récupérer le token d'installation (mutation GraphQL)
+```graphql
+mutation GenerateInstallToken($workspaceId: String!) {
+  generateInstallToken(workspaceId: $workspaceId) {
+    token
+    expiresAt
+  }
+}
 ```
 TTL : 24h. Régénérable.
 
-### Polling du premier ping
-- **API** : `GET /api/clusters/pending-ping`
-- Polling 5s, ou WebSocket `wss://api/realtime?topic=workspace.<id>.cluster.connected`.
-- **Réponse 200** : `{ "data": { "cluster": { "id": "c_...", "name": "prod-eu-west-1", "version": "1.29.3" } } }` quand l'agent a phoné.
+### Mode dégradé — fallback token démo
+Si le workspace-JWT est absent (backend indisponible au step 1) **ou** si `generateInstallToken` échoue (erreur réseau / 5xx) :
+- Token remplacé par `wsk_demo_00000000000000000000000000000000`
+- Bannière d'avertissement affichée (orange) : "Offline mode — use the demo token to test the UI."
+- Polling désactivé (pas de vrai cluster à attendre)
+- L'utilisateur peut copier le snippet et passer au step suivant
+
+> Les erreurs `UNAUTHENTICATED` sont gérées automatiquement par `errorInterceptor` (refresh + retry). La branche dégradée ne s'active que pour les erreurs non-auth.
+
+### Polling du statut cluster (query GraphQL, toutes les 5s)
+```graphql
+query ClusterStatus($workspaceId: String!) {
+  clusterStatus(workspaceId: $workspaceId) {
+    id
+    name
+    status   # "pending" | "connected" | "error"
+  }
+}
+```
+S'arrête automatiquement quand un cluster passe à `connected` ou quand le composant est détruit.
 
 ## 4. États
-- **Idle (recherche)** : badge orange "Waiting for first ping" pulse.
-- **Connected** : badge vert "Connected · prod-eu-west-1" + bouton Continue activé.
-- **Timeout 10 min** : afficher troubleshoot tips inline.
+| État | Affichage |
+|------|-----------|
+| Chargement token | "Generating install token…" (inline loader) |
+| Idle, token prêt | Snippet + badge orange pulsé "Waiting for first ping…" |
+| Connected | Badge vert "Connected · \<cluster-name\>" + bouton Continue actif |
+| Mode dégradé | Snippet démo + bannière orange + bouton Continue actif |
+| Timeout (>10 min) | Tips de troubleshooting inline |
 
 ## 5. Règles métier
-- **RM050** — L'agent K8s envoie un `POST /api/agent/heartbeat` avec le token → crée `Cluster` lié au workspace.
-- **RM051** — Agent en `read-only` strict : pas de `exec`, pas de `port-forward`.
-- **RM052** — Une connexion = un cluster. Plusieurs clusters = relancer l'install dans un autre context.
+- **RM050** — L'agent K8s envoie un heartbeat avec le token → crée `Cluster` lié au workspace.
+- **RM051** — Agent en `read-only` strict : pas d'`exec`, pas de `port-forward`.
+- **RM052** — Une connexion = un cluster. Plusieurs clusters = relancer l'install dans un autre contexte kubectl.
 
 ## 6. Critères d'acceptation
 ```gherkin
-Given un user à l'étape Connect cluster
-When l'agent envoie un heartbeat valide
+Given un workspace-JWT valide
+When j'arrive à l'étape 3
+Then generateInstallToken est appelé
+And le snippet Helm s'affiche avec le vrai token
+
+Given un workspace-JWT absent (mode dégradé)
+When j'arrive à l'étape 3
+Then le token démo est affiché
+And une bannière d'avertissement est visible
+And le bouton Continue est actif (pas de blocage)
+
+Given un agent installé avec le bon token
+When l'agent envoie un heartbeat
 Then le polling détecte la connexion sous 10s
-And le bouton Continue s'active
+And le badge passe à "Connected"
 ```
 
 ---
@@ -506,54 +614,72 @@ And le bouton Continue s'active
 # 07 · Onboarding — Step 4 : Invite team
 
 ## 1. Vue d'ensemble
-- **Route** : `/onboarding/team`
+- **Route** : `/onboarding` — step 4 (navigation côté client)
 - **Rôle** : Inviter des coéquipiers et configurer auto-invite par domaine.
 
 ## 2. Composants
 | Composant | Source |
 |-----------|--------|
-| Email input + role select + bouton Add | Saisie |
-| Liste invites pending | `GET /api/invitations` |
-| Role explainer (Admin/Member/Viewer) | Statique |
+| Email input + role select (Admin/Member/Viewer) + bouton Add | Saisie |
+| Liste invites accumulées | State local |
+| Status par invite : `sent` (✓ vert) / `draft` (⏱ gris) | Calculé après appel API |
 | Toggle auto-invite by domain | API |
-| Copy invite link | Action |
+| Bouton "Copy invite link" | GraphQL + Clipboard |
+| Bouton "Skip this step" | Navigation directe |
 
 ## 3. Actions
 
-### Ajouter une invitation
-- **API** : `POST /api/invitations`
-- **Payload** :
-```json
-{ "email": "marie@acme.io", "role": "admin" }
+### Ajouter une invitation (mutation GraphQL)
+```graphql
+mutation InviteMember($input: InviteMemberInput!) {
+  inviteMember(input: $input) {
+    id
+    email
+    role
+    status
+  }
+}
 ```
-- **Réponse 201** : `{ "data": { "id": "inv_...", "email": "...", "role": "admin", "status": "sent", "sent_at": "..." } }`
+Variables : `{ workspaceId, email, role }`
 
-### Lister
-- **API** : `GET /api/invitations?status=pending`
+**Mode dégradé** : si workspace-JWT absent → invite ajoutée localement en statut `draft`, sans appel API.  
+**Erreur API** → invite ajoutée localement en `draft` (non bloquant).
 
-### Auto-invite
-- **API** : `PATCH /api/workspaces/:id/auto-invite`
-- **Payload** : `{ "enabled": true, "domain": "acme.io", "default_role": "member" }`
-- **Validation** : domaine doit matcher l'email de l'admin courant.
-
-### Copy invite link
-- Génère un lien à usage limité : `GET /api/invitations/link` → `{ "url": "https://acme.podiq.io/join/abc123", "expires_at": "..." }`.
+### Copy invite link (mutation GraphQL)
+```graphql
+mutation GenerateInviteLink($workspaceId: String!) {
+  generateInviteLink(workspaceId: $workspaceId) { token }
+}
+```
+→ Construit `https://<origin>/join/<token>` et copie dans le presse-papier.  
+**Fallback** si no workspace-JWT : `https://<origin>/join/<slug>`.
 
 ## 4. États
-- Invite list vide → état "No invites yet".
-- Status par invite : `sent` (vert ✓), `draft` (gris ⏱), `accepted`, `revoked`.
+- Invite list vide → "No invites yet — add teammates above."
+- Status `sent` : vert ✓ (invitation envoyée par backend)
+- Status `draft` : gris ⏱ (mode dégradé ou erreur API)
+- Loading "Add" : spinner inline sur le bouton.
 
 ## 5. Règles métier
 - **RM060** — Email d'invitation expire au bout de 7j.
-- **RM061** — Un invité peut être assigné à un rôle ≤ celui de l'inviteur.
-- **RM062** — Auto-invite ne s'applique qu'à `member`/`viewer` (jamais admin).
-- **RM063** — Workspace plan `free` limité à 3 membres totaux, `pro` à 50, `enterprise` illimité.
+- **RM061** — Rôle assignable ≤ rôle de l'inviteur.
+- **RM062** — Auto-invite : jamais `admin`.
+- **RM063** — Free : 3 membres max · Pro : 50 · Enterprise : illimité.
 
 ## 6. Critères d'acceptation
 ```gherkin
+Given un workspace-JWT valide et une email valide
+When j'ajoute une invitation
+Then inviteMember est appelé
+And l'invite apparaît en statut "sent"
+
+Given l'API inviteMember échoue
+When j'ajoute une invitation
+Then l'invite apparaît en statut "draft" (pas de blocage)
+
 Given un workspace pro avec 49 membres
 When j'invite un 50e
-Then 422 BUSINESS_RULE_VIOLATION (RM063)
+Then BUSINESS_RULE_VIOLATION (RM063) est retourné
 ```
 
 ---
@@ -561,50 +687,73 @@ Then 422 BUSINESS_RULE_VIOLATION (RM063)
 # 08 · Onboarding — Step 5 : Wire up alerts
 
 ## 1. Vue d'ensemble
-- **Route** : `/onboarding/alerts`
+- **Route** : `/onboarding` — step 5 (navigation côté client)
 - **Rôle** : Choisir règles de sévérité et canaux de notification.
 
 ## 2. Composants
 | Composant | Source |
 |-----------|--------|
-| 4 toggles règles | Front state → API |
-| 6 channel cards (Slack, PagerDuty, Email, Webhook, Teams, Discord) | `GET /api/channels/available` |
-| Quiet hours toggle + range | API |
+| 4 toggles règles (CrashLoop, Memory >90%, Pre-deploy scan, Automated fix) | State local + mutations GraphQL |
+| 6 channel cards (Slack, PagerDuty, Email, Webhook, Teams\*, Discord) | State local + mutations GraphQL |
+| Toggle quiet hours (22h–7h) | State local + mutation GraphQL |
+| Bouton "Finish setup" | Déclenche toutes les mutations en parallèle |
+| Bouton "Skip for now" | Navigation directe sans appel API |
+
+\* Teams : désactivé ("Coming soon") en v1.
 
 ## 3. Actions
 
-### Liste règles par défaut
-- **API** : `GET /api/alert-rules/defaults` → 4 rules pré-cochées.
+### Activer une règle d'alerte (mutation GraphQL)
+```graphql
+mutation CreateAlertRule($input: CreateAlertRuleInput!) {
+  createAlertRule(input: $input) { id }
+}
+```
+Variables : `{ workspaceId, eventType, name }`
 
-### Activer/désactiver une règle
-- **API** : `PATCH /api/alert-rules/:id`
-- **Payload** : `{ "enabled": true }`
+Correspondance règle → `eventType` :
+| Règle UI | `eventType` |
+|----------|------------|
+| CrashLoopBackOff | `crashloop` |
+| Memory saturation | `oom` |
+| Pre-deploy scan | `predeploy_block` |
+| Automated fix | `fix_found` |
 
-### Connecter un channel
-- **Slack/PD/Teams/Discord** : OAuth flow → `GET /api/channels/:type/connect` → redirect.
-- **Webhook** : modal pour saisir URL + secret → `POST /api/channels` payload `{ type: "webhook", url, secret }`.
-- **Email** : déjà connecté implicitement (l'email du compte).
+### Quiet hours (mutation GraphQL)
+```graphql
+mutation SetQuietHours($input: QuietHoursInput!) {
+  setQuietHours(input: $input) { id }
+}
+```
+Variables : `{ workspaceId, enabled, startTime: "22:00", endTime: "07:00", timezone, weekdaysOnly: false }`
 
-### Quiet hours
-- **API** : `PATCH /api/workspaces/:id/quiet-hours`
-- **Payload** : `{ "enabled": true, "start": "22:00", "end": "07:00", "tz": "Europe/Paris", "weekdays_only": true }`
+### Finish setup
+- Appels en parallèle (`forkJoin`) : une `createAlertRule` par règle activée + `setQuietHours` si activé.
+- Non bloquant : si certains appels échouent, l'onboarding avance quand même vers l'écran Complete.
+- **Mode dégradé** : si workspace-JWT absent → avance directement sans appel API.
 
 ## 4. États
-- Channel `disabled` (ex: Teams "Coming soon") → bouton désactivé.
-- Channel `connected` → tag vert + lien Configure.
+- Channel `disabled` (Teams "Coming soon") → bouton désactivé, tag "coming soon".
+- Channel `connected` → tag vert "Connected" + bouton "Configure".
+- Loading "Finish setup" : spinner + label "Saving…".
 
 ## 5. Règles métier
-- **RM070** — Au moins 1 channel doit être connecté pour valider l'étape (sauf bouton "Skip — wire later").
-- **RM071** — Quiet hours ne bloque PAS les alertes P1 (crit).
-- **RM072** — Channel Webhook nécessite une URL `https://`.
+- **RM070** — Un bouton "Skip for now" permet de passer cette étape sans channel connecté.
+- **RM071** — Quiet hours ne bloque PAS les alertes `crit` (P1).
+- **RM072** — Channel Webhook : URL `https://` obligatoire.
 - **RM073** — Dedupe par défaut : 5 min crit, 10 min warn.
 
 ## 6. Critères d'acceptation
 ```gherkin
-Given un channel Slack connecté
-When un pod entre en CrashLoopBackOff
-And la règle "Pod CrashLoop" est ON
-Then une notification est envoyée au channel Slack
+Given 3 règles activées et quiet hours ON
+When je clique "Finish setup"
+Then 3 mutations createAlertRule sont appelées en parallèle
+And setQuietHours est appelée
+And je passe à l'écran Complete (même si certains appels échouent)
+
+Given je clique "Skip for now"
+Then aucun appel API n'est déclenché
+And je passe à l'écran Complete
 ```
 
 ---
@@ -612,23 +761,86 @@ Then une notification est envoyée au channel Slack
 # 09 · Onboarding — Complete
 
 ## 1. Vue d'ensemble
-- **Route** : `/onboarding/complete`
-- **Rôle** : Confirmer la fin de l'onboarding.
+- **Route** : `/onboarding` — step 6 / écran final (navigation côté client)
+- **Rôle** : Confirmer la fin de l'onboarding, marquer le workspace comme onboardé.
 
 ## 2. Composants
-- Big checkmark.
-- Recap (workspace name, cluster, team count, channels).
-- Suggested next (add 2e cluster, install GitHub Action, take tour).
+- Grand cercle ✓ (checkmark).
+- Tag "Setup complete" en topbar.
+- 4 summary cards (Workspace, Cluster, Team, Alerts).
+- Section "What to do next" (3 actions suggérées).
+- CTA "Go to dashboard" (primaire) · CTA "Take the tour" (secondaire).
 
 ## 3. Actions
-- CTA "Open dashboard" → `/dashboard`.
-- CTA "Take the tour" → onboarding tour overlay sur le dashboard (LocalStorage flag `tour_seen`).
+
+### Marquer workspace comme onboardé (mutation GraphQL)
+```graphql
+mutation UpdateWorkspace($input: UpdateWorkspaceInput!) {
+  updateWorkspace(input: $input) { onboardedAt }
+}
+```
+Appelé au clic "Go to dashboard". Si workspace-JWT absent → navigation directe sans appel.
+
+### Navigation
+- "Go to dashboard" → `updateWorkspace` puis `/dashboard`
+- "Take the tour" → (futur) overlay tour sur le dashboard
 
 ## 4. États
-- État unique de succès. Si on y arrive avec onboarding incomplet → rediriger vers la 1re étape manquante.
+- État unique de succès.
+- Loading "Go to dashboard" : spinner + label "Saving…".
 
 ## 5. Règles métier
-- **RM080** — `workspace.onboarded_at` est set à cette étape.
+- **RM080** — `workspace.onboarded_at` est set ici (mutation `updateWorkspace`).
+- **RM081** — Si l'utilisateur navigue directement vers `/onboarding` après avoir complété l'onboarding, le guard redirige vers `/dashboard`.
+
+---
+
+# 09b · Onboarding — Machine à états du stepper
+
+> Section transverse à tous les steps onboarding. Décrit le comportement du stepper sidebar.
+
+## Principe
+
+L'onboarding est une **SPA à route unique** (`/onboarding`). La navigation entre les 5 steps est gérée côté client via deux signaux Angular :
+
+| Signal | Rôle |
+|--------|------|
+| `maxStepCompleted` | Étape la plus haute **validée** (= bouton "Continue" cliqué). Démarre à 0. |
+| `maxStepVisited` | Étape la plus haute **visitée** (= ouvert au moins une fois). Démarre à 1. |
+
+## 4 états visuels
+
+Pour chaque step `n`, l'état est calculé dans l'ordre de priorité suivant :
+
+| Priorité | Condition | État | Rendu |
+|----------|-----------|------|-------|
+| 1 | `n === currentStep` | `current` | Dot plein accent (orange) · label bold · sous-label "in progress" (pulsé) ou "editing" |
+| 2 | `n <= maxStepCompleted` | `done` | Dot plein vert + ✓ |
+| 3 | `n <= maxStepVisited` | `in-progress` | Anneau accent (transparent) · label accent · sous-label "in progress" (statique) |
+| 4 | sinon | `pending` | Anneau gris · label gris |
+
+## Sous-label du step courant
+
+- **"in progress"** (dot pulsé) : première visite — `currentStep > maxStepCompleted`
+- **"editing"** (icône crayon) : retour sur un step déjà validé — `currentStep <= maxStepCompleted`
+
+## Navigabilité
+
+Un step est cliquable dans le sidebar si `n <= maxStepVisited && n !== currentStep`.  
+Les steps `pending` (jamais visités) ne sont pas cliquables.
+
+## Scénario type
+
+> L'utilisateur valide steps 1 et 2, arrive au step 3 sans continuer, puis revient au step 1 via le sidebar.
+
+| Signal | Valeur |
+|--------|--------|
+| `currentStep` | 1 |
+| `maxStepCompleted` | 2 |
+| `maxStepVisited` | 3 |
+
+→ États : step 1 = `current` ("editing"), step 2 = `done` (✓), step 3 = `in-progress` (anneau accent), steps 4–5 = `pending`.  
+→ Steps 2 et 3 sont cliquables. Steps 4–5 sont bloqués.
 
 ---
 

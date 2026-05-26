@@ -370,15 +370,17 @@ fieldset {
   width: 72px;
   height: 72px;
   border-radius: 12px;
-  background: var(--ink);
+  // Pas de background ici : il est piloté par [style.background]="selectedAccent()"
+  // dans le template, pour que la couleur réagisse au choix de l'utilisateur.
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 30px;
   font-weight: var(--fw-bold);
-  color: var(--surface);
+  color: white;
   text-transform: uppercase;
   user-select: none;
+  transition: background 200ms ease;
 }
 
 .ws-icon-edit {
