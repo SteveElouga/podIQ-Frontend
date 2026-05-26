@@ -10,6 +10,12 @@ import {
   DsButtonComponent,
   DsTagComponent,
   DsLangSwitcherComponent,
+  DsBrandComponent,
+  DsDividerComponent,
+  DsSsoButtonComponent,
+  DsInputComponent,
+  DsCheckboxComponent,
+  DsAlertComponent,
 } from '@shared/design-system';
 
 export type PlanId = 'free' | 'pro' | 'ent';
@@ -39,6 +45,12 @@ interface Feature {
     DsButtonComponent,
     DsTagComponent,
     DsLangSwitcherComponent,
+    DsBrandComponent,
+    DsDividerComponent,
+    DsSsoButtonComponent,
+    DsInputComponent,
+    DsCheckboxComponent,
+    DsAlertComponent,
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
@@ -100,7 +112,8 @@ export class RegisterComponent {
     this.error.set(null);
     const { email, password } = this.form.value;
     this.auth.register({ email: email!, password: password! }).subscribe({
-      next: () => this.router.navigate(['/auth/onboarding']),
+      // /onboarding est hors du périmètre guestGuard — accessible avec le user-JWT
+      next: () => this.router.navigate(['/onboarding']),
       error: (err: Error) => {
         this.error.set(err.message);
         this.loading.set(false);

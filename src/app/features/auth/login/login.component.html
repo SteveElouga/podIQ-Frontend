@@ -3,10 +3,7 @@
   <!-- ── Left: form ─────────────────────────────────────────── -->
   <div class="login__form-panel">
     <div class="login__form-header">
-      <a class="brand" routerLink="/">
-        <span class="brand-mark">P</span>
-        <span class="brand-name display">PodIQ</span>
-      </a>
+      <ds-brand />
       <ds-lang-switcher />
     </div>
 
@@ -21,76 +18,58 @@
 
       <!-- SSO buttons -->
       <div class="sso-buttons">
-        <button class="sso-btn" type="button">
-          <ds-icon name="cube" [size]="16" />
-          {{ 'login.google' | translate }}
-        </button>
-        <button class="sso-btn" type="button">
-          <ds-icon name="git" [size]="16" />
-          {{ 'login.github' | translate }}
-        </button>
-        <button class="sso-btn" type="button">
-          <ds-icon name="key" [size]="16" />
-          {{ 'login.saml' | translate }}
-        </button>
+        <ds-sso-button icon="cube">{{ 'login.google' | translate }}</ds-sso-button>
+        <ds-sso-button icon="git">{{ 'login.github' | translate }}</ds-sso-button>
+        <ds-sso-button icon="key">{{ 'login.saml' | translate }}</ds-sso-button>
       </div>
 
-      <!-- Divider -->
-      <div class="divider">
-        <span class="divider__line"></span>
-        <span class="divider__label mono">{{ 'login.orEmail' | translate }}</span>
-        <span class="divider__line"></span>
-      </div>
+      <ds-divider [label]="'login.orEmail' | translate" />
 
       <!-- Email/password form -->
       <form [formGroup]="form" (ngSubmit)="submit()" class="email-form">
-        <label class="field">
-          <span class="field__label">{{ 'login.emailLabel' | translate }}</span>
-          <span class="field__input">
-            <ds-icon name="user" [size]="14" class="field__icon" />
-            <input
-              type="email"
-              formControlName="email"
-              [placeholder]="'login.emailPlaceholder' | translate"
-              autocomplete="email"
-            />
-          </span>
-        </label>
+        <ds-input
+          [label]="'login.emailLabel' | translate"
+          icon="user"
+          forId="login-email"
+        >
+          <input
+            id="login-email"
+            type="email"
+            formControlName="email"
+            [placeholder]="'login.emailPlaceholder' | translate"
+            autocomplete="email"
+          />
+        </ds-input>
 
-        <label class="field">
-          <span class="field__label">{{ 'login.passwordLabel' | translate }}</span>
-          <span class="field__input">
-            <ds-icon name="key" [size]="14" class="field__icon" />
-            <input
-              [type]="showPassword() ? 'text' : 'password'"
-              formControlName="password"
-              placeholder="••••••••••••"
-              autocomplete="current-password"
-            />
-            <button type="button" class="field__toggle" (click)="showPassword.set(!showPassword())">
-              <ds-icon [name]="showPassword() ? 'eye' : 'key'" [size]="13" />
-            </button>
-          </span>
-        </label>
+        <ds-input
+          [label]="'login.passwordLabel' | translate"
+          icon="key"
+          forId="login-password"
+          [toggleIcon]="showPassword() ? 'eye' : 'key'"
+          (toggleClick)="showPassword.set(!showPassword())"
+        >
+          <input
+            id="login-password"
+            [type]="showPassword() ? 'text' : 'password'"
+            formControlName="password"
+            placeholder="••••••••••••"
+            autocomplete="current-password"
+          />
+        </ds-input>
 
         <div class="form-row">
-          <label class="checkbox-label">
-            <span class="checkbox" [class.checked]="form.value.remember">
-              @if (form.value.remember) {
-                <ds-icon name="check" [size]="10" [stroke]="2.5" />
-              }
-            </span>
-            <input type="checkbox" formControlName="remember" hidden />
+          <ds-checkbox
+            [checked]="!!form.value.remember"
+            (checkedChange)="form.patchValue({ remember: $event })"
+          >
             {{ 'login.remember' | translate }}
-          </label>
+          </ds-checkbox>
+          <input type="checkbox" formControlName="remember" hidden />
           <a class="link small">{{ 'login.forgot' | translate }}</a>
         </div>
 
         @if (error()) {
-          <div class="error-msg">
-            <ds-icon name="alert" [size]="14" />
-            {{ error() }}
-          </div>
+          <ds-alert>{{ error() }}</ds-alert>
         }
 
         <ds-button
@@ -105,14 +84,10 @@
         </ds-button>
       </form>
 
-      <!-- SSO note -->
-      <div class="sso-note">
-        <ds-icon name="shield" [size]="16" class="note-icon" />
-        <div class="sso-note__text">
-          {{ 'login.samlNote' | translate }}
-          <a class="link">{{ 'login.samlNoteLink' | translate }}</a>.
-        </div>
-      </div>
+      <ds-banner variant="note" class="login__sso-note">
+        {{ 'login.samlNote' | translate }}
+        <a class="link">{{ 'login.samlNoteLink' | translate }}</a>.
+      </ds-banner>
     </div>
 
     <div class="login__footer">

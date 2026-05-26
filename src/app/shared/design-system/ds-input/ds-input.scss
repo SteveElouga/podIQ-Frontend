@@ -1,0 +1,125 @@
+:host {
+  display: block;
+}
+
+.ds-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &--readonly {
+    cursor: default;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: var(--fw-medium);
+    color: var(--ink-2);
+    display: block;
+  }
+
+  &__box {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-sm);
+    transition: border-color 150ms, outline 150ms;
+
+    &--sm {
+      height: 36px;
+      padding: 0 12px;
+    }
+
+    &--md {
+      height: 40px;
+      padding: 0 12px;
+      border-color: var(--border);
+    }
+
+    &:focus-within:not(.ds-field__box--readonly) {
+      border-color: var(--accent);
+      outline: 3px solid var(--accent-soft);
+      outline-offset: 0;
+    }
+
+    &--error:focus-within {
+      border-color: var(--crit);
+      outline: 3px solid color-mix(in srgb, var(--crit) 15%, transparent);
+    }
+
+    &--readonly {
+      background: var(--surface-2);
+      border-color: var(--border);
+    }
+
+    &--error {
+      border-color: var(--crit);
+    }
+  }
+
+  &__icon {
+    color: var(--ink-mute);
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+
+    input {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: var(--fs-md);
+      color: var(--ink);
+      min-width: 0;
+      padding: 0;
+      margin: 0;
+      box-shadow: none;
+      appearance: none;
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        box-shadow: none;
+        border: none;
+      }
+
+      &::placeholder {
+        color: var(--ink-mute);
+      }
+    }
+  }
+
+  &__toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-mute);
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      color: var(--ink-2);
+    }
+  }
+
+  &__hint {
+    font-size: 11px;
+    color: var(--ink-mute);
+    margin-top: -2px;
+  }
+
+  &__error {
+    font-size: 11px;
+    color: var(--crit);
+    margin-top: -2px;
+  }
+}

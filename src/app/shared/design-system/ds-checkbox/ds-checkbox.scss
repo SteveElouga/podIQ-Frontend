@@ -1,0 +1,40 @@
+.ds-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  cursor: pointer;
+  line-height: 1.5;
+
+  &--align-top {
+    align-items: flex-start;
+
+    .ds-checkbox__box {
+      margin-top: 1px;
+    }
+  }
+
+  &__box {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 3px;
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+
+    &--checked {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+  }
+
+  &__label {
+    flex: 1;
+    min-width: 0;
+  }
+}

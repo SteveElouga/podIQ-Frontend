@@ -4,15 +4,7 @@ import { Observable, map } from 'rxjs';
 import { GraphqlService } from '../../../core/services/graphql.service';
 import { ManifestScanResult, ScanManifestRequest } from '../models/manifest.model';
 import { environment } from '../../../../environments/environment';
-
-const SCAN_MUTATION = `
-  mutation ScanManifest($yamlContent: String!, $manifestType: String) {
-    scanManifest(yamlContent: $yamlContent, manifestType: $manifestType) {
-      riskLevel summary
-      risks { severity category description fix }
-    }
-  }
-`;
+import { SCAN_MANIFEST_MUTATION } from '../graphql/manifest.operations';
 
 @Injectable({ providedIn: 'root' })
 export class ManifestService {
@@ -21,7 +13,7 @@ export class ManifestService {
 
   scanManifest(req: ScanManifestRequest): Observable<ManifestScanResult> {
     return this.gql
-      .mutate<{ scanManifest: ManifestScanResult }>(SCAN_MUTATION, req)
+      .mutate<{ scanManifest: ManifestScanResult }>(SCAN_MANIFEST_MUTATION, req)
       .pipe(map(res => res.scanManifest));
   }
 

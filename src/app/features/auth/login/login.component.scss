@@ -4,7 +4,6 @@
 .ok-text     { color: var(--ok); }
 .accent-text { color: var(--accent); }
 
-// ── Layout ────────────────────────────────────────────────────
 .login {
   display: grid;
   grid-template-columns: 1fr 1.05fr;
@@ -14,7 +13,6 @@
   font-family: var(--font-sans);
 }
 
-// ── Left panel ────────────────────────────────────────────────
 .login__form-panel {
   display: flex;
   flex-direction: column;
@@ -28,33 +26,6 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  text-decoration: none;
-  color: var(--ink);
-}
-
-.brand-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: var(--ink);
-  color: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: var(--fw-bold);
-  font-family: var(--font-display);
-}
-
-.brand-name {
-  font-size: 16px;
-  font-weight: var(--fw-bold);
 }
 
 .login__form-body {
@@ -89,7 +60,6 @@
   &.small { font-size: 12.5px; }
 }
 
-// ── SSO buttons ───────────────────────────────────────────────
 .sso-buttons {
   display: flex;
   flex-direction: column;
@@ -97,112 +67,16 @@
   margin-bottom: 16px;
 }
 
-.sso-btn {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  height: 36px;
-  padding: 0 12px;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-sm);
-  font-family: var(--font-sans);
-  font-size: var(--fs-md);
-  font-weight: var(--fw-medium);
-  color: var(--ink);
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: background 150ms ease-out;
-
-  &:hover { background: var(--surface-2); }
-}
-
-// ── Divider ───────────────────────────────────────────────────
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 12px 0;
-
-  &__line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  &__label {
-    font-size: 11px;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-}
-
-// ── Form fields ───────────────────────────────────────────────
 .email-form {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-
-  &__label {
-    font-size: 12px;
-    font-weight: var(--fw-medium);
-    color: var(--ink-2);
-  }
-
-  &__input {
-    display: flex;
-    align-items: center;
-    gap: var(--s-2);
-    height: 36px;
-    padding: 0 12px;
-    background: var(--surface);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--r-sm);
-    transition: border-color 150ms;
-
-    &:focus-within {
-      border-color: var(--accent);
-      outline: 3px solid var(--accent-soft);
-      outline-offset: 0;
-    }
-
-    input {
-      flex: 1;
-      border: none;
-      outline: none;
-      background: transparent;
-      font-family: var(--font-sans);
-      font-size: var(--fs-md);
-      color: var(--ink);
-      min-width: 0;
-
-      &::placeholder { color: var(--ink-mute); }
-    }
-  }
-
-  &__icon { color: var(--ink-mute); flex-shrink: 0; }
-
-  &__toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--ink-mute);
-    padding: 0;
-    display: flex;
-    align-items: center;
-    &:hover { color: var(--ink-2); }
-  }
+.login__sso-note {
+  margin-top: 24px;
 }
 
-// ── Form row (checkbox + forgot) ──────────────────────────────
 .form-row {
   display: flex;
   align-items: center;
@@ -210,66 +84,6 @@
   margin-top: 2px;
 }
 
-.checkbox-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 12.5px;
-  color: var(--ink-2);
-  cursor: pointer;
-}
-
-.checkbox {
-  width: 14px;
-  height: 14px;
-  border: 1.5px solid var(--border-strong);
-  border-radius: 3px;
-  background: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: white;
-
-  &.checked {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-}
-
-// ── Error ─────────────────────────────────────────────────────
-.error-msg {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  padding: 10px 12px;
-  background: var(--crit-soft);
-  color: var(--crit);
-  border-radius: var(--r-sm);
-  font-size: var(--fs-sm);
-}
-
-// ── SSO note ──────────────────────────────────────────────────
-.sso-note {
-  margin-top: 24px;
-  padding: 12px;
-  background: var(--surface-2);
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--r-sm);
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-
-  &__text {
-    font-size: 12px;
-    color: var(--ink-mute);
-    line-height: 1.45;
-  }
-}
-
-.note-icon { color: var(--ink-mute); margin-top: 1px; }
-
-// ── Form panel footer ─────────────────────────────────────────
 .login__footer {
   display: flex;
   justify-content: space-between;
@@ -277,7 +91,6 @@
   color: var(--ink-mute);
 }
 
-// ── Right visual panel ────────────────────────────────────────
 .login__visual {
   background: var(--bg);
   border-left: 1px solid var(--border);
@@ -323,7 +136,6 @@
   font-size: 22px;
 }
 
-// ── Recovery card ─────────────────────────────────────────────
 .recovery-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -349,7 +161,6 @@
   margin-top: 6px;
 }
 
-// ── Visual KPIs ───────────────────────────────────────────────
 .visual-kpis {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

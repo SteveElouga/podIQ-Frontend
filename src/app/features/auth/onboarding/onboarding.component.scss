@@ -6,7 +6,6 @@
 .warn-icon   { color: var(--warn); }
 .muted       { color: var(--ink-mute); }
 
-// ── Fieldset reset (used as accessible group wrapper) ─────────
 fieldset {
   border: none;
   margin: 0;
@@ -87,34 +86,6 @@ fieldset {
   }
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  text-decoration: none;
-  color: var(--ink);
-}
-
-.brand-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: var(--ink);
-  color: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: var(--fw-bold);
-  font-family: var(--font-display);
-}
-
-.brand-name {
-  font-size: 16px;
-  font-weight: var(--fw-bold);
-}
-
-// ── Steps ─────────────────────────────────────────────────────
 .step {
   display: flex;
   align-items: center;
@@ -242,31 +213,6 @@ fieldset {
     display: block;
   }
 
-  &__hint {
-    margin: 4px 0 0;
-    font-size: 11.5px;
-    color: var(--ink-mute);
-    line-height: 1.4;
-  }
-
-  &__input {
-    height: 40px;
-    padding: 0 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r-sm);
-    font-family: var(--font-sans);
-    font-size: var(--fs-md);
-    color: var(--ink);
-    outline: none;
-    transition: border-color 150ms;
-
-    &:focus { border-color: var(--accent); }
-    &::placeholder { color: var(--ink-mute); }
-    &--error { border-color: var(--crit, #dc2626); }
-    &--error:focus { border-color: var(--crit, #dc2626); }
-  }
-
   &__select {
     height: 40px;
     padding: 0 10px;
@@ -283,55 +229,6 @@ fieldset {
   }
 }
 
-// ── Slug preview ──────────────────────────────────────────────
-.slug-field {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  height: 40px;
-  padding: 0 12px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--r-sm);
-  font-size: 13px;
-
-  &__prefix { color: var(--ink-mute); }
-  &__value  { color: var(--accent-ink); font-weight: var(--fw-medium); }
-}
-
-// ── Input with prefix icon ────────────────────────────────────
-.input-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  &__icon {
-    position: absolute;
-    left: 12px;
-    color: var(--ink-mute);
-    pointer-events: none;
-    z-index: 1;
-    display: flex;
-  }
-
-  .field__input { padding-left: 36px; width: 100%; }
-
-  &--readonly {
-    height: 40px;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    border-radius: var(--r-sm);
-    padding-left: 36px;
-    padding-right: 12px;
-  }
-
-  &__value {
-    font-size: 13px;
-    color: var(--ink-mute);
-  }
-}
-
-// ── Workspace icon + accent row ───────────────────────────────
 .ws-accent-row {
   display: flex;
   gap: 24px;
@@ -651,25 +548,6 @@ fieldset {
   margin: 0;
 }
 
-.trial-banner {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 12px 14px;
-  background: var(--accent-soft);
-  border: 1px solid var(--accent);
-  border-radius: var(--r-sm);
-  color: var(--accent-ink);
-  margin-bottom: 8px;
-
-  &__text {
-    flex: 1;
-    font-size: 12.5px;
-    line-height: var(--lh-base);
-  }
-}
-
-// ── Install method cards ──────────────────────────────────────
 .method-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -717,6 +595,12 @@ fieldset {
   border: 1px solid var(--border);
   border-radius: var(--r-md);
   overflow: hidden;
+  transition: opacity 200ms;
+
+  &--loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
   &__bar {
     padding: 10px 14px;
@@ -757,12 +641,12 @@ fieldset {
   cursor: pointer;
   transition: background 150ms;
 
-  &:hover { background: var(--surface); border-color: var(--border); }
+  &:hover:not(:disabled) { background: var(--surface); border-color: var(--border); }
+  &:disabled             { opacity: 0.4; cursor: not-allowed; }
 }
 
 .code-token { color: var(--accent-ink); font-weight: var(--fw-semibold); }
 
-// ── Waiting status ────────────────────────────────────────────
 .waiting-status {
   display: flex;
   align-items: center;
@@ -781,15 +665,6 @@ fieldset {
   background: var(--surface);
   color: var(--ink-2);
   white-space: nowrap;
-}
-
-.waiting-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--warn);
-  box-shadow: 0 0 0 3px var(--warn-soft);
-  flex-shrink: 0;
 }
 
 .waiting-hint { font-size: 12px; }

@@ -4,10 +4,7 @@
 
     <!-- Top bar -->
     <div class="complete__topbar">
-      <div class="brand">
-        <span class="brand-mark display">P</span>
-        <span class="brand-name display">PodIQ</span>
-      </div>
+      <ds-brand size="sm" [link]="null" />
       <ds-tag tone="ok" icon="check">{{ 'onboarding.complete.topbarTag' | translate }}</ds-tag>
     </div>
 
@@ -69,8 +66,9 @@
             {{ 'onboarding.complete.takeTour' | translate }}
           </ds-button>
           <ds-button variant="primary" size="lg" iconRight="arrow"
+            [disabled]="completeLoading()"
             (click)="goToDashboard()" (keydown.enter)="goToDashboard()">
-            {{ 'onboarding.complete.goToDashboard' | translate }}
+            {{ (completeLoading() ? 'onboarding.saving' : 'onboarding.complete.goToDashboard') | translate }}
           </ds-button>
         </div>
 
@@ -86,10 +84,7 @@
     <!-- ── Left: stepper sidebar ─────────────────────────────── -->
     <aside class="stepper">
       <div class="stepper__top">
-        <a class="brand" routerLink="/">
-          <span class="brand-mark">P</span>
-          <span class="brand-name display">PodIQ</span>
-        </a>
+        <ds-brand />
         <ds-lang-switcher />
       </div>
 
@@ -149,34 +144,33 @@
             <p class="main__lead">{{ 'onboarding.workspace.lead' | translate }}</p>
 
             <div class="form-section">
-              <div class="field">
-                <label class="field__label" for="ws-name">
-                  {{ 'onboarding.workspace.nameLabel' | translate }}
-                </label>
-                <div class="input-wrap">
-                  <ds-icon name="cube" [size]="14" class="input-wrap__icon" />
-                  <input
-                    id="ws-name"
-                    class="field__input"
-                    type="text"
-                    [placeholder]="'onboarding.workspace.namePlaceholder' | translate"
-                    [ngModel]="workspaceName()"
-                    (ngModelChange)="workspaceName.set($event)"
-                    autocomplete="organization"
-                  />
-                </div>
-                <p class="field__hint">{{ 'onboarding.workspace.nameHint' | translate }}</p>
-              </div>
+              <ds-input
+                [label]="'onboarding.workspace.nameLabel' | translate"
+                [hint]="'onboarding.workspace.nameHint' | translate"
+                icon="cube"
+                forId="ws-name"
+                size="md"
+                [error]="!!step1Error()"
+                [errorMessage]="step1Error() ?? undefined"
+              >
+                <input
+                  id="ws-name"
+                  type="text"
+                  [placeholder]="'onboarding.workspace.namePlaceholder' | translate"
+                  [ngModel]="workspaceName()"
+                  (ngModelChange)="onWorkspaceNameChange($event)"
+                  autocomplete="organization"
+                />
+              </ds-input>
 
-              <div class="field">
-                <div class="field__label">{{ 'onboarding.workspace.slugLabel' | translate }}</div>
-                <div class="input-wrap input-wrap--readonly">
-                  <ds-icon name="git" [size]="14" class="input-wrap__icon" />
-                  <span class="input-wrap__value mono">
-                    {{ (urlSlug() || 'your-workspace') + '.podiq.io' }}
-                  </span>
-                </div>
-              </div>
+              <ds-input
+                [label]="'onboarding.workspace.slugLabel' | translate"
+                icon="git"
+                size="md"
+                [readonly]="true"
+              >
+                <span class="mono">{{ (urlSlug() || 'your-workspace') + '.podiq.io' }}</span>
+              </ds-input>
 
               <div class="ws-accent-row">
                 <div class="ws-icon-section">
@@ -259,8 +253,9 @@
                 {{ 'onboarding.back' | translate }}
               </ds-button>
               <ds-button variant="primary" size="md" iconRight="arrow"
-                (click)="next()" (keydown.enter)="next()">
-                {{ 'onboarding.continue' | translate }}
+                [disabled]="step1Loading()"
+                (click)="submitWorkspace()" (keydown.enter)="submitWorkspace()">
+                {{ (step1Loading() ? 'onboarding.creating' : 'onboarding.continue') | translate }}
               </ds-button>
             </div>
           }
@@ -347,13 +342,10 @@
               }
             </div>
 
-            <div class="trial-banner">
-              <ds-icon name="bolt" [size]="16" class="accent-icon" style="flex-shrink:0" />
-              <div class="trial-banner__text">
-                <b>{{ 'onboarding.plan.trialBold' | translate }}</b>
-                {{ 'onboarding.plan.trialRest' | translate }}
-              </div>
-            </div>
+            <ds-banner variant="promo">
+              <b>{{ 'onboarding.plan.trialBold' | translate }}</b>
+              {{ 'onboarding.plan.trialRest' | translate }}
+            </ds-banner>
 
             <div class="main__nav">
               <ds-button variant="ghost" size="md">
@@ -374,6 +366,13 @@
           @case (3) {
             <h1 class="main__title display">{{ 'onboarding.title' | translate }}</h1>
             <p class="main__lead">{{ 'onboarding.lead' | translate }}</p>
+
+            @if (step3Error()) {
+              <ds-alert variant="banner" tone="warn">
+                {{ step3Error() }}
+                <span class="ds-alert__note">{{ 'onboarding.cluster.demoTokenNote' | translate }}</span>
+              </ds-alert>
+            }
 
             <div class="method-grid">
               @for (opt of installOptions; track opt.id) {
@@ -399,25 +398,48 @@
               }
             </div>
 
-            <div class="code-block">
+            <div class="code-block" [class.code-block--loading]="step3Loading()">
               <div class="code-block__bar">
-                <span class="mono code-label">{{ 'onboarding.installLabel' | translate }}</span>
-                <button class="copy-btn" type="button" (click)="copyCommand()">
+                <span class="mono code-label">
+                  @if (step3Loading()) {
+                    <ds-loading-inline
+                      variant="dot"
+                      [label]="'onboarding.cluster.loadingToken' | translate"
+                    />
+                  } @else {
+                    {{ 'onboarding.installLabel' | translate }}
+                  }
+                </span>
+                <button class="copy-btn" type="button"
+                  [disabled]="step3Loading() || !installToken()"
+                  (click)="copyCommand()">
                   <ds-icon [name]="copied() ? 'check' : 'copy'" [size]="13" />
                   {{ (copied() ? 'onboarding.copied' : 'onboarding.copy') | translate }}
                 </button>
               </div>
-              <pre class="code-block__pre mono">{{ codePre }}<span class="code-token">{{ codeToken }}</span>{{ codeSuf }}</pre>
+              <pre class="code-block__pre mono">{{ codePre }}<span class="code-token">{{ installToken() ?? '…' }}</span>{{ codeSuf }}</pre>
             </div>
 
             <div class="connect__footer">
-              <div class="waiting-status">
-                <span class="waiting-pill">
-                  <span class="waiting-dot"></span>
-                  {{ 'onboarding.waiting' | translate }}
-                </span>
-                <span class="waiting-hint">{{ 'onboarding.waitingHint' | translate }}</span>
-              </div>
+              @if (clusterConnected()) {
+                <div class="waiting-status waiting-status--connected">
+                  <span class="waiting-pill waiting-pill--ok">
+                    <ds-icon name="check" [size]="11" [stroke]="2.5" />
+                    {{ 'onboarding.connected' | translate }}
+                  </span>
+                  <span class="waiting-hint mono">{{ connectedClusterName() }}</span>
+                </div>
+              } @else if (!step3Error()) {
+                <!-- Polling actif : token réel généré, on attend le premier ping -->
+                <div class="waiting-status">
+                  <span class="waiting-pill">
+                    <ds-loading-inline variant="dot" />
+                    {{ 'onboarding.waiting' | translate }}
+                  </span>
+                  <span class="waiting-hint">{{ 'onboarding.waitingHint' | translate }}</span>
+                </div>
+              }
+              <!-- En mode démo (step3Error présent) on n'affiche pas le spinner d'attente -->
               <div class="main__nav">
                 <ds-button variant="ghost" size="md"
                   (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
@@ -436,11 +458,12 @@
 
             <!-- Invite form: 3-col grid, no labels -->
             <div class="invite-row">
-              <div class="input-wrap" [class.input-wrap--error]="inviteEmailInvalid()">
-                <ds-icon name="user" [size]="14" class="input-wrap__icon" />
+              <ds-input
+                icon="user"
+                size="md"
+                [error]="inviteEmailInvalid()"
+              >
                 <input
-                  class="field__input"
-                  [class.field__input--error]="inviteEmailInvalid()"
                   type="email"
                   [placeholder]="'onboarding.invite.emailPlaceholder' | translate"
                   [ngModel]="inviteEmail()"
@@ -448,7 +471,7 @@
                   (keydown.enter)="addInvite()"
                   autocomplete="off"
                 />
-              </div>
+              </ds-input>
               <div class="role-select-wrap">
                 <select
                   class="field__select role-select"
@@ -650,8 +673,9 @@
                 <ds-button variant="ghost" size="md"
                   (click)="prev()" (keydown.enter)="prev()">{{ 'onboarding.back' | translate }}</ds-button>
                 <ds-button variant="primary" size="md" iconRight="check"
-                  (click)="next()" (keydown.enter)="next()">
-                  {{ 'onboarding.alerts.finish' | translate }}
+                  [disabled]="step5Loading()"
+                  (click)="finishAlerts()" (keydown.enter)="finishAlerts()">
+                  {{ (step5Loading() ? 'onboarding.saving' : 'onboarding.alerts.finish') | translate }}
                 </ds-button>
               </div>
             </div>

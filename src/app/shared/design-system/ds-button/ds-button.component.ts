@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { DsIconComponent } from '../ds-icon/ds-icon.component';
+import { DsSpinnerComponent } from '../ds-spinner/ds-spinner.component';
 import { ButtonVariant, ComponentSize, SIZE_ICON_PX } from '../tokens';
 import { DS_BUTTON_DEFAULTS } from './ds-button.config';
 
@@ -8,7 +9,7 @@ export type { DsButtonConfig } from './ds-button.config';
 @Component({
   selector: 'ds-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DsIconComponent],
+  imports: [DsIconComponent, DsSpinnerComponent],
   templateUrl: './ds-button.component.html',
   styleUrls: ['./ds-button.component.scss'],
 })

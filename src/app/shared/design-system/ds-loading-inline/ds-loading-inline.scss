@@ -1,0 +1,26 @@
+.ds-loading-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  font-family: var(--font-sans);
+
+  &--dot {
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--warn);
+    box-shadow: 0 0 0 3px var(--warn-soft);
+    flex-shrink: 0;
+  }
+
+  &__text {
+    line-height: 1.35;
+  }
+}

@@ -144,19 +144,30 @@ Priorités:
 ```
 src/
 ├── app/
-│   ├── components/          # Composants réutilisables
+│   ├── core/                # Services singleton (http, auth, guards, interceptors)
+│   │   ├── graphql/         # ⚡ Opérations GraphQL du core (1 fichier par domaine)
+│   │   │   ├── auth.operations.ts
+│   │   │   └── workspace.operations.ts
+│   │   ├── guards/
+│   │   ├── interceptors/
+│   │   ├── models/
+│   │   └── services/
 │   ├── features/            # Modules métier (par domaine)
-│   ├── shared/              # Services, pipes, directives partagés
+│   │   └── [feature]/
+│   │       ├── graphql/     # ⚡ Opérations GraphQL du feature (1 fichier par module)
+│   │       │   └── [feature].operations.ts
+│   │       ├── components/
+│   │       ├── models/
+│   │       └── services/
+│   ├── shared/              # Composants, pipes, directives partagés
 │   │   ├── components/
-│   │   ├── services/
+│   │   ├── design-system/
 │   │   └── modules/
-│   ├── core/                # Services singleton (http, auth, etc)
-│   ├── models/              # Interfaces & types
-│   ├── services/            # Services métier
-│   ├── app.module.ts        # Module principal
-│   ├── app-routing.module.ts
+│   ├── app.config.ts        # Providers globaux (standalone, pas de NgModule)
+│   ├── app.routes.ts        # Routes lazy-loadées avec guards
 │   └── app.component.ts
-├── assets/                  # Images, icons, etc
+├── assets/
+│   └── i18n/                # Traductions (en.json, fr.json)
 ├── styles/
 │   ├── variables.scss
 │   ├── global.scss
@@ -199,6 +210,20 @@ Règles:
 - Utiliser l'injection de dépendances systématiquement
 - Utiliser RxJS Observables pour l'async
 - Favoriser les signaux Angular 18+ quand possible
+```
+
+### 5b. Opérations GraphQL — fichiers dédiés
+```
+Règle absolue : ne jamais déclarer de query/mutation/subscription directement dans un service.
+Créer un fichier core/graphql/[module].operations.ts ou features/[f]/graphql/[f].operations.ts
+qui exporte toutes les opérations du module sous forme de constantes nommées.
+
+Convention de nommage :
+- Queries  → MY_QUERY_QUERY    (ex : LIST_WORKSPACES_QUERY)
+- Mutations → MY_MUTATION_MUTATION (ex : CREATE_WORKSPACE_MUTATION)
+- Subscriptions → MY_SUB_SUBSCRIPTION (ex : INCIDENT_UPDATED_SUBSCRIPTION)
+
+Le service importe depuis le fichier *.operations.ts et ne contient que la logique métier.
 ```
 
 ### 6. Styling conventions
@@ -244,6 +269,13 @@ Avant de créer un composant, Claude doit vérifier:
 - [ ] Les services sont-ils injectés correctement ?
 - [ ] Observable/Signal utilisé pour l'async ?
 - [ ] Le code est-il testé (au moins les cas principaux) ?
+
+Avant d'ajouter une opération GraphQL, Claude doit vérifier :
+
+- [ ] Un fichier `graphql/*.operations.ts` existe-t-il déjà pour ce module ?
+- [ ] Si non, le créer à `core/graphql/` ou `features/[f]/graphql/`
+- [ ] La constante suit la convention de nommage (`MY_OP_QUERY` / `MY_OP_MUTATION`) ?
+- [ ] Le service importe depuis le fichier `*.operations.ts` et ne déclare pas de chaîne GQL en inline ?
 
 ---
 
@@ -348,6 +380,7 @@ Demande à Claude de utiliser cette configuration:
 8. ✅ Ajouter des commentaires pour les logiques complexes
 9. ✅ Tester les composants créés
 10. ✅ Respecter ce CLAUDE.md en priorité
+11. ✅ Placer toutes les opérations GraphQL dans `*.operations.ts` (jamais inline dans les services)
 
 ---
 
@@ -363,6 +396,7 @@ Demande à Claude de utiliser cette configuration:
 8. ❌ Ignorer les themes PrimeNG existants
 9. ❌ Ne pas respecter la hiérarchie des modules
 10. ❌ Ajouter des dépendances sans justification
+11. ❌ Déclarer des queries/mutations GraphQL directement dans un service
 
 ---
 
@@ -374,7 +408,8 @@ Demande à Claude de utiliser cette configuration:
 3. Utiliser PrimeNG pour l'UI
 4. Respecter les conventions Angular
 5. Utiliser TypeScript strict mode
-6. Référencer les documentations listées ci-dessus
+6. Placer les opérations GraphQL dans `*.operations.ts`
+7. Référencer les documentations listées ci-dessus
 
 **Questions à se poser avant de coder:**
 - Est-ce conforme au CLAUDE.md ?
@@ -382,8 +417,9 @@ Demande à Claude de utiliser cette configuration:
 - Ai-je respecté la structure Angular ?
 - Ai-je typé correctement en TypeScript ?
 - Est-ce réutilisable et testable ?
+- Les opérations GraphQL sont-elles dans un fichier `*.operations.ts` dédié ?
 
 ---
 
-**Dernière mise à jour**: 17 Mai 2026
+**Dernière mise à jour**: 25 Mai 2026
 **Format**: CLAUDE.md pour Claude Code dans Cursor

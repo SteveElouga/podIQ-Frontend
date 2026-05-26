@@ -1,0 +1,28 @@
+.ds-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+
+  &__line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  &__label {
+    font-size: 11px;
+    color: var(--ink-mute);
+    white-space: nowrap;
+  }
+
+  &--caps .ds-divider__label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv11";
+}

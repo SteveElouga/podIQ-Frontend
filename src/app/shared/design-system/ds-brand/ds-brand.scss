@@ -1,0 +1,51 @@
+.ds-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  text-decoration: none;
+  color: var(--ink);
+
+  &__mark {
+    border-radius: 6px;
+    background: var(--ink);
+    color: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--fw-bold);
+    font-family: var(--font-display);
+  }
+
+  &__name {
+    font-weight: var(--fw-bold);
+    font-family: var(--font-display);
+  }
+
+  &--sm {
+    .ds-brand__mark {
+      width: 24px;
+      height: 24px;
+      font-size: 12px;
+    }
+
+    .ds-brand__name {
+      font-size: 15px;
+    }
+  }
+
+  &--md {
+    .ds-brand__mark {
+      width: 28px;
+      height: 28px;
+      font-size: 13px;
+    }
+
+    .ds-brand__name {
+      font-size: 16px;
+    }
+  }
+}
+
+.display {
+  font-family: var(--font-display);
+}

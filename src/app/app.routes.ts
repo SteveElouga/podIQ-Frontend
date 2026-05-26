@@ -3,7 +3,8 @@ import { authGuard, guestGuard } from './core/guards/auth.guard';
 import { LayoutComponent } from './shared/components/layout/layout.component';
 
 export const routes: Routes = [
-  // Landing — public, guests only (authenticated users go to /dashboard)
+
+  // ── Landing — visiteurs non authentifiés seulement ───────────────────────
   {
     path: '',
     pathMatch: 'full',
@@ -12,6 +13,7 @@ export const routes: Routes = [
       import('./features/marketing/landing/landing.component').then(m => m.LandingComponent),
   },
 
+  // ── Auth — login + register (non authentifiés seulement) ─────────────────
   {
     path: 'auth',
     canActivate: [guestGuard],
@@ -26,15 +28,22 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/auth/register/register.component').then(m => m.RegisterComponent),
       },
-      {
-        path: 'onboarding',
-        loadComponent: () =>
-          import('./features/auth/onboarding/onboarding.component').then(m => m.OnboardingComponent),
-      },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
     ],
   },
 
+  // ── Onboarding — authentifié requis, mais PAS guestGuard ─────────────────
+  // L'utilisateur arrive ici juste après register (user-JWT en place) ou
+  // après login si aucun workspace n'existe. Le guestGuard le bloquerait
+  // puisqu'il est déjà authentifié.
+  {
+    path: 'onboarding',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/auth/onboarding/onboarding.component').then(m => m.OnboardingComponent),
+  },
+
+  // ── Application — workspace-JWT requis ───────────────────────────────────
   {
     path: '',
     component: LayoutComponent,
@@ -86,5 +95,6 @@ export const routes: Routes = [
     ],
   },
 
-  { path: '**', redirectTo: '/dashboard' },
+  // ── Fallback ──────────────────────────────────────────────────────────────
+  { path: '**', redirectTo: '/auth/login' },
 ];

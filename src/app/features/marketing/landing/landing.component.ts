@@ -7,12 +7,13 @@ import {
   DsTagComponent,
   DsDotComponent,
   DsLangSwitcherComponent,
+  DsBrandComponent,
 } from '@shared/design-system';
 
 @Component({
   selector: 'app-landing',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, TranslatePipe, DsIconComponent, DsButtonComponent, DsTagComponent, DsDotComponent, DsLangSwitcherComponent],
+  imports: [RouterLink, TranslatePipe, DsIconComponent, DsButtonComponent, DsTagComponent, DsDotComponent, DsLangSwitcherComponent, DsBrandComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
 })

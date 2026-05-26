@@ -1,0 +1,42 @@
+.ds-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--r-sm);
+  font-size: 12.5px;
+  line-height: var(--lh-base);
+
+  &--promo {
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    color: var(--accent-ink);
+  }
+
+  &--note {
+    background: var(--surface-2);
+    border: 1px dashed var(--border-strong);
+    color: var(--ink-mute);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  &--promo .ds-banner__icon {
+    color: var(--accent);
+  }
+
+  &--note .ds-banner__icon {
+    color: var(--ink-mute);
+  }
+
+  &__body {
+    flex: 1;
+    min-width: 0;
+  }
+}

@@ -1,7 +1,6 @@
 .display { font-family: var(--font-display); }
 .mono    { font-family: var(--font-mono); font-feature-settings: "ss01","cv11"; }
 
-// ── Layout ────────────────────────────────────────────────────
 .register {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -11,7 +10,6 @@
   font-family: var(--font-sans);
 }
 
-// ── Left panel ────────────────────────────────────────────────
 .register__form-panel {
   display: flex;
   flex-direction: column;
@@ -24,33 +22,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  text-decoration: none;
-  color: var(--ink);
-}
-
-.brand-mark {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  background: var(--ink);
-  color: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  font-weight: var(--fw-bold);
-  font-family: var(--font-display);
-}
-
-.brand-name {
-  font-size: 16px;
-  font-weight: var(--fw-bold);
 }
 
 .register__form-body {
@@ -84,7 +55,6 @@
   cursor: pointer;
 }
 
-// ── SSO buttons ───────────────────────────────────────────────
 .sso-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -92,124 +62,12 @@
   margin-bottom: 8px;
 }
 
-.sso-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--s-2);
-  height: 36px;
-  padding: 0 12px;
-  background: var(--surface);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--r-sm);
-  font-family: var(--font-sans);
-  font-size: var(--fs-md);
-  font-weight: var(--fw-medium);
-  color: var(--ink);
-  cursor: pointer;
-  box-shadow: var(--shadow-sm);
-  transition: background 150ms ease-out;
-
-  &:hover { background: var(--surface-2); }
-
-  &--full {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-// ── Divider ───────────────────────────────────────────────────
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 16px 0 12px;
-
-  &__line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  &__label {
-    font-size: 11px;
-    color: var(--ink-mute);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-}
-
-// ── Form fields ───────────────────────────────────────────────
 .email-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-
-  &__label {
-    font-size: 12px;
-    font-weight: var(--fw-medium);
-    color: var(--ink-2);
-  }
-
-  &__input {
-    display: flex;
-    align-items: center;
-    gap: var(--s-2);
-    height: 36px;
-    padding: 0 12px;
-    background: var(--surface);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--r-sm);
-    transition: border-color 150ms;
-
-    &:focus-within {
-      border-color: var(--accent);
-      outline: 3px solid var(--accent-soft);
-      outline-offset: 0;
-    }
-
-    input {
-      flex: 1;
-      border: none;
-      outline: none;
-      background: transparent;
-      font-family: var(--font-sans);
-      font-size: var(--fs-md);
-      color: var(--ink);
-      min-width: 0;
-
-      &::placeholder { color: var(--ink-mute); }
-    }
-  }
-
-  &__icon { color: var(--ink-mute); flex-shrink: 0; }
-
-  &__toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--ink-mute);
-    padding: 0;
-    display: flex;
-    align-items: center;
-    &:hover { color: var(--ink-2); }
-  }
-
-  &__hint {
-    font-size: 11px;
-    color: var(--ink-mute);
-    margin-top: -2px;
-  }
-}
-
-// ── Strength meter ────────────────────────────────────────────
 .strength-meter {
   display: flex;
   align-items: center;
@@ -236,7 +94,6 @@
   white-space: nowrap;
 }
 
-// ── Plan picker ───────────────────────────────────────────────
 .plan-section {
   &__label {
     font-size: 12px;
@@ -310,49 +167,6 @@
   }
 }
 
-// ── Terms checkbox ────────────────────────────────────────────
-.terms-label {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--ink-2);
-  line-height: 1.5;
-  cursor: pointer;
-}
-
-.checkbox {
-  width: 14px;
-  height: 14px;
-  border: 1.5px solid var(--border-strong);
-  border-radius: 3px;
-  background: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  margin-top: 1px;
-  color: white;
-
-  &--checked {
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-}
-
-// ── Error ─────────────────────────────────────────────────────
-.error-msg {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
-  padding: 10px 12px;
-  background: var(--crit-soft);
-  color: var(--crit);
-  border-radius: var(--r-sm);
-  font-size: var(--fs-sm);
-}
-
-// ── Form panel footer ─────────────────────────────────────────
 .register__footer {
   display: flex;
   justify-content: space-between;
@@ -360,7 +174,6 @@
   color: var(--ink-mute);
 }
 
-// ── Right visual panel ────────────────────────────────────────
 .register__visual {
   background: var(--bg);
   border-left: 1px solid var(--border);
@@ -397,7 +210,6 @@
   line-height: 1.2;
 }
 
-// ── Feature rows ──────────────────────────────────────────────
 .features {
   display: flex;
   flex-direction: column;
@@ -437,7 +249,6 @@
   }
 }
 
-// ── Social proof ──────────────────────────────────────────────
 .social-proof {
   display: flex;
   align-items: center;
