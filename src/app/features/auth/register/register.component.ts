@@ -10,6 +10,7 @@ import {
   DsButtonComponent,
   DsTagComponent,
   DsLangSwitcherComponent,
+  DsThemeSwitcherComponent,
   DsBrandComponent,
   DsDividerComponent,
   DsSsoButtonComponent,
@@ -17,16 +18,6 @@ import {
   DsCheckboxComponent,
   DsAlertComponent,
 } from '@shared/design-system';
-
-export type PlanId = 'free' | 'pro' | 'ent';
-
-interface Plan {
-  id: PlanId;
-  nameKey: string;
-  price: string;
-  subKey: string;
-  tagKey?: string;
-}
 
 interface Feature {
   icon: string;
@@ -45,6 +36,7 @@ interface Feature {
     DsButtonComponent,
     DsTagComponent,
     DsLangSwitcherComponent,
+    DsThemeSwitcherComponent,
     DsBrandComponent,
     DsDividerComponent,
     DsSsoButtonComponent,
@@ -63,8 +55,6 @@ export class RegisterComponent {
   loading = signal(false);
   error = signal<string | null>(null);
   showPassword = signal(false);
-  selectedPlan = signal<PlanId>('pro');
-
   form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(12)]],
@@ -84,12 +74,6 @@ export class RegisterComponent {
     if (len < 16) return { bars: 3, labelKey: 'register.strengthGood', color: 'var(--ok)' };
     return { bars: 4, labelKey: 'register.strengthStrong', color: 'var(--ok)' };
   });
-
-  readonly plans: Plan[] = [
-    { id: 'free', nameKey: 'register.plans.free.name', price: '$0', subKey: 'register.plans.free.sub' },
-    { id: 'pro', nameKey: 'register.plans.pro.name', price: '$49', subKey: 'register.plans.pro.sub', tagKey: 'register.plans.pro.tag' },
-    { id: 'ent', nameKey: 'register.plans.ent.name', price: 'Custom', subKey: 'register.plans.ent.sub' },
-  ];
 
   readonly features: Feature[] = [
     { icon: 'clock', titleKey: 'register.visual.features.0.title', descKey: 'register.visual.features.0.desc' },

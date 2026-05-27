@@ -63,6 +63,12 @@ fieldset {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
 }
 
 .stepper {

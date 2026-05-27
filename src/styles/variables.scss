@@ -104,6 +104,15 @@
   --code: var(--fw-medium) var(--fs-sm)/var(--lh-base) var(--font-mono);
 
   color-scheme: light;
+
+  // ── PrimeNG Tooltip — light (fond inversé near-black) ────────
+  --p-tooltip-background:    var(--ink);
+  --p-tooltip-color:         var(--bg);
+  --p-tooltip-border-radius: var(--r-sm);
+  --p-tooltip-padding:       0.3rem 0.6rem;
+  --p-tooltip-shadow:        var(--shadow-md);
+  --p-tooltip-max-width:     260px;
+  --p-tooltip-gutter:        6px;
 }
 
 // ── DARK ─────────────────────────────────────────────────────
@@ -138,4 +147,8 @@
   --shadow-md: 0 12px 32px -10px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);
 
   color-scheme: dark;
+
+  // ── PrimeNG Tooltip — dark (surface surélevée) ───────────────
+  --p-tooltip-background: var(--surface-2);
+  --p-tooltip-color:      var(--ink);
 }

@@ -4,7 +4,10 @@
   <div class="login__form-panel">
     <div class="login__form-header">
       <ds-brand />
-      <ds-lang-switcher />
+      <div class="header-actions">
+        <ds-theme-switcher />
+        <ds-lang-switcher />
+      </div>
     </div>
 
     <div class="login__form-body">
@@ -18,9 +21,9 @@
 
       <!-- SSO buttons -->
       <div class="sso-buttons">
-        <ds-sso-button icon="cube">{{ 'login.google' | translate }}</ds-sso-button>
-        <ds-sso-button icon="git">{{ 'login.github' | translate }}</ds-sso-button>
-        <ds-sso-button icon="key">{{ 'login.saml' | translate }}</ds-sso-button>
+        <ds-sso-button [brand]="'google'" [full]="true">{{ 'login.google' | translate }}</ds-sso-button>
+        <ds-sso-button [brand]="'github'" [full]="true">{{ 'login.github' | translate }}</ds-sso-button>
+        <ds-sso-button [brand]="'saml'" [full]="true">{{ 'login.saml' | translate }}</ds-sso-button>
       </div>
 
       <ds-divider [label]="'login.orEmail' | translate" />

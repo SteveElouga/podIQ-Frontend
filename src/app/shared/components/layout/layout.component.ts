@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { AvatarModule } from 'primeng/avatar';
@@ -8,6 +9,7 @@ import { BadgeModule } from 'primeng/badge';
 import { RippleModule } from 'primeng/ripple';
 import { ToastModule } from 'primeng/toast';
 import { CommonModule } from '@angular/common';
+import { DsIconComponent } from '../../design-system/ds-icon/ds-icon.component';
 
 interface NavItem {
   label: string;
@@ -29,6 +31,7 @@ interface NavItem {
     BadgeModule,
     RippleModule,
     ToastModule,
+    DsIconComponent,
   ],
   template: `
     <p-toast position="bottom-right"></p-toast>
@@ -103,6 +106,22 @@ interface NavItem {
             <span class="breadcrumb">{{ pageTitle }}</span>
           </div>
           <div class="topbar-right">
+            <!-- Toggle dark / light mode -->
+            <button
+              class="theme-toggle"
+              pRipple
+              [pTooltip]="theme.isDark() ? 'Mode clair' : 'Mode sombre'"
+              tooltipPosition="bottom"
+              (click)="theme.toggle()"
+              [attr.aria-label]="theme.isDark() ? 'Passer en mode clair' : 'Passer en mode sombre'"
+            >
+              @if (theme.isDark()) {
+                <ds-icon name="sun" [size]="18" />
+              } @else {
+                <ds-icon name="moon" [size]="18" />
+              }
+            </button>
+
             <div class="user-chip">
               <p-avatar
                 [label]="userInitial"
@@ -125,7 +144,8 @@ interface NavItem {
   styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent {
-  private auth = inject(AuthService);
+  private readonly auth = inject(AuthService);
+  readonly theme = inject(ThemeService);
 
   sidebarCollapsed = signal(false);
 

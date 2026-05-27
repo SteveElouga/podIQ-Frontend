@@ -410,6 +410,10 @@
   "common": {
     "mttr": "MTTR",
     "pages": "Pages",
-    "memory": "Memory"
+    "memory": "Memory",
+    "theme": {
+      "toggleDark": "Switch to dark mode",
+      "toggleLight": "Switch to light mode"
+    }
   }
 }

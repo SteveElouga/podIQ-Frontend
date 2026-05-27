@@ -41,7 +41,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 0;
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
 }
 
 .login__form-body {
@@ -106,6 +111,9 @@
 .login__footer {
   display: flex;
   justify-content: space-between;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
   font-size: 11.5px;
   color: var(--ink-mute);
 }

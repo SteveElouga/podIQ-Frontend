@@ -163,6 +163,35 @@
   color: var(--text-color);
 }
 
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--text-color-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+
+  &:hover {
+    background: var(--surface-hover);
+    color: var(--text-color);
+  }
+
+  lucide-icon {
+    display: flex;
+  }
+}
+
 .user-chip {
   display: flex;
   align-items: center;

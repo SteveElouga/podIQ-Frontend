@@ -411,6 +411,10 @@
   "common": {
     "mttr": "MTTR",
     "pages": "Alertes",
-    "memory": "Mémoire"
+    "memory": "Mémoire",
+    "theme": {
+      "toggleDark": "Passer en mode sombre",
+      "toggleLight": "Passer en mode clair"
+    }
   }
 }

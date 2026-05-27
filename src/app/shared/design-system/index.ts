@@ -26,6 +26,9 @@ export type { DsSparklineConfig } from './ds-sparkline/ds-sparkline.config';
 export { DS_SPARKLINE_DEFAULTS } from './ds-sparkline/ds-sparkline.config';
 
 export { DsLangSwitcherComponent } from './ds-lang-switcher/ds-lang-switcher.component';
+export { DsThemeSwitcherComponent } from './ds-theme-switcher/ds-theme-switcher.component';
+export { DsTooltipDirective } from './ds-tooltip/ds-tooltip.directive';
+export type { DsTooltipPosition, DsTooltipEvent } from './ds-tooltip/ds-tooltip.directive';
 
 export { DsSpinnerComponent } from './ds-spinner/ds-spinner.component';
 

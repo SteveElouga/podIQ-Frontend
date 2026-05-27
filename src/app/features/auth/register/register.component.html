@@ -4,7 +4,10 @@
   <div class="register__form-panel">
     <div class="register__form-header">
       <ds-brand />
-      <ds-lang-switcher />
+      <div class="header-actions">
+        <ds-theme-switcher />
+        <ds-lang-switcher />
+      </div>
     </div>
 
     <div class="register__form-body">
@@ -18,10 +21,10 @@
 
       <!-- SSO buttons -->
       <div class="sso-grid">
-        <ds-sso-button icon="cube">{{ 'register.google' | translate }}</ds-sso-button>
-        <ds-sso-button icon="git">{{ 'register.github' | translate }}</ds-sso-button>
+        <ds-sso-button [brand]="'google'" [full]="true">{{ 'register.google' | translate }}</ds-sso-button>
+        <ds-sso-button [brand]="'github'" [full]="true">{{ 'register.github' | translate }}</ds-sso-button>
       </div>
-      <ds-sso-button icon="key" [full]="true">{{ 'register.saml' | translate }}</ds-sso-button>
+      <ds-sso-button [brand]="'saml'" [full]="true">{{ 'register.saml' | translate }}</ds-sso-button>
 
       <ds-divider [label]="'register.orEmail' | translate" />
 
@@ -58,28 +61,6 @@
         </div>
         }
 
-        <!-- Plan picker -->
-        <div class="plan-section">
-          <div class="plan-section__label">{{ 'register.choosePlan' | translate }}</div>
-          <div class="plan-grid">
-            @for (plan of plans; track plan.id) {
-            <button type="button" class="plan-card" [class.plan-card--selected]="selectedPlan() === plan.id"
-              (click)="selectedPlan.set(plan.id)">
-              @if (plan.tagKey) {
-              <ds-tag tone="accent" class="plan-card__badge">{{ plan.tagKey | translate }}</ds-tag>
-              }
-              <div class="plan-card__name display" [class.plan-card__name--selected]="selectedPlan() === plan.id">
-                {{ plan.nameKey | translate }}
-              </div>
-              <div class="plan-card__price mono" [class.plan-card__price--selected]="selectedPlan() === plan.id">
-                {{ plan.price }}<span class="plan-card__mo">{{ plan.id !== 'ent' ? '/mo' : '' }}</span>
-              </div>
-              <div class="plan-card__sub">{{ plan.subKey | translate }}</div>
-            </button>
-            }
-          </div>
-        </div>
-
         <!-- Terms checkbox -->
         <ds-checkbox [checked]="!!form.value.terms" [alignTop]="true" [stroke]="3"
           (checkedChange)="form.patchValue({ terms: $event })">
@@ -108,7 +89,7 @@
     </div>
   </div>
 
-  <!-- ── Right: value prop ──────────────────────────────────── -->
+  <!-- Right: value prop -->
   <div class="register__visual">
     <div class="dot-grid"></div>
     <div class="visual-content">

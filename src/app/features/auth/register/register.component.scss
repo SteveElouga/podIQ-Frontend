@@ -28,6 +28,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s-2);
+  }
 }
 
 .register__form-body {
@@ -98,86 +104,6 @@
   font-size: 11px;
   font-weight: var(--fw-medium);
   white-space: nowrap;
-}
-
-.plan-section {
-  &__label {
-    font-size: 12px;
-    font-weight: var(--fw-medium);
-    color: var(--ink-2);
-    margin-bottom: 8px;
-  }
-}
-
-.plan-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-}
-
-.plan-card {
-  padding: 10px 12px;
-  border: 1px solid var(--border-strong);
-  background: var(--surface);
-  border-radius: var(--r-sm);
-  text-align: left;
-  position: relative;
-  cursor: pointer;
-  transition: border-color 150ms, background 150ms;
-  color: var(--ink);
-  font-family: var(--font-sans);
-
-  &:hover {
-    border-color: var(--border-strong);
-    background: var(--surface-2);
-  }
-
-  &--selected {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-  }
-
-  &__badge {
-    position: absolute;
-    top: -9px;
-    right: 8px;
-    font-size: 9px;
-  }
-
-  &__name {
-    font-size: 13.5px;
-    font-weight: var(--fw-semibold);
-    color: var(--ink);
-    display: block;
-
-    &--selected {
-      color: var(--accent-ink);
-    }
-  }
-
-  &__price {
-    font-size: 15px;
-    font-weight: var(--fw-semibold);
-    margin-top: 2px;
-    color: var(--ink);
-    display: block;
-
-    &--selected {
-      color: var(--accent-ink);
-    }
-  }
-
-  &__mo {
-    font-size: 10px;
-    font-weight: var(--fw-regular);
-    color: var(--ink-mute);
-  }
-
-  &__sub {
-    font-size: 10.5px;
-    color: var(--ink-mute);
-    margin-top: 2px;
-  }
 }
 
 .register__footer {
